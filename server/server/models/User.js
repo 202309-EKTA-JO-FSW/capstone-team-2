@@ -41,12 +41,10 @@ const userSchema = new mongoose.Schema({
 
   preferences: {
     type: String,
-    required: false,
   },
 
   profilePicture: {
     type: String,
-    required: false,
   },
 
   role: {
