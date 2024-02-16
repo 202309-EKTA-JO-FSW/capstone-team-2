@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: Number,
     required: true,
+    validate: {
+        validator: function(v) {
+            // This regex allows numbers, spaces, parentheses, and hyphens
+            return /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(v);
+        },
+        message: props => `${props.value} is not a valid phone number format`
+    }
   },
 
   preferences: {
