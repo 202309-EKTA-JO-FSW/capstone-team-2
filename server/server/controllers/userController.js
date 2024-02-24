@@ -4,7 +4,7 @@ const cookie = require("cookie");
 const BlackListModel = require("../models/blackList");
 const UserModel = require("../models/user");
 const DishModel = require("../models/dish");
-const CartModel = require("../models/cart");
+// const CartModel = require("../models/cart");
 const OrderModel = require("../models/order");
 const RestaurantModel = require("../models/restaurant");
 
@@ -217,9 +217,9 @@ const addToCart = async (req, res) => {
       return res.status(404).json({ message: "Dish not found" });
     }
     // Find or create the cart
-    let cart = await CartModel.findOne({ customerId });
+    let cart = await OrderModel.findOne({ userID });
     if (!cart) {
-      cart = new CartModel({ customerId, items: [] });
+      cart = new OrderModel({ userID, orderItems: [] });
     }
     // Check if the dish is already in the cart
     const existingItem = cart.items.find((item) =>
