@@ -18,6 +18,15 @@ const cartSchema = new mongoose.Schema({
   specificRequests: {
     type: String,
   },
+  dishName: {
+    type: String,
+  },
+  dishPrice: {
+    type:Number,
+  },
+  totalItemPrice:{
+    type:Number,
+  }
 });
 /////
 const orderSchema = new mongoose.Schema(
@@ -47,23 +56,24 @@ const orderSchema = new mongoose.Schema(
     //         // count: {type: Number}
     //     ],
     // },
-    orderItem: [
-      {
-        itemId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "DishModel",
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+    // ********
+    // orderItem: [
+    //   {
+    //     itemId: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "DishModel",
+    //       required: true,
+    //     },
+    //     quantity: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //     price: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //   },
+    // ],
     status: {
       type: String,
       enum: ["waiting", "recivied", "cancelled"],

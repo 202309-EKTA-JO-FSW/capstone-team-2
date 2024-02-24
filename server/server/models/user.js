@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 
   phone: {
     type: Number,
-    required: true,
+    // required: true,
     validate: {
       validator: function (v) {
         // This regex allows numbers, spaces, parentheses, and hyphens
@@ -90,7 +90,7 @@ userSchema.methods.generateAccessJWT = function () {
     id: this._id,
   };
   return jwt.sign(payload, process.env.SECRET_ACCESS_TOKEN, {
-    expiresIn: "20m",
+    expiresIn: "3h",
   });
 };
 
