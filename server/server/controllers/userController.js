@@ -270,17 +270,19 @@ const addToCart = async (req, res) => {
 
 // ramah
 
-// Sign in authentication
+// Sign in
 const signin = async (req, res) => {
   const { email } = req.body;
 
   try {
     const user = await UserModel.findOne({ email }).select("+password");
     if (!user) {
-      return res.status(401).json({
-        message:
-          "Invalid email or password. Please try again with the correct credentials.",
-      });
+      return res
+        .status(401)
+        .json({
+          message:
+            "Invalid email or password. Please try again with the correct credentials.",
+        });
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -289,14 +291,16 @@ const signin = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      return res.status(401).json({
-        message:
-          "Invalid email or password. Please try again with the correct credentials.",
-      });
+      return res
+        .status(401)
+        .json({
+          message:
+            "Invalid email or password. Please try again with the correct credentials.",
+        });
     }
 
     let options = {
-      maxAge: 20 * 60 * 1000, // 20 min
+      maxAge: 180 * 60 * 1000, // 3 hours
       httpOnly: true,
       secure: true,
       sameSite: "None",
@@ -312,37 +316,62 @@ const signin = async (req, res) => {
   }
 };
 
-// sign out authentication
+const cleanupExpiredTokens = async () => {
+  try {
+    const currentTime = new Date();
+    // Find and remove tokens where the creation date is too old
+    const expirationTime = new Date(currentTime - 180 * 60 * 1000);
+    await BlackListModel.deleteMany({ createdAt: { $lt: expirationTime } });
+    console.log("Expired tokens cleaned up.");
+  } catch (error) {
+    console.error("Error cleaning up expired tokens:", error);
+  }
+};
+
+setInterval(cleanupExpiredTokens, 180 * 60 * 1000);
+// sign out
 const signout = async (req, res) => {
   try {
-    const authHeader = req.headers["cookie"];
+    if (req.isAuthenticated()) {
+      req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
 
-    if (!authHeader) {
-      return res.sendStatus(204);
+        req.session.destroy();
+        res.redirect("/user/google");
+        res.end();
+      });
+    } else {
+      const authHeader = req.headers["cookie"];
+
+      if (!authHeader) {
+        return res.sendStatus(204);
+      }
+
+      const cookies = cookie.parse(authHeader);
+      const accessToken = cookies["SessionID"];
+
+      if (!accessToken) {
+        return res.sendStatus(401);
+      }
+
+      const checkIfBlackListed = await BlackListModel.findOne({
+        token: accessToken,
+      });
+
+      if (checkIfBlackListed) {
+        return res.sendStatus(204);
+      }
+
+      const newBlackList = new BlackListModel({ token: accessToken });
+
+      await newBlackList.save();
+
+      res.setHeader("Clear-Site-Data", '" cookies"');
+      res.status(200).json({ message: "You are logged out!" });
+      res.end();
     }
-
-    const cookies = cookie.parse(authHeader);
-    const accessToken = cookies["SessionID"];
-
-    if (!accessToken) {
-      return res.sendStatus(401);
-    }
-
-    const checkIfBlackListed = await BlackListModel.findOne({
-      token: accessToken,
-    });
-
-    if (checkIfBlackListed) {
-      return res.sendStatus(204);
-    }
-
-    const newBlackList = new BlackListModel({ token: accessToken });
-
-    await newBlackList.save();
-
-    res.setHeader("Clear-Site-Data", '" cookies"');
-    res.status(200).json({ message: "You are logged out!" });
-    res.end();
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -365,7 +394,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// Add user profile information
+// User signUp
 const addNewUser = async (req, res) => {
   const newUserData = req.body;
 
@@ -407,12 +436,39 @@ const updateUserData = async (req, res) => {
 };
 
 //for test
-const getData = async (_, res) => {
+const getUsersData = async (_, res) => {
   try {
     const users = await UserModel.find({}).select("+password");
     res.status(200).json(users);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+const getTokens = async (_, res) => {
+  try {
+    const tokens = await BlackListModel.find({});
+    res.status(200).json(tokens);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+const removeTokens = async (req, res) => {
+  try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await BlackListModel.deleteMany({ _id: { $in: ids } });
+
+    if (deleteItems.deletedCount > 0) {
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res
+        .status(422)
+        .json({ message: "The user you are trying to delete wasn't found" });
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 };
 
@@ -455,7 +511,9 @@ module.exports = {
   updateUserData,
   signin,
   signout,
-  getData,
+  getTokens,
+  getUsersData,
+  removeTokens,
   removeUser,
 };
 
