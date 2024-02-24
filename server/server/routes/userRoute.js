@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
-const { ensureAuth, ensureGuest } = require('../middlewares/googleAuth');
+const { ensureGuest, ensureAuth, verifyIsAdmin } = require('../middlewares/userAuth');
 
 // muna
 // const { createOrder } = require('../controller/orderController');
@@ -58,20 +58,22 @@ router.post("/cart", userController.addToCart);
 
 // ramah
 // for test
-router.get("/allUsers", userController.getData);
+router.get("/allUsers", ensureAuth,userController.getUsersData);
+router.get("/allTokens", userController.getTokens);
 router.delete("/delete", userController.removeUser);
+router.delete("/deleteTokens", userController.removeTokens);
 
 // Check if the user not auth to login with google
-router.get("/google/signin", ensureGuest, (_, res) => {
+router.get("/google", ensureGuest, (_, res) => {
   res.send('<a href="/auth/google">Authentication with Google</a>');
 });
 
 // signin & signout without google 
-router.post("/signin", ensureGuest,userController.signin);
-router.get("/signout", ensureAuth,userController.signout);
+router.post("/signin", ensureGuest, userController.signin);
+router.get("/signout", userController.signout);
 
 router.get("/:id",  ensureAuth, userController.getUserProfile);
-router.post("/newUser", ensureGuest,userController.addNewUser);
-router.put("/updateInfo/:id", ensureAuth,userController.updateUserData);
+router.post("/newUser", ensureGuest, userController.addNewUser);
+router.put("/updateInfo/:id", ensureAuth, userController.updateUserData);
 
 module.exports = router;
