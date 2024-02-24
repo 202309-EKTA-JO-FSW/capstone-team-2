@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
-const { ensureAuth, ensureGuest } = require('../middleware/googleAuth');
+const { ensureAuth, ensureGuest } = require('../middlewares/googleAuth');
 
 // muna
 // const { createOrder } = require('../controller/orderController');
