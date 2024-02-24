@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser')
 
 const adminRoutes = require('./routes/adminRoute');
 const userRoute = require("./routes/userRoute");
@@ -25,11 +26,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Sessions
+app.use(cookieParser('foodie'));
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-}))
+secret : 'foodie',
+cookie : {
+expires: false,
+},
+}));
 
 // Passport middleware
 app.use(passport.initialize());
