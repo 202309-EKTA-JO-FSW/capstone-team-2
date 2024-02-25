@@ -1,9 +1,7 @@
 const RestaurantModel = require("../models/restaurant");
 const DishModel = require("../models/dish");
 
-// farah
-
-//get all dishes (BY FARAH)
+//get all dishes
 const getDishItems = async (req, res) => {
   try {
     const dishes = await DishModel.find();
@@ -13,7 +11,7 @@ const getDishItems = async (req, res) => {
   }
 };
 
-// Add new Restaurant (BY FARAH)
+// Add new Restaurant
 const addRestaurant = async (req, res) => {
   try {
     const { name, restaurantLocation, imageURL, description, dishes } =
@@ -24,7 +22,7 @@ const addRestaurant = async (req, res) => {
       restaurantLocation,
       imageURL,
       description,
-      dishes: [...dishes], // Copy the existing dishes array
+      dishes: [...dishes],
     });
 
     await newRestaurant.save();
@@ -38,12 +36,11 @@ const addRestaurant = async (req, res) => {
   }
 };
 
-//Add Dish to Resturant (BY FARAH)
+//Add Dish to selected Resturant
 const addDishToRestaurant = async (req, res) => {
   try {
-    const {restaurantID}= req.query;
-    const {  dishName, dishImage, description, price, category } =
-      req.body;
+    const { restaurantID } = req.query;
+    const { dishName, dishImage, description, price, category } = req.body;
     // Check if the restaurant exists
     const restaurant = await RestaurantModel.findById(restaurantID);
     if (!restaurant) {
@@ -73,57 +70,7 @@ const addDishToRestaurant = async (req, res) => {
   }
 };
 
-
-
-// ahmad
-/*
-const addRestaurant = async (req, res) => {
-   
-  try {
-    const {name,restaurantLocation,imageURL,description,dishes}= req.body
-    const newRestaurant = new RestaurantModel({
-      name,
-      restaurantLocation,
-      imageURL,
-      description,
-      dishes
-    });
-     await newRestaurant.save();
-    res.status(201).json(newRestaurant);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-*/
-////////////
-/*
-const addDish = async (req, res) => {
-  try {
-    const { restaurantID, dishName, dishImage, description, price, category } =
-      req.body;
-
-    // Create a new dish object
-    const newDish = new DishModel({
-      restaurantID,
-      dishName,
-      dishImage,
-      description,
-      price,
-      category,
-    });
-
-    // Save the new dish to the database
-    const savedDish = await newDish.save();
-
-    res.status(201).json(savedDish);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-*/
-//////////////////
-
+// get all restaurants
 const getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await RestaurantModel.find();
@@ -133,11 +80,10 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
-/////////////
-
+// get dishes for one Restaurant
 const getAllDishes = async (req, res) => {
   try {
-    const { restaurantId } = req.params; // Assuming restaurantId is passed in the URL params
+    const { restaurantId } = req.params;
 
     // Find the restaurant by its ID
     const restaurant = await RestaurantModel.findById(restaurantId);
@@ -154,8 +100,7 @@ const getAllDishes = async (req, res) => {
   }
 };
 
-//////////////////
-
+// delete Restaurant or Restaurants
 const deleteRestaurant = async (req, res) => {
   try {
     // Example: { ids: ['id1', 'id2', 'id3'] }
@@ -165,78 +110,16 @@ const deleteRestaurant = async (req, res) => {
     if (deleteItems.deletedCount > 0) {
       res.json({ message: `${deleteItems.deletedCount} documents deleted` });
     } else {
-      res.status(422).json({ message: "The Restaurant you are trying to delete wasn't found" });
-    };
+      res.status(422).json({
+        message: "The Restaurant you are trying to delete wasn't found",
+      });
+    }
   } catch (error) {
     res.status(500).json(error.message);
-  };
-};
-
-/*
-  try {
-    const { id } = req.params;
-    const { ids } = req.body;
-
-    // Check if neither id nor ids are provided or if ids is not an array
-    if (!id && (!ids || !Array.isArray(ids))) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-
-    if (id) {
-      // If ID is provided in the URL, delete the single restaurant
-      const deleted = await RestaurantModel.findByIdAndDelete(id);
-      if (!deleted) {
-        return res.status(404).json({ error: message.error });
-      }
-      return res.json({ message: "Restaurant deleted successfully", deleted });
-    } else {
-      // If IDs are provided in the request body, delete multiple restaurants
-      const deleted = await RestaurantModel.deleteMany({ _id: { $in: ids } });
-      return res.json({
-        message: "Restaurants deleted successfully",
-        deletedCount: deleted.deletedCount,
-      });
-    }
-  } catch (error) {
-    console.error("Error deleting restaurants:", error);
-    res.status(500).json({ message: error.message });
   }
 };
-*/
-//////////////////////
-/*
-const deleteDishs = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { ids } = req.body;
 
-    // Check if neither id nor ids are provided or if ids is not an array
-    if (!id && (!ids || !Array.isArray(ids))) {
-      return res.status(400).json({ error: "Invalid request" });
-    }
-
-    if (id) {
-      // If ID is provided in the URL, delete the single dish
-      const deletedDish = await DishModel.findByIdAndDelete(id);
-      if (!deletedDish) {
-        return res.status(404).json({ error: 'Dish not found' });
-      }
-      return res.json({ message:  'DDish deleted successfully', deletedDish });
-    } else {
-      // If IDs are provided in the request body, delete multiple dishes
-      const deletedDishes = await DishModel.deleteMany({ _id: { $in: ids } });
-      return res.json({
-        message: 'Dishes deleted successfully',
-        deletedCount: deletedDishes.deletedCount,
-      });
-    }
-  } catch (error) {
-    console.error("Error deleting dishes:", error);
-    res.status(500).json({ message: error.message });
-  }
-};
-*/
-/////////////
+// delete dish for specific Restaurant
 const removeOneOrManyItems = async (req, res) => {
   try {
     // Example: { ids: ['id1', 'id2', 'id3'] }
@@ -252,13 +135,16 @@ const removeOneOrManyItems = async (req, res) => {
       );
       res.json({ message: `${deleteItems.deletedCount} documents deleted` });
     } else {
-      res.status(422).json({ message: "The Dish you are trying to delete wasn't found" });
-    };
+      res
+        .status(422)
+        .json({ message: "The Dish you are trying to delete wasn't found" });
+    }
   } catch (error) {
     res.status(500).json(error.message);
-  };
+  }
 };
-////////
+
+// for search dishes minPrice and maxPrice and category and name
 const searchDishes = async (req, res) => {
   try {
     const { minPrice, maxPrice, category, name } = req.query;
@@ -288,9 +174,10 @@ const searchDishes = async (req, res) => {
   }
 };
 
+// edit Restaurant
 const editRestaurant = async (req, res) => {
   try {
-    const {restaurantID}= req.query;
+    const { restaurantID } = req.query;
     const { name, restaurantLocation, imageURL, description, dishes } =
       req.body;
 
@@ -313,7 +200,6 @@ const editRestaurant = async (req, res) => {
       restaurantLocation || restaurant.restaurantLocation;
     restaurant.imageURL = imageURL || restaurant.imageURL;
     restaurant.description = description || restaurant.description;
-    // restaurant.dishes = dishes || restaurant.dishes;
 
     // Save the updated restaurant object
     const updatedRestaurant = await restaurant.save();
@@ -325,17 +211,12 @@ const editRestaurant = async (req, res) => {
   }
 };
 
+// edit dish
 const editDish = async (req, res) => {
   try {
-    const {dishID}= req.query;
-    const {
-      restaurantID,
-      dishName,
-      dishImage,
-      description,
-      price,
-      category,
-    } = req.body;
+    const { dishID } = req.query;
+    const { restaurantID, dishName, dishImage, description, price, category } =
+      req.body;
 
     // Check if ID is provided
     if (!dishID) {
@@ -368,110 +249,14 @@ const editDish = async (req, res) => {
 };
 
 module.exports = {
-  // farah
   getDishItems,
   addRestaurant,
   addDishToRestaurant,
-  // ahmad
-  // addRestaurant,
-  // addDish,
   getAllRestaurants,
   getAllDishes,
   deleteRestaurant,
-  // deleteDishs,
   removeOneOrManyItems,
   searchDishes,
   editRestaurant,
   editDish,
 };
-
-/************************************************** */
-/*const Dish = require("../models/Dish");
-
-//get all dishes
-const getDishItems = async (req, res) => {
-    try {
-      const dishes = await Dish.find();
-      res.json(dishes);
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  };
-
-
-// Add new dish item
-const addDish = async (req, res) => {
-  try {
-    // Extract Dish details from request body
-    const { dishName, dishImage, description, price, category } = req.body;
-    // Create new Dish
-    const newDish = new Dish({
-      dishName,
-      dishImage,
-      price,
-      description,
-      category
-    });
-    // Save new Dish to database
-    await newDish.save();
-
-    res.status(201).json({ message: "Shop item added successfully", newDish });
-  } catch (error) {
-    console.error("Error adding shop item:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-
-module.exports = {
-    getDishItems,
-    addDish,
-};
-
-*/
-/********************************************************************************* muna*/
-
-/*
-const Dish = require("../models/dish");
-
-//get all dishes
-const getDishItems = async (req, res) => {
-    try {
-      const dishes = await Dish.find();
-      res.json(dishes);
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  };
-
-
-// Add new dish item
-const addDish = async (req, res) => {
-  try {
-    // Extract Dish details from request body
-    const { dishName, dishImage, description, price, category } = req.body;
-    // Create new Dish
-    const newDish = new Dish({
-      dishName,
-      dishImage,
-      price,
-      description,
-      category
-    });
-    // Save new Dish to database
-    await newDish.save();
-
-    res.status(201).json({ message: "Shop item added successfully", newDish });
-  } catch (error) {
-    console.error("Error adding shop item:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-
-module.exports = {
-    getDishItems,
-    addDish,
-}; 
-
-*/
