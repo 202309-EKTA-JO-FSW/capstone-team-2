@@ -9,14 +9,40 @@ const getDishItems = async (req, res) => {
     const dishes = await DishModel.find();
     res.json(dishes);
   } catch (error) {
-    res.status(500).json({ message: error.massage });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Add new Restaurant (BY FARAH)
+const addRestaurant = async (req, res) => {
+  try {
+    const { name, restaurantLocation, imageURL, description, dishes } =
+      req.body;
+
+    const newRestaurant = new RestaurantModel({
+      name,
+      restaurantLocation,
+      imageURL,
+      description,
+      dishes: [...dishes], // Copy the existing dishes array
+    });
+
+    await newRestaurant.save();
+
+    res
+      .status(201)
+      .json({ message: "Restaurant added successfully", newRestaurant });
+  } catch (error) {
+    console.error("Error adding restaurant:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 //Add Dish to Resturant (BY FARAH)
 const addDishToRestaurant = async (req, res) => {
   try {
-    const { restaurantID, dishName, dishImage, description, price, category } =
+    const {restaurantID}= req.query;
+    const {  dishName, dishImage, description, price, category } =
       req.body;
     // Check if the restaurant exists
     const restaurant = await RestaurantModel.findById(restaurantID);
@@ -43,34 +69,11 @@ const addDishToRestaurant = async (req, res) => {
       .json({ message: "Dish added to the restaurant successfully", newDish });
   } catch (error) {
     console.error("Error adding dish to the restaurant:", error);
-    res.status(500).json({ message: error.massage });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Add new Restaurant (BY FARAH)
-const addRestaurant = async (req, res) => {
-  try {
-    const { name, restaurantLocation, imageURL, description, dishes } =
-      req.body;
 
-    const newRestaurant = new RestaurantModel({
-      name,
-      restaurantLocation,
-      imageURL,
-      description,
-      dishes: [...dishes], // Copy the existing dishes array
-    });
-
-    await newRestaurant.save();
-
-    res
-      .status(201)
-      .json({ message: "Restaurant added successfully", newRestaurant });
-  } catch (error) {
-    console.error("Error adding restaurant:", error);
-    res.status(500).json({ message: error.massage });
-  }
-};
 
 // ahmad
 /*
@@ -94,7 +97,7 @@ const addRestaurant = async (req, res) => {
 
 */
 ////////////
-
+/*
 const addDish = async (req, res) => {
   try {
     const { restaurantID, dishName, dishImage, description, price, category } =
@@ -118,7 +121,7 @@ const addDish = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+*/
 //////////////////
 
 const getAllRestaurants = async (req, res) => {
@@ -155,6 +158,22 @@ const getAllDishes = async (req, res) => {
 
 const deleteRestaurant = async (req, res) => {
   try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await RestaurantModel.deleteMany({ _id: { $in: ids } });
+
+    if (deleteItems.deletedCount > 0) {
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res.status(422).json({ message: "The Restaurant you are trying to delete wasn't found" });
+    };
+  } catch (error) {
+    res.status(500).json(error.message);
+  };
+};
+
+/*
+  try {
     const { id } = req.params;
     const { ids } = req.body;
 
@@ -180,12 +199,12 @@ const deleteRestaurant = async (req, res) => {
     }
   } catch (error) {
     console.error("Error deleting restaurants:", error);
-    res.status(500).json({ error: message.error });
+    res.status(500).json({ message: error.message });
   }
 };
-
+*/
 //////////////////////
-
+/*
 const deleteDishs = async (req, res) => {
   try {
     const { id } = req.params;
@@ -200,24 +219,45 @@ const deleteDishs = async (req, res) => {
       // If ID is provided in the URL, delete the single dish
       const deletedDish = await DishModel.findByIdAndDelete(id);
       if (!deletedDish) {
-        return res.status(404).json({ error: message.error });
+        return res.status(404).json({ error: 'Dish not found' });
       }
-      return res.json({ message: message.error, deletedDish });
+      return res.json({ message:  'DDish deleted successfully', deletedDish });
     } else {
       // If IDs are provided in the request body, delete multiple dishes
       const deletedDishes = await DishModel.deleteMany({ _id: { $in: ids } });
       return res.json({
-        message: message.error,
+        message: 'Dishes deleted successfully',
         deletedCount: deletedDishes.deletedCount,
       });
     }
   } catch (error) {
     console.error("Error deleting dishes:", error);
-    res.status(500).json({ error: message.error });
+    res.status(500).json({ message: error.message });
   }
 };
+*/
 /////////////
+const removeOneOrManyItems = async (req, res) => {
+  try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await DishModel.deleteMany({ _id: { $in: ids } });
 
+    if (deleteItems.deletedCount > 0) {
+      // Update the corresponding restaurant's dishes array
+      await RestaurantModel.updateMany(
+        { dishes: { $in: ids } },
+        { $pull: { dishes: { $in: ids } } },
+        { multi: true }
+      );
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res.status(422).json({ message: "The Dish you are trying to delete wasn't found" });
+    };
+  } catch (error) {
+    res.status(500).json(error.message);
+  };
+};
 ////////
 const searchDishes = async (req, res) => {
   try {
@@ -232,7 +272,7 @@ const searchDishes = async (req, res) => {
       searchCriteria.price = { ...searchCriteria.price, $lte: maxPrice };
     }
     if (category) {
-      searchCriteria.category = category;
+      searchCriteria.category = { $regex: new RegExp(category, "i") };
     }
     if (name) {
       // Use a regular expression to perform a case-insensitive search by name
@@ -244,26 +284,27 @@ const searchDishes = async (req, res) => {
 
     res.status(200).json(dishes);
   } catch (error) {
-    res.status(500).json({ error: message.error });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const editRestaurant = async (req, res) => {
   try {
-    const { id, name, restaurantLocation, imageURL, description, dishes } =
+    const {restaurantID}= req.query;
+    const { name, restaurantLocation, imageURL, description, dishes } =
       req.body;
 
     // Check if ID is provided
-    if (!id) {
+    if (!restaurantID) {
       return res.status(400).json({ error: "Restaurant ID is required" });
     }
 
     // Find the restaurant by its ID
-    let restaurant = await RestaurantModel.findById(id);
+    let restaurant = await RestaurantModel.findById(restaurantID);
 
     // If the restaurant doesn't exist, return an error
     if (!restaurant) {
-      return res.status(404).json({ error: message.error });
+      return res.status(404).json({ error: "Restaurant not found" });
     }
 
     // Update the restaurant fields
@@ -280,14 +321,14 @@ const editRestaurant = async (req, res) => {
     res.status(200).json(updatedRestaurant);
   } catch (error) {
     console.error("Error editing restaurant:", error);
-    res.status(500).json({ error: message, error });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const editDish = async (req, res) => {
   try {
+    const {dishID}= req.query;
     const {
-      id,
       restaurantID,
       dishName,
       dishImage,
@@ -297,16 +338,16 @@ const editDish = async (req, res) => {
     } = req.body;
 
     // Check if ID is provided
-    if (!id) {
+    if (!dishID) {
       return res.status(400).json({ error: "Dish ID is required" });
     }
 
     // Find the dish by its ID
-    const dish = await DishModel.findById(id);
+    const dish = await DishModel.findById(dishID);
 
     // If the dish doesn't exist, return an error
     if (!dish) {
-      return res.status(404).json({ error: message.error });
+      return res.status(404).json({ error: "Dish not found" });
     }
 
     // Update the dish fields
@@ -322,7 +363,7 @@ const editDish = async (req, res) => {
 
     res.status(200).json(updatedDish);
   } catch (error) {
-    res.status(500).json({ error: message.error });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -333,11 +374,12 @@ module.exports = {
   addDishToRestaurant,
   // ahmad
   // addRestaurant,
-  addDish,
+  // addDish,
   getAllRestaurants,
   getAllDishes,
   deleteRestaurant,
-  deleteDishs,
+  // deleteDishs,
+  removeOneOrManyItems,
   searchDishes,
   editRestaurant,
   editDish,
