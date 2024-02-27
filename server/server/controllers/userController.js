@@ -8,83 +8,6 @@ const DishModel = require("../models/dish");
 const OrderModel = require("../models/order");
 const RestaurantModel = require("../models/restaurant");
 
-// muna
-
-/*
-// get all Dish and filter it by category
-const getDishItems = async (req, res) => {
-  try {
-    let query = {};
-    if (req.query.category) {
-      query.category = req.query.category;
-    }
-    const dishes = await DishModel.find(query);
-    res.json(dishes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// search for Dish
-const searchDishes = async (req, res) => {
-  try {
-    const { query } = req.query;
-    const dishes = await DishModel.find({
-      dishName: { $regex: query, $options: "i" },
-    });
-
-    res.json(dishes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get single Dish information
-const getDishById = async (req, res) => {
-  try {
-    const { itemId } = req.params;
-    const dish = await DishModel.findById(itemId);
-
-    if (!dish) {
-      return res.status(404).json({ message: "This dish not found" });
-    }
-
-    res.json(dish);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-*/
-
-/*// Create new Order
-const createOrder = async (req, res) => {
-  try {
-    const { restaurantId, dishes, specialInstructions } = req.body;
-
-    // Validate the request data...
-
-    let order = new OrderModel({
-      userID: req.userId,
-      restaurant: restaurantId,
-      dishes,
-      specialInstructions,
-    });
-
-    await order.save();
-
-    res.status(201).json({
-      message: "Order placed successfully",
-      order,
-    });
-  } catch (error) {
-    // res.status(500).json({ message: 'Error placing order', error: error.message });
-    res.status(500).json({ message: error.message });
-  }
-};
-*/
-
-
-
 
 // Get past completed orders ok 
 const getPastOrders = async (req, res) => {
@@ -163,7 +86,7 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-// farah
+
 
 // get all Dish and filter it by category ok
 const getDishItems = async (req, res) => {
@@ -280,85 +203,10 @@ const getDishesByRestaurant = async (req, res) => {
   
 };
 
-/*// Add Dish to Cart (by Farah)
- const addToCart = async (req, res) => {
- 
-  try {
-    const { userId, dishId, quantity, specificRequests } = req.body;
-    // Find the dish by ID
-    const dish = await DishModel.findById(dishId);
-    // Check if the dish exists
-    if (!dish) {
-      return res.status(404).json({ message: "Dish not found" });
-    }
-    // Find or create the cart
-    let cart = await OrderModel.findOne({ userID: userId, status: "waiting" });
-    if (!cart) {
-      cart = new OrderModel({ userID: userId,
-        restaurant: dish.restaurantID,
-        totalBill: 0, 
-        status: "waiting",
-        orderItems: [], });
-    }
-    // Check if the dish is already in the cart
-    const existingItem = cart.orderItems.find((item) =>
-      item.dishID.equals(dish._id)
-    );
-    if (existingItem) {
-      // Update existing item in the cart
-      existingItem.quantity += quantity;
-      if (specificRequests) {
-        existingItem.specificRequests = specificRequests;
-      }
-    } else {
-      // Add a new item to the cart with dishPrice and dishName
-      const newItem = {
-        dishID: dish._id,
-        // dishName: dish.dishName,
-        quantity,
-        specificRequests,
-        // dishPrice: dish.price,
-      };
-      // Log the new item for debugging
-      // console.log("New Item:", newItem);
-      cart.orderItems.push(newItem);
-    }
-    cart.totalBill = calculateTotalBill(cart.orderItems);
-    // Save the cart in the database
-    await cart.save();
-
-    // Include dishPrice, dishName, and totalItemPrice in each item of the response
-    // const responseItems = cart.orderItems.map((item) => ({
-    //   dishId: item.dishId,
-    //   dishName: item.dishName,
-    //   quantity: item.quantity,
-    //   specificRequests: item.specificRequests,
-    //   dishPrice: item.dishPrice,
-    //   totalItemPrice: item.dishPrice * item.quantity,
-    // }));
-    res.status(201).json({
-      message: "Dish added to cart successfully",
-      cart: {
-        // items: responseItems,
-        items: cart.orderItems, 
-        totalBill: cart.totalBill,
-      },
-    });
-  } catch (error) {
-    console.error("Error adding dish to cart:", error);
-    res.status(500).json({ message: error.massage });
-  }
-};
-
-const calculateTotalBill = (orderItems) => {
-  return orderItems.reduce((total, item) => {
-    return total + item.quantity * item.dishPrice;
-  }, 0);
-};
-*/
 
 
-// Add Dish to Cart (by muna) ok
+
+// Add Dish to Cart ok
 const addToCart = async (req, res) => {
   try {
     const { userID, dishID, quantity, specificRequests } = req.body;
@@ -432,91 +280,12 @@ const addToCart = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-/**/
-
- /*chat 
-const addToCart = async (req, res) => {
-  try {
-    const { userId, dishId, quantity, specificRequests } = req.body;
-
-    // Find the user by ID
-    const user = await UserModel.findById(userId);
-
-    // Check if the user exists
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Find the dish by ID
-    const dish = await DishModel.findById(dishId);
-
-    // Check if the dish exists
-    if (!dish) {
-      return res.status(404).json({ message: 'Dish not found' });
-    }
-
-    // Find or create the user's cart
-    let cart = await OrderModel.findOne({ userID: userId, status: 'waiting' });
-
-    if (!cart) {
-      cart = new OrderModel({
-        userID: userId,
-        restaurant: dish.restaurantID,
-        totalBill: 0,
-        status: 'waiting',
-        orderItems: [],
-      });
-    }
-
-    // Check if the dish is already in the cart
-    const existingItem = cart.orderItems.find((item) => item.dishID.equals(dish._id));
-
-    if (existingItem) {
-      // Update existing item in the cart
-      existingItem.quantity += quantity;
-      if (specificRequests) {
-        existingItem.specificRequests = specificRequests;
-      }
-    } else {
-      // Add a new item to the cart with dishPrice and dishName
-      const newItem = {
-        dishID: dish._id,
-        quantity,
-        specificRequests,
-      };
-
-      cart.orderItems.push(newItem);
-    }
-
-    // Calculate the totalBill based on the updated orderItems
-    cart.totalBill = calculateTotalBill(cart.orderItems);
-
-    // Save the cart in the database
-    await cart.save();
-
-    res.status(201).json({
-      message: 'Dish added to cart successfully',
-      cart: {
-        items: cart.orderItems,
-        totalBill: cart.totalBill,
-      },
-    });
-  } catch (error) {
-    console.error('Error adding dish to cart:', error);
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Function to calculate totalBill based on orderItems
-const calculateTotalBill = (orderItems) => {
-  return orderItems.reduce((total, item) => {
-    return total + item.quantity * item.dishPrice;
-  }, 0);
-};
-*/
 
 
-// ramah
+ 
+
+
+
 
 // Sign in ok 
 const signin = async (req, res) => {
@@ -577,6 +346,7 @@ const cleanupExpiredTokens = async () => {
 };
 
 setInterval(cleanupExpiredTokens, 180 * 60 * 1000);
+
 // sign out ok 
 const signout = async (req, res) => {
   try {
@@ -739,21 +509,14 @@ const removeUser = async (req, res) => {
 };
 
 module.exports = {
-  // muna
-  // getDishItems,
-  // searchDishes,
-  // getDishById,
-  /*createOrder,*/
   getPastOrders,
   getCurrentOrders,
   cancelOrder,
-  // farah
   getDishItems,
   searchDishes,
   getDishById,
   getDishesByRestaurant,
   addToCart,
-  // ramah
   getUserProfile,
   addNewUser,
   updateUserData,
@@ -765,107 +528,5 @@ module.exports = {
   removeUser,
 };
 
-/*************************************** */
-/*const Dish = require("../models/Dish");
-const Cart = require("../models/Cart");
-const Order = require("../models/Order");
-const Restaurant = require("../models/Restaurant");
 
 
-// get all Dish and filter it by category 
-const getDishItems = async (req, res) => {
-  try {
-    let query = {};
-    if (req.query.category) {
-      query.category = req.query.category;
-    }
-    const dishes = await DishModel.find(query);
-    res.json(dishes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "server error" });
-  }
-};
-
-// search for Dish
-const searchDishes = async (req, res) => {
-  try {
-    const { query } = req.query;
-    const dishes = await DishModel.find({ dishName: { $regex: query, $options: "i" } });
-
-    res.json(dishes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "server error" });
-  }
-};
-
-  // Get single Dish information
-  const getDishById = async (req, res) => {
-    try {
-      const { itemId } = req.params;
-      const dish = await DishModel.findById(itemId);
-  
-      if (!dish) {
-        return res.status(404).json({ message: "This dish not found" });
-      }
-  
-      res.json(dish);
-    } catch (error) {
-      console.error("Error getting dish:", error);
-      res.status(500).json({ message: "server error" });
-    }
-  };
-  
-
-  // const addToCart = async (req, res) => {
-  //   try {
-  //     const { dishID, quantity, specificRequests } = req.body;
-  
-  //     // Check if the dish exists
-  //     const dish = await DishModel.findById(dishID);
-  //     if (!dish) {
-  //       return res.status(404).json({ error: "Dish not found" });
-  //     }
-  
-  //     // Check if the user already has a cart
-  //     // let userCart = await CartModel.findOne({ userID });
-  
-  //     // If the user doesn't have a cart, create one
-  //     // if (!userCart) {
-  //     //   userCart = await Cart.create({ userID, items: [] });
-  //     // }
-  
-  //     // Check if the dish is already in the user's cart
-  //     // const existingItemIndex = userCart.items.findIndex(
-  //     //   (item) => item.dishID.toString() === dishID
-  //     // );
-  
-  //     // If the dish is in the cart, update the quantity
-  //     // if (existingItemIndex !== -1) {
-  //     //   userCart.items[existingItemIndex].quantity += quantity;
-  //     // } else {
-  //       // If the dish is not in the cart, add it with the specified quantity
-  //       userCart.items.push({ dishID, quantity, specificRequests });
-  //     }
-  
-  //     // Save the updated cart
-  //     await userCart.save();
-  
-  //     res.json({ message: "Dish added to cart successfully", userCart });
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: "Server Error" });
-  //   }
-  // };
-  
-
-
-
-module.exports = {
-  getDishItems,
-  searchDishes,
-  getDishById,
-  // addToCart
-}
-*/
