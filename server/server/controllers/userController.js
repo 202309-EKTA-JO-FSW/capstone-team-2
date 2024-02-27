@@ -8,40 +8,30 @@ const DishModel = require("../models/dish");
 const OrderModel = require("../models/order");
 const RestaurantModel = require("../models/restaurant");
 
-
-// Get past completed orders ok 
+// Get past completed orders ok
 const getPastOrders = async (req, res) => {
   try {
-    // const {userID } = req.params
-    const {userID } = req.query
+    const { userID } = req.query;
     console.log("UserID:", userID);
-    // const deleteOperation = await OrderModel.deleteMany({
-    //   userID,
-    //   status: "cancelled",
-    // });
+
     const orders = await OrderModel.find({
       userID,
-      // userID: req.query,
-      // status: "waiting",
-      // cardID:OrderModel
     });
     console.log("Orders:", orders);
-    
-    // const updateOperation = await OrderModel.updateMany({userID})
-    // await Promise.all([deleteOperation, updateOperation]);
+
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get current active order ok 
+// Get current active order ok
 const getCurrentOrders = async (req, res) => {
   try {
-    const {userID} = req.query;
+    const { userID } = req.query;
     const orders = await OrderModel.find({
       userID,
-      status: { $in: ["placed", "preparing","waiting"] },
+      status: { $in: ["placed", "preparing", "waiting"] },
     });
     res.json(orders);
   } catch (error) {
@@ -49,20 +39,18 @@ const getCurrentOrders = async (req, res) => {
   }
 };
 
-// Cancel an order ok 
+// Cancel an order ok
 const cancelOrder = async (req, res) => {
   try {
-    const {userID } = req.query;
+    const { userID } = req.query;
     const deleteOperation = await OrderModel.deleteMany({
       userID,
       status: "cancelled",
     });
-    const updateOperation = await OrderModel.updateMany({userID})
+    const updateOperation = await OrderModel.updateMany({ userID });
     await Promise.all([deleteOperation, updateOperation]);
     const order = await OrderModel.findOne({
       userID,
-      // cartID: req.params.orderId,
-      // userID: req.userID,
     });
 
     if (!order) {
@@ -85,8 +73,6 @@ const cancelOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 // get all Dish and filter it by category ok
 const getDishItems = async (req, res) => {
@@ -131,18 +117,6 @@ const searchDishes = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-/*
-    const { query } = req.query;
-    const dishes = await DishModel.find({
-      dishName: { $regex: query, $options: "i" },
-    });
-
-    res.json(dishes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
-  }
-  */
 };
 
 // Get single Dish information ok
@@ -164,25 +138,6 @@ const getDishById = async (req, res) => {
 
 //Get all Dishes in specific Restaurant ok both solutions
 const getDishesByRestaurant = async (req, res) => {
-/*
-  try {
-    const { restaurantID } = req.params;
-
-    // Find the restaurant by its ID
-    const restaurant = await RestaurantModel.findById(restaurantID);
-
-    if (!restaurant) {
-      return res.status(404).json({ message: "Restaurant not found" });
-    }
-
-    // Find all dishes associated with the restaurant
-    const dishes = await DishModel.find({ restaurantID: restaurantID });
-    res.status(200).json(dishes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-  */
-  
   try {
     const { restaurantID } = req.params;
 
@@ -200,11 +155,7 @@ const getDishesByRestaurant = async (req, res) => {
     console.error("Error fetching dishes:", error);
     res.status(500).json({ message: error.message });
   }
-  
 };
-
-
-
 
 // Add Dish to Cart ok
 const addToCart = async (req, res) => {
@@ -224,19 +175,21 @@ const addToCart = async (req, res) => {
     }
 
     // Find or create the user's cart
-    let cart = await OrderModel.findOne({ userID, status: 'waiting' });
+    let cart = await OrderModel.findOne({ userID, status: "waiting" });
     if (!cart) {
       cart = new OrderModel({
         userID,
         restaurant: dish.restaurantID,
         totalBill: 0,
-        status: 'waiting',
-        orderItems: []
+        status: "waiting",
+        orderItems: [],
       });
     }
 
     // Check if the dish is already in the cart
-    let existingItem = cart.orderItems.find(item => item.dishID.equals(dish._id));
+    let existingItem = cart.orderItems.find((item) =>
+      item.dishID.equals(dish._id)
+    );
     if (existingItem) {
       // Update existing item in the cart
       existingItem.quantity += quantity;
@@ -252,11 +205,6 @@ const addToCart = async (req, res) => {
       });
     }
 
-    // Calculate the total bill
-    // cart.totalBill = cart.orderItems.reduce((total, item) => {
-    //   const dishItem = DishModel.findById(item.dishID); // Find each dish to get the price
-    //   return total + (dishItem.price * item.quantity);
-    // }, 0);
     cart.totalBill = 0; // Reset totalBill to 0 before recalculating
     for (const item of cart.orderItems) {
       const dishItem = await DishModel.findById(item.dishID);
@@ -273,7 +221,7 @@ const addToCart = async (req, res) => {
 
     res.status(201).json({
       message: "Dish added to cart successfully",
-      cart: cart // Send the full cart back to the user
+      cart: cart, // Send the full cart back to the user
     });
   } catch (error) {
     console.error("Error adding dish to cart:", error);
@@ -281,25 +229,17 @@ const addToCart = async (req, res) => {
   }
 };
 
-
- 
-
-
-
-
-// Sign in ok 
+// Sign in ok
 const signin = async (req, res) => {
   const { email } = req.body;
 
   try {
     const user = await UserModel.findOne({ email }).select("+password");
     if (!user) {
-      return res
-        .status(401)
-        .json({
-          message:
-            "Invalid email or password. Please try again with the correct credentials.",
-        });
+      return res.status(401).json({
+        message:
+          "Invalid email or password. Please try again with the correct credentials.",
+      });
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -308,12 +248,10 @@ const signin = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      return res
-        .status(401)
-        .json({
-          message:
-            "Invalid email or password. Please try again with the correct credentials.",
-        });
+      return res.status(401).json({
+        message:
+          "Invalid email or password. Please try again with the correct credentials.",
+      });
     }
 
     let options = {
@@ -347,7 +285,7 @@ const cleanupExpiredTokens = async () => {
 
 setInterval(cleanupExpiredTokens, 180 * 60 * 1000);
 
-// sign out ok 
+// sign out ok
 const signout = async (req, res) => {
   try {
     if (req.isAuthenticated()) {
@@ -368,7 +306,7 @@ const signout = async (req, res) => {
       }
 
       const cookies = cookie.parse(authHeader);
-      const accessToken = (cookies["SessionID"]|| '').trim();
+      const accessToken = (cookies["SessionID"] || "").trim();
 
       if (!accessToken) {
         return res.sendStatus(401);
@@ -412,7 +350,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// User signUp add new user ok 
+// User signUp add new user ok
 const addNewUser = async (req, res) => {
   const newUserData = req.body;
 
@@ -527,6 +465,3 @@ module.exports = {
   removeTokens,
   removeUser,
 };
-
-
-
