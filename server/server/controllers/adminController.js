@@ -1,5 +1,6 @@
 const RestaurantModel = require("../models/restaurant");
 const DishModel = require("../models/dish");
+const OrderModel = require("../models/order")
 
 //get all dishes
 const getDishItems = async (req, res) => {
@@ -248,6 +249,22 @@ const editDish = async (req, res) => {
   }
 };
 
+// Get past completed orders for report 
+const allPastOrders = async (req, res) => {
+  try {
+    // const {userID } = req.params
+    const orders = await OrderModel.find({
+      // userID: userID,
+      // status: "waiting",
+      // status: "recivied",
+      cardID:OrderModel
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getDishItems,
   addRestaurant,
@@ -259,4 +276,5 @@ module.exports = {
   searchDishes,
   editRestaurant,
   editDish,
+  allPastOrders,
 };

@@ -55,7 +55,8 @@ const getDishById = async (req, res) => {
   }
 };
 */
-// Create new Order
+
+/*// Create new Order
 const createOrder = async (req, res) => {
   try {
     const { restaurantId, dishes, specialInstructions } = req.body;
@@ -80,26 +81,44 @@ const createOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+*/
 
-// Get past completed orders
+
+
+
+// Get past completed orders ok 
 const getPastOrders = async (req, res) => {
   try {
+    // const {userID } = req.params
+    const {userID } = req.query
+    console.log("UserID:", userID);
+    // const deleteOperation = await OrderModel.deleteMany({
+    //   userID,
+    //   status: "cancelled",
+    // });
     const orders = await OrderModel.find({
-      customer: req.user._id,
-      status: "completed",
+      userID,
+      // userID: req.query,
+      // status: "waiting",
+      // cardID:OrderModel
     });
+    console.log("Orders:", orders);
+    
+    // const updateOperation = await OrderModel.updateMany({userID})
+    // await Promise.all([deleteOperation, updateOperation]);
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get current active order
+// Get current active order ok 
 const getCurrentOrders = async (req, res) => {
   try {
+    const {userID} = req.query;
     const orders = await OrderModel.find({
-      customer: req.user._id,
-      status: { $in: ["placed", "preparing"] },
+      userID,
+      status: { $in: ["placed", "preparing","waiting"] },
     });
     res.json(orders);
   } catch (error) {
@@ -107,12 +126,20 @@ const getCurrentOrders = async (req, res) => {
   }
 };
 
-// Cancel an order
+// Cancel an order ok 
 const cancelOrder = async (req, res) => {
   try {
+    const {userID } = req.query;
+    const deleteOperation = await OrderModel.deleteMany({
+      userID,
+      status: "cancelled",
+    });
+    const updateOperation = await OrderModel.updateMany({userID})
+    await Promise.all([deleteOperation, updateOperation]);
     const order = await OrderModel.findOne({
-      _id: req.params.orderId,
-      customer: req.user._id,
+      userID,
+      // cartID: req.params.orderId,
+      // userID: req.userID,
     });
 
     if (!order) {
@@ -716,7 +743,7 @@ module.exports = {
   // getDishItems,
   // searchDishes,
   // getDishById,
-  createOrder,
+  /*createOrder,*/
   getPastOrders,
   getCurrentOrders,
   cancelOrder,

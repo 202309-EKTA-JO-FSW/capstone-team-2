@@ -27,22 +27,27 @@ router.get("/Dishes/:itemId", userController.getDishById);
 //      customerCtrl.getShopItemById
 //   );
   
+// get order to restaurant in admin route 
 
+/*
   // Create new order
 router.post('/orders',
 //  isAuthenticated,
   userController.createOrder);
-// Get past completed orders
-router.get('/users/:userId/orders/past',
+*/
+
+
+// get past completed orders ok
+router.get('/orders/past',
 //  isAuthenticated,
    userController.getPastOrders);
 
-// Get current active orders
-router.get('/users/:userId/orders/current',
+// Get current active orders ok 
+router.get('/orders/current',
 //  isAuthenticated,
   userController.getCurrentOrders);
 
-// Cancel an order
+// Cancel an order ok 
 router.patch('/orders/:orderId/cancel',
 //  isAuthenticated,
 //  isOrderOwner, 
