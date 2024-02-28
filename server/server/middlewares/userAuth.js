@@ -46,8 +46,19 @@ const ensureAuth = async (req, res, next) => {
   };
 };
 
+// For a user who's not logged in
+const ensureGuest = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.redirect('/test');
+
+  } else {
+    return next();
+  };
+};
+
 
 module.exports = { 
   ensureAuth,
+  ensureGuest,
 };
 
