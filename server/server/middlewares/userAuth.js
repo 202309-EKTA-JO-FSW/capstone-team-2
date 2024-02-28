@@ -56,9 +56,26 @@ const ensureGuest = (req, res, next) => {
   };
 };
 
+// Check if the user is admin
+const verifyIsAdmin = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { role } = user;
+
+    if (role === 'user') {
+      return res.status(401).json({ message: "You are not authorized to view this page."});
+    };
+
+    next();
+
+  } catch (err) {
+    res.status(500).json({ message: err.message});
+  };
+};
 
 module.exports = { 
   ensureAuth,
   ensureGuest,
+  verifyIsAdmin
 };
 
