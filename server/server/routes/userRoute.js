@@ -68,5 +68,19 @@ router.put(
   userController.updateUserData
 );
 
+// for test
+router.get(
+  "/allUsers",
+  // ensureAuth,
+  userController.getUsersData
+);
+router.get("/allTokens", userController.getTokens);
+router.delete("/delete", userController.removeUser);
+router.delete("/deleteTokens", userController.removeTokens);
+
+// Check if the user not auth to login with google
+router.get("/google", ensureGuest, (_, res) => {
+  res.send('<a href="/auth/google">Authentication with Google</a>');
+});
 
 module.exports = router;
