@@ -176,6 +176,43 @@ const searchDishes = async (req, res) => {
 };
 
 // edit Restaurant
+const editRestaurant = async (req, res) => {
+  try {
+    const { restaurantID } = req.query;
+    const { name, restaurantLocation, imageURL, description, dishes } =
+      req.body;
+
+    // Check if ID is provided
+    if (!restaurantID) {
+      return res.status(400).json({ error: "Restaurant ID is required" });
+    }
+
+    // Find the restaurant by its ID
+    let restaurant = await RestaurantModel.findById(restaurantID);
+
+    // If the restaurant doesn't exist, return an error
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+   
+    // Update the restaurant fields
+    restaurant.name = name || restaurant.name;
+    restaurant.restaurantLocation =
+      restaurantLocation || restaurant.restaurantLocation;
+    restaurant.imageURL = imageURL || restaurant.imageURL;
+    restaurant.description = description || restaurant.description;
+
+    // Save the updated restaurant object
+    const updatedRestaurant = await restaurant.save();
+
+    res.status(200).json(updatedRestaurant);
+  } catch (error) {
+    console.error("Error editing restaurant:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 module.exports = {
   getDishItems,
@@ -186,4 +223,6 @@ module.exports = {
   deleteRestaurant,
   removeOneOrManyItems,
   searchDishes,
+  editRestaurant,
+
 };
