@@ -250,7 +250,7 @@ const editDish = async (req, res) => {
 };
 
 // Get past completed orders for report 
-//for test 
+
 const allPastOrders = async (req, res) => {
   try {
     // const {userID } = req.params
