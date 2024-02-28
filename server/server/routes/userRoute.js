@@ -61,5 +61,12 @@ router.get(
 // add new user ok
 router.post("/newUser", ensureGuest, userController.addNewUser);
 
+// update user info ok
+router.put(
+  "/updateInfo/:id",
+  // ensureAuth,
+  userController.updateUserData
+);
+
 
 module.exports = router;
