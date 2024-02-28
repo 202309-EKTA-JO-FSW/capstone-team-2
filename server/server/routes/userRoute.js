@@ -35,6 +35,8 @@ router.get("/Dishes", userController.getDishItems);
 // search for dish name min max price and catogire ok
 router.get("/Dishes/search", userController.searchDishes);
 
+// detials for one dish for dynamic id in react ok
+router.get("/Dishes/:itemId", userController.getDishById);
 
 
 module.exports = router;
