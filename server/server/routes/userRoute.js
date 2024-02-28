@@ -38,5 +38,8 @@ router.get("/Dishes/search", userController.searchDishes);
 // detials for one dish for dynamic id in react ok
 router.get("/Dishes/:itemId", userController.getDishById);
 
+//Get all Dishes in specific Restaurant ok
+router.get("/Restaurants/:restaurantID", userController.getDishesByRestaurant);
+
 
 module.exports = router;
