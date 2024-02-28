@@ -58,5 +58,8 @@ router.get(
   userController.getUserProfile
 );
 
+// add new user ok
+router.post("/newUser", ensureGuest, userController.addNewUser);
+
 
 module.exports = router;
