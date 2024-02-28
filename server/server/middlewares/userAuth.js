@@ -1,6 +1,5 @@
-/***********************************ramah */
-const userModel = require("../models/user");
-const blackListModel = require("../models/blackList");
+const UserModel = require("../models/user");
+const BlackListModel = require("../models/blackList");
 const jwt = require("jsonwebtoken");
 const cookie = require('cookie');
 
@@ -24,7 +23,7 @@ const ensureAuth = async (req, res, next) => {
      return res.sendStatus(401);
    };
    
-   const checkIfBlackListed = await blackListModel.findOne({ token:  accessToken});
+   const checkIfBlackListed = await BlackListModel.findOne({ token:  accessToken});
 
    if (checkIfBlackListed) {
      return res.status(401).json({ message: 'This session has expired. Please login'})
@@ -36,7 +35,7 @@ const ensureAuth = async (req, res, next) => {
       };
 
       const { id } = decoded;
-      const user = await userModel.findById(id);
+      const user = await UserModel.findById(id);
       const { password, ...data } = user._doc;
       req.user = data;
       next();
