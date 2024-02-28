@@ -104,7 +104,7 @@ const getAllDishes = async (req, res) => {
 // delete Restaurant or Restaurants
 const deleteRestaurant = async (req, res) => {
   try {
-  
+    // Example: { ids: ['id1', 'id2', 'id3'] }
     const { ids } = req.body;
     const deleteItems = await RestaurantModel.deleteMany({ _id: { $in: ids } });
 
@@ -120,8 +120,62 @@ const deleteRestaurant = async (req, res) => {
   }
 };
 
+// delete dish for specific Restaurant
+const removeOneOrManyItems = async (req, res) => {
+  try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await DishModel.deleteMany({ _id: { $in: ids } });
 
+    if (deleteItems.deletedCount > 0) {
+      // Update the corresponding restaurant's dishes array
+      await RestaurantModel.updateMany(
+        { dishes: { $in: ids } },
+        { $pull: { dishes: { $in: ids } } },
+        { multi: true }
+      );
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res
+        .status(422)
+        .json({ message: "The Dish you are trying to delete wasn't found" });
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
+// for search dishes minPrice and maxPrice and category and name
+const searchDishes = async (req, res) => {
+  try {
+    const { minPrice, maxPrice, category, name } = req.query;
+
+    // Define the search criteria
+    const searchCriteria = {};
+    if (minPrice != undefined && !isNaN(minPrice)) {
+      searchCriteria.price = { $gte: minPrice };
+    }
+    if (maxPrice != undefined && !isNaN(maxPrice)) {
+      searchCriteria.price = { ...searchCriteria.price, $lte: maxPrice };
+    }
+    if (category) {
+      searchCriteria.category = { $regex: new RegExp(category, "i") };
+    }
+    if (name) {
+      // Use a regular expression to perform a case-insensitive search by name
+      searchCriteria.dishName = { $regex: new RegExp(name, "i") };
+    }
+
+    // Perform the search
+    const dishes = await DishModel.find(searchCriteria);
+
+    res.status(200).json(dishes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// edit Restaurant
 
 module.exports = {
   getDishItems,
@@ -130,6 +184,6 @@ module.exports = {
   getAllRestaurants,
   getAllDishes,
   deleteRestaurant,
-  
-
+  removeOneOrManyItems,
+  searchDishes,
 };
