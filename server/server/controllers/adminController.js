@@ -212,7 +212,7 @@ const editRestaurant = async (req, res) => {
   }
 };
 
-// Edit Dish Information
+// edit dish
 const editDish = async (req, res) => {
   try {
     const { dishID } = req.query;
@@ -249,7 +249,22 @@ const editDish = async (req, res) => {
   }
 };
 
-
+// Get past completed orders for report 
+//for test 
+const allPastOrders = async (req, res) => {
+  try {
+    // const {userID } = req.params
+    const orders = await OrderModel.find({
+      // userID: userID,
+      // status: "waiting",
+      // status: "recivied",
+      cardID:OrderModel
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getDishItems,
@@ -262,4 +277,5 @@ module.exports = {
   searchDishes,
   editRestaurant,
   editDish,
+  allPastOrders,
 };
