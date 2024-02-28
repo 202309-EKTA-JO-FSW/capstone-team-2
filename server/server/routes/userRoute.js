@@ -14,11 +14,20 @@ router.get(
   userController.getPastOrders
 );
 
-// Get current active orders ok
+// Get current active orders 
 router.get(
   "/orders/current",
   //  isAuthenticated,
   userController.getCurrentOrders
 );
+
+// Cancel an order 
+router.patch(
+  "/orders/:orderId/cancel",
+  //  isAuthenticated,
+  //  isOrderOwner,
+  userController.cancelOrder
+);
+
 
 module.exports = router;
