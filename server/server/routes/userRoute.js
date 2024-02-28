@@ -51,5 +51,12 @@ router.post("/signin", ensureGuest, userController.signin);
 // sign out ok
 router.get("/signout", userController.signout);
 
+// get one user profile ok
+router.get(
+  "/:id",
+  //  ensureAuth,
+  userController.getUserProfile
+);
+
 
 module.exports = router;
