@@ -41,5 +41,15 @@ router.get("/Dishes/:itemId", userController.getDishById);
 //Get all Dishes in specific Restaurant ok
 router.get("/Restaurants/:restaurantID", userController.getDishesByRestaurant);
 
+// Add Dish to Cart ok
+router.post("/cart", userController.addToCart);
+
+// signin & signout without google
+// sign in ok
+router.post("/signin", ensureGuest, userController.signin);
+
+// sign out ok
+router.get("/signout", userController.signout);
+
 
 module.exports = router;
