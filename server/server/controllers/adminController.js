@@ -212,7 +212,7 @@ const editRestaurant = async (req, res) => {
   }
 };
 
-// edit dish
+// Edit Dish Information
 const editDish = async (req, res) => {
   try {
     const { dishID } = req.query;
