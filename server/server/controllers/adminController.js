@@ -152,10 +152,10 @@ const searchDishes = async (req, res) => {
 
     // Define the search criteria
     const searchCriteria = {};
-    if (minPrice != undefined && !isNaN(minPrice)) {
+    if (minPrice !== undefined && !isNaN(minPrice)) {
       searchCriteria.price = { $gte: minPrice };
     }
-    if (maxPrice != undefined && !isNaN(maxPrice)) {
+    if (maxPrice !== undefined && !isNaN(maxPrice)) {
       searchCriteria.price = { ...searchCriteria.price, $lte: maxPrice };
     }
     if (category) {
