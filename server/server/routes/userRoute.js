@@ -32,6 +32,9 @@ router.patch(
 // get all dishes for user ok
 router.get("/Dishes", userController.getDishItems);
 
+// search for dish name min max price and catogire ok
+router.get("/Dishes/search", userController.searchDishes);
+
 
 
 module.exports = router;
