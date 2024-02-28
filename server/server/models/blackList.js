@@ -5,10 +5,10 @@ const blackListSchema = new mongoose.Schema(
     token: {
       type: String,
       required: true,
-      ref: "userSchema",
+      ref: "UserModel",
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("blackListSchema", blackListSchema);
+module.exports = mongoose.model("BlackListModel", blackListSchema);
