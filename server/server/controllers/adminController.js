@@ -104,7 +104,7 @@ const getAllDishes = async (req, res) => {
 // delete Restaurant or Restaurants
 const deleteRestaurant = async (req, res) => {
   try {
-    // Example: { ids: ['id1', 'id2', 'id3'] }
+  
     const { ids } = req.body;
     const deleteItems = await RestaurantModel.deleteMany({ _id: { $in: ids } });
 
