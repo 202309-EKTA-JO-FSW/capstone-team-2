@@ -31,9 +31,8 @@ const addRestaurant = async (req, res) => {
     res
       .status(201)
       .json({ message: "Restaurant added successfully", newRestaurant });
-      console.error("Error adding restaurant:", error);
   } catch (error) {
-   
+    console.error("Error adding restaurant:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -65,7 +64,7 @@ const addDishToRestaurant = async (req, res) => {
     await restaurant.save();
     res
       .status(201)
-      .json({ newDish });
+      .json({ message: "Dish added to the restaurant successfully", newDish });
   } catch (error) {
     console.error("Error adding dish to the restaurant:", error);
     res.status(500).json({ message: error.message });
@@ -91,7 +90,7 @@ const getAllDishes = async (req, res) => {
     const restaurant = await RestaurantModel.findById(restaurantId);
 
     if (!restaurant) {
-      return res.status(404).json({ message:"there is no retaraurant with that id " });
+      return res.status(404).json({ message: error.message });
     }
 
     // Find all dishes associated with the restaurant
@@ -101,7 +100,6 @@ const getAllDishes = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 
 module.exports = {
