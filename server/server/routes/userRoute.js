@@ -14,4 +14,11 @@ router.get(
   userController.getPastOrders
 );
 
+// Get current active orders ok
+router.get(
+  "/orders/current",
+  //  isAuthenticated,
+  userController.getCurrentOrders
+);
+
 module.exports = router;
