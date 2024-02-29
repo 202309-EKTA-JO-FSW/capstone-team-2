@@ -368,6 +368,39 @@ const addNewUser = async (req, res) => {
   }
 };
 
+// Update user profile information ok
+const updateUserData = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    if (!updatedUserInfo) {
+      res.status(422).json({
+        message: "The data not updated",
+      });
+    } else {
+      res.json(updatedUserInfo);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//for test
+const getUsersData = async (_, res) => {
+  try {
+    const users = await UserModel.find({}).select("+password");
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
 
 module.exports = {
   getPastOrders,
@@ -380,6 +413,8 @@ module.exports = {
   addToCart,
   getUserProfile,
   addNewUser,
+  updateUserData,
   signin,
   signout,
+  getUsersData,
 };
