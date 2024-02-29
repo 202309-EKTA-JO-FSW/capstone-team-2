@@ -74,8 +74,25 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+// get all Dish and filter it by category ok
+const getDishItems = async (req, res) => {
+  try {
+    let query = {};
+    if (req.query.category) {
+      query.category = req.query.category;
+    }
+    const dishes = await DishModel.find(query);
+    res.json(dishes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   getPastOrders,
   getCurrentOrders,
   cancelOrder,
+  getDishItems,
 };
