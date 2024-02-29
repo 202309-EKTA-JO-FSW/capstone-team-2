@@ -427,7 +427,7 @@ const removeTokens = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
-//new function
+
 const removeUser = async (req, res) => {
   try {
     // Example: { ids: ['id1', 'id2', 'id3'] }
