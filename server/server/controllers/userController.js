@@ -25,6 +25,23 @@ const getPastOrders = async (req, res) => {
   }
 };
 
+// Get current active order ok
+const getCurrentOrders = async (req, res) => {
+  try {
+    const { userID } = req.query; //add New line
+    const orders = await OrderModel.find({
+      userID,
+      status: { $in: ["placed", "preparing", "waiting"] },
+    });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   getPastOrders,
+  getCurrentOrders,
+  
 };
