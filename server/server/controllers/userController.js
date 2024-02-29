@@ -95,7 +95,7 @@ const searchDishes = async (req, res) => {
     const { minPrice, maxPrice, category, name } = req.query;
 
     // Define the search criteria
-    const searchCriteria = {};;
+    const searchCriteria = {};
     if (minPrice !== undefined && !isNaN(minPrice)) {
       searchCriteria.price = { $gte: minPrice };
     }
@@ -119,6 +119,22 @@ const searchDishes = async (req, res) => {
   }
 };
 
+// Get single Dish information ok
+const getDishById = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const dish = await DishModel.findById(itemId);
+
+    if (!dish) {
+      return res.status(404).json({ message: "This dish not found" });
+    }
+
+    res.json(dish);
+  } catch (error) {
+    console.error("Error getting dish:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getPastOrders,
@@ -126,5 +142,5 @@ module.exports = {
   cancelOrder,
   getDishItems,
   searchDishes,
-
+  getDishById,
 };
