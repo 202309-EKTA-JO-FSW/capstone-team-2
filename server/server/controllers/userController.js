@@ -136,6 +136,28 @@ const getDishById = async (req, res) => {
   }
 };
 
+//Get all Dishes in specific Restaurant ok both solutions
+const getDishesByRestaurant = async (req, res) => {
+  try {
+    const { restaurantID } = req.params;
+
+    const restaurant = await RestaurantModel.findById(restaurantID).populate({
+      path: "dishes",
+      select: "dishName dishImage description price category",
+    });
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    res.status(200).json({ dishes: restaurant.dishes });
+  } catch (error) {
+    console.error("Error fetching dishes:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   getPastOrders,
   getCurrentOrders,
@@ -143,4 +165,5 @@ module.exports = {
   getDishItems,
   searchDishes,
   getDishById,
+  getDishesByRestaurant,
 };
