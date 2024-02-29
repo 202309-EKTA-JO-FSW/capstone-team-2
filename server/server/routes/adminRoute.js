@@ -23,6 +23,13 @@ router.post(
   verifyIsAdmin,
   adminController.addDishToRestaurant
 );
+// get all Restaurant
+router.get(
+  "/restaurants",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.getAllRestaurants
+);
 
 
 module.exports = router;
