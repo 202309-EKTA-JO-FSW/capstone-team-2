@@ -28,7 +28,7 @@ const getPastOrders = async (req, res) => {
 // Get current active order ok
 const getCurrentOrders = async (req, res) => {
   try {
-    const { userID } = req.query; //add New line
+    const { userID } = req.query;
     const orders = await OrderModel.find({
       userID,
       status: { $in: ["placed", "preparing", "waiting"] },
@@ -39,9 +39,43 @@ const getCurrentOrders = async (req, res) => {
   }
 };
 
+// Cancel an order ok
+const cancelOrder = async (req, res) => {
+  try {
+    const { userID } = req.query;
+    const deleteOperation = await OrderModel.deleteMany({
+      userID,
+      status: "cancelled",
+    });
+    const updateOperation = await OrderModel.updateMany({ userID });
+    await Promise.all([deleteOperation, updateOperation]);
+    const order = await OrderModel.findOne({
+      userID,
+    });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    // Check if the order is in a state that can be cancelled
+    if (order.status === "delivered" || order.status === "cancelled") {
+      return res
+        .status(400)
+        .json({ message: "Order cannot be cancelled at this stage." });
+    }
+
+    // Update the order status to 'cancelled'
+    order.status = "cancelled";
+    await order.save();
+
+    res.json({ message: "Order has been cancelled.", order });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getPastOrders,
   getCurrentOrders,
-  
+  cancelOrder,
 };
