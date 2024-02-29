@@ -68,7 +68,10 @@ router.put(
 // edit dish
 router.put("/dish/edit", ensureAuth, verifyIsAdmin, adminController.editDish);
 
-
+// Get past completed orders for report on admin
+router.get('/orders/past',
+//  isAuthenticated,
+   adminController.allPastOrders);
 
 
 module.exports = router;
