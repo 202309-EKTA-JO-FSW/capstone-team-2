@@ -9,6 +9,13 @@ const adminController = require("../controllers/adminController");
 
 // for get all dishes
 router.get("/Dishes", ensureAuth, verifyIsAdmin, adminController.getDishItems);
+// for add new Restaurant
+router.post(
+  "/Restaurant",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.addRestaurant
+);
 
 
 module.exports = router;
