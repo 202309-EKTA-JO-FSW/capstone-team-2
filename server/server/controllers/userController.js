@@ -401,6 +401,15 @@ const getUsersData = async (_, res) => {
   }
 };
 
+const getTokens = async (_, res) => {
+  try {
+    const tokens = await BlackListModel.find({});
+    res.status(200).json(tokens);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
 
 module.exports = {
   getPastOrders,
@@ -416,5 +425,6 @@ module.exports = {
   updateUserData,
   signin,
   signout,
+  getTokens,
   getUsersData,
 };
