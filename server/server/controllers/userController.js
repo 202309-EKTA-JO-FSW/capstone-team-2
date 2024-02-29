@@ -410,6 +410,41 @@ const getTokens = async (_, res) => {
   }
 };
 
+const removeTokens = async (req, res) => {
+  try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await BlackListModel.deleteMany({ _id: { $in: ids } });
+
+    if (deleteItems.deletedCount > 0) {
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res
+        .status(422)
+        .json({ message: "The user you are trying to delete wasn't found" });
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+//new function
+const removeUser = async (req, res) => {
+  try {
+    // Example: { ids: ['id1', 'id2', 'id3'] }
+    const { ids } = req.body;
+    const deleteItems = await UserModel.deleteMany({ _id: { $in: ids } });
+
+    if (deleteItems.deletedCount > 0) {
+      res.json({ message: `${deleteItems.deletedCount} documents deleted` });
+    } else {
+      res
+        .status(422)
+        .json({ message: "The user you are trying to delete wasn't found" });
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
 module.exports = {
   getPastOrders,
@@ -427,4 +462,6 @@ module.exports = {
   signout,
   getTokens,
   getUsersData,
+  removeTokens,
+  removeUser,
 };
