@@ -89,10 +89,42 @@ const getDishItems = async (req, res) => {
   }
 };
 
+// search for Dish ok
+const searchDishes = async (req, res) => {
+  try {
+    const { minPrice, maxPrice, category, name } = req.query;
+
+    // Define the search criteria
+    const searchCriteria = {};;
+    if (minPrice !== undefined && !isNaN(minPrice)) {
+      searchCriteria.price = { $gte: minPrice };
+    }
+    if (maxPrice !== undefined && !isNaN(maxPrice)) {
+      searchCriteria.price = { ...searchCriteria.price, $lte: maxPrice };
+    }
+    if (category) {
+      searchCriteria.category = { $regex: new RegExp(category, "i") };
+    }
+    if (name) {
+      // Use a regular expression to perform a case-insensitive search by name
+      searchCriteria.dishName = { $regex: new RegExp(name, "i") };
+    }
+
+    // Perform the search
+    const dishes = await DishModel.find(searchCriteria);
+
+    res.status(200).json(dishes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   getPastOrders,
   getCurrentOrders,
   cancelOrder,
   getDishItems,
+  searchDishes,
+
 };
