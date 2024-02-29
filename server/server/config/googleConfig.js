@@ -1,4 +1,3 @@
-/****************************ramah */
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const UserModel = require("../models/user");
@@ -44,4 +43,4 @@ module.exports = function(passport) {
   });
 };
 
-/***************************************** */
+
