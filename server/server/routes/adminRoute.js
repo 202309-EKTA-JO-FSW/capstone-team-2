@@ -44,6 +44,13 @@ router.delete(
   verifyIsAdmin,
   adminController.deleteRestaurant
 );
+// delete dish for specific Restaurant
+router.delete(
+  "/dishDelete",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.removeOneOrManyItems
+);
 
 
 
