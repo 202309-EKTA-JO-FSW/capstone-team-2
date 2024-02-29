@@ -58,6 +58,13 @@ router.get(
   verifyIsAdmin,
   adminController.searchDishes
 );
+//edit restaurant
+router.put(
+  "/restaurant/edit",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.editRestaurant
+);
 
 
 
