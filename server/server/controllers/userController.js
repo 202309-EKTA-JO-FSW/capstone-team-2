@@ -333,6 +333,42 @@ const signout = async (req, res) => {
   }
 };
 
+// get single user profile one user ok
+const getUserProfile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const userInfo = await UserModel.findById(id);
+
+    if (!userInfo) {
+      res.status(404).json({ message: "user not found" });
+    }
+
+    res.status(200).json(userInfo);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// User signUp add new user ok
+const addNewUser = async (req, res) => {
+  const newUserData = req.body;
+
+  try {
+    const user = await UserModel.findOne({ email: req.body.email });
+
+    if (!user) {
+      const newUser = await UserModel.create(newUserData);
+      return res.status(201).json(newUser);
+    } else {
+      return res.status(400).json({ message: "user already exists" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 module.exports = {
   getPastOrders,
   getCurrentOrders,
@@ -342,6 +378,8 @@ module.exports = {
   getDishById,
   getDishesByRestaurant,
   addToCart,
+  getUserProfile,
+  addNewUser,
   signin,
   signout,
 };
