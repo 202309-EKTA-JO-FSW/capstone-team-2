@@ -37,6 +37,14 @@ router.get(
   verifyIsAdmin,
   adminController.getAllDishes
 );
+// delete Restaurant or Restaurants
+router.delete(
+  "/restaurantDelete",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.deleteRestaurant
+);
+
 
 
 module.exports = router;
