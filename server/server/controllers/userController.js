@@ -271,6 +271,67 @@ const signin = async (req, res) => {
   }
 };
 
+const cleanupExpiredTokens = async () => {
+  try {
+    const currentTime = new Date();
+    // Find and remove tokens where the creation date is too old
+    const expirationTime = new Date(currentTime - 180 * 60 * 1000);
+    await BlackListModel.deleteMany({ createdAt: { $lt: expirationTime } });
+    console.log("Expired tokens cleaned up.");
+  } catch (error) {
+    console.error("Error cleaning up expired tokens:", error);
+  }
+};
+
+setInterval(cleanupExpiredTokens, 180 * 60 * 1000);
+
+// sign out ok
+const signout = async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+
+        req.session.destroy();
+        res.redirect("/user/google");
+        res.end();
+      });
+    } else {
+      const authHeader = req.headers["cookie"];
+
+      if (!authHeader) {
+        return res.sendStatus(204);
+      }
+
+      const cookies = cookie.parse(authHeader);
+      const accessToken = (cookies["SessionID"] || "").trim();
+
+      if (!accessToken) {
+        return res.sendStatus(401);
+      }
+
+      const checkIfBlackListed = await BlackListModel.findOne({
+        token: accessToken,
+      });
+
+      if (checkIfBlackListed) {
+        return res.status(200).json({ message: "You are already logged out!" });
+      }
+
+      const newBlackList = new BlackListModel({ token: accessToken });
+
+      await newBlackList.save();
+
+      res.setHeader("Clear-Site-Data", '" cookies"');
+      res.status(200).json({ message: "You are logged out!" });
+      res.end();
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 module.exports = {
   getPastOrders,
@@ -281,6 +342,6 @@ module.exports = {
   getDishById,
   getDishesByRestaurant,
   addToCart,
-
   signin,
+  signout,
 };
