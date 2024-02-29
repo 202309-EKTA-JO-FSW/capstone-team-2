@@ -16,6 +16,13 @@ router.post(
   verifyIsAdmin,
   adminController.addRestaurant
 );
+// add dish for selected Restaurant
+router.post(
+  "/DishToRestaurant",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.addDishToRestaurant
+);
 
 
 module.exports = router;
