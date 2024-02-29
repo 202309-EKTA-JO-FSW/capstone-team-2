@@ -30,6 +30,13 @@ router.get(
   verifyIsAdmin,
   adminController.getAllRestaurants
 );
+// get dishes for one Restaurant
+router.get(
+  "/restaurants/:restaurantId",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.getAllDishes
+);
 
 
 module.exports = router;
