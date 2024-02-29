@@ -51,6 +51,13 @@ router.delete(
   verifyIsAdmin,
   adminController.removeOneOrManyItems
 );
+// for search dishes minPrice and maxPrice and category and name
+router.get(
+  "/searchDishes",
+  ensureAuth,
+  verifyIsAdmin,
+  adminController.searchDishes
+);
 
 
 
