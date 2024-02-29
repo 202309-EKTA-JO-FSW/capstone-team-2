@@ -65,6 +65,9 @@ router.put(
   verifyIsAdmin,
   adminController.editRestaurant
 );
+// edit dish
+router.put("/dish/edit", ensureAuth, verifyIsAdmin, adminController.editDish);
+
 
 
 
