@@ -16,7 +16,7 @@ router.get("/restaurants/:restaurantID", userController.getDishesByRestaurant);
 // for test
 router.get(
   "/allusers",
-  // ensureAuth,
+  ensureAuth,
   userController.getUsersData
 );
 
@@ -44,7 +44,7 @@ router.post("/newuser", ensureGuest, userController.addNewUser);
 // update user info ok
 router.put(
   "/updateinfo/:id",
-  // ensureAuth,
+  ensureAuth,
   userController.updateUserData
 );
 
@@ -54,29 +54,28 @@ router.get("/dishes", userController.getDishItems);
 // get one user profile ok
 router.get(
   "/:id",
-  //  ensureAuth,
+  ensureAuth,
   userController.getUserProfile
 );
 
 // get past completed orders ok
 router.get(
   "/orders/past",
-  //  isAuthenticated,
+  ensureAuth,
   userController.getPastOrders
 );
 
 // Get current active orders ok
 router.get(
   "/orders/current",
-  //  isAuthenticated,
+  ensureAuth,
   userController.getCurrentOrders
 );
 
 // Cancel an order ok
 router.patch(
   "/orders/:orderId/cancel",
-  //  isAuthenticated,
-  //  isOrderOwner,
+  ensureAuth,
   userController.cancelOrder
 );
 
