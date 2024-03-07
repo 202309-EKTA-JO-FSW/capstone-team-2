@@ -8,17 +8,17 @@ const adminController = require("../controllers/adminController");
 // Define admin routes
 
 // for get all dishes
-router.get("/Dishes", ensureAuth, verifyIsAdmin, adminController.getDishItems);
+router.get("/dishes", ensureAuth, verifyIsAdmin, adminController.getDishItems);
 // for add new Restaurant
 router.post(
-  "/Restaurant",
+  "/restaurant",
   ensureAuth,
   verifyIsAdmin,
   adminController.addRestaurant
 );
 // add dish for selected Restaurant
 router.post(
-  "/DishToRestaurant",
+  "/dishtorestaurant",
   ensureAuth,
   verifyIsAdmin,
   adminController.addDishToRestaurant
@@ -39,21 +39,21 @@ router.get(
 );
 // delete Restaurant or Restaurants
 router.delete(
-  "/restaurantDelete",
+  "/restaurantdelete",
   ensureAuth,
   verifyIsAdmin,
   adminController.deleteRestaurant
 );
 // delete dish for specific Restaurant
 router.delete(
-  "/dishDelete",
+  "/dishdelete",
   ensureAuth,
   verifyIsAdmin,
   adminController.removeOneOrManyItems
 );
 // for search dishes minPrice and maxPrice and category and name
 router.get(
-  "/searchDishes",
+  "/searchdishes",
   ensureAuth,
   verifyIsAdmin,
   adminController.searchDishes
