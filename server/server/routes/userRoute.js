@@ -30,16 +30,16 @@ router.patch(
 );
 
 // get all dishes for user ok
-router.get("/Dishes", userController.getDishItems);
+router.get("/dishes", userController.getDishItems);
 
 // search for dish name min max price and catogire ok
-router.get("/Dishes/search", userController.searchDishes);
+router.get("/dishes/search", userController.searchDishes);
 
 // detials for one dish for dynamic id in react ok
-router.get("/Dishes/:itemId", userController.getDishById);
+router.get("/dishes/:itemId", userController.getDishById);
 
 //Get all Dishes in specific Restaurant ok
-router.get("/Restaurants/:restaurantID", userController.getDishesByRestaurant);
+router.get("/restaurants/:restaurantID", userController.getDishesByRestaurant);
 
 // Add Dish to Cart ok
 router.post("/cart", userController.addToCart);
@@ -59,24 +59,24 @@ router.get(
 );
 
 // add new user ok
-router.post("/newUser", ensureGuest, userController.addNewUser);
+router.post("/newuser", ensureGuest, userController.addNewUser);
 
 // update user info ok
 router.put(
-  "/updateInfo/:id",
+  "/updateinfo/:id",
   // ensureAuth,
   userController.updateUserData
 );
 
 // for test
 router.get(
-  "/allUsers",
+  "/allusers",
   // ensureAuth,
   userController.getUsersData
 );
-router.get("/allTokens", userController.getTokens);
+router.get("/alltokens", userController.getTokens);
 router.delete("/delete", userController.removeUser);
-router.delete("/deleteTokens", userController.removeTokens);
+router.delete("/deletetokens", userController.removeTokens);
 
 // Check if the user not auth to login with google
 router.get("/google", ensureGuest, (_, res) => {
