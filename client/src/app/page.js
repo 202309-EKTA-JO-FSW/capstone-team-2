@@ -1,6 +1,8 @@
 import Test from "./components/Test";
 import Link from "next/link";
 import HomePage from "./landingpage/page";
+import Login from "./components/Login";
+// import GoogleButton from "./components/Button/GoogleButton";
 export default function Home() {
   return (
     <main>
@@ -13,6 +15,10 @@ export default function Home() {
 
         <HomePage/>
       </div>
+      <>
+      <Login/>
+      {/* <GoogleButton/> */}
+      </>
     </main>
   );
 }

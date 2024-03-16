@@ -114,7 +114,7 @@ function Navbar() {
         <nav className="flex gap-10 items-center bg-zinc-800 py-4 px-2 fixed w-full">
             <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-                    Orderio
+                    OrderJo
                 </span>
             </Link>
 
