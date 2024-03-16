@@ -54,21 +54,21 @@ router.get("/dishes", userController.getDishItems);
 // get one user profile ok
 router.get(
   "/:id",
-  ensureAuth,
+  // ensureAuth,
   userController.getUserProfile
 );
 
 // get past completed orders ok
 router.get(
   "/orders/past",
-  ensureAuth,
+  // ensureAuth,
   userController.getPastOrders
 );
 
 // Get current active orders ok
 router.get(
   "/orders/current",
-  ensureAuth,
+  // ensureAuth,
   userController.getCurrentOrders
 );
 

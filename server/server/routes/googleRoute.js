@@ -10,7 +10,8 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 // @desc Google auth callback
 // @route /auth/google/callback
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/user' }), (_, res) => {
-  res.redirect('/test');
+  // res.redirect('/test');
+  res.redirect('http://localhost:3000/userprofile/65e78a0fdc1e5b0138a6c1cc');
 }); 
 
 module.exports = router;

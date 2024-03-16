@@ -12,22 +12,22 @@ router.get("/dishes", ensureAuth, verifyIsAdmin, adminController.getDishItems);
 // for add new Restaurant
 router.post(
   "/restaurant",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.addRestaurant
 );
 // add dish for selected Restaurant
 router.post(
   "/dishtorestaurant",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.addDishToRestaurant
 );
 // get all Restaurant
 router.get(
   "/restaurants",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.getAllRestaurants
 );
 // get dishes for one Restaurant
@@ -40,15 +40,15 @@ router.get(
 // delete Restaurant or Restaurants
 router.delete(
   "/restaurantdelete",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.deleteRestaurant
 );
 // delete dish for specific Restaurant
 router.delete(
   "/dishdelete",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.removeOneOrManyItems
 );
 // for search dishes minPrice and maxPrice and category and name
@@ -61,12 +61,15 @@ router.get(
 //edit restaurant
 router.put(
   "/restaurant/edit",
-  ensureAuth,
-  verifyIsAdmin,
+  // ensureAuth,
+  // verifyIsAdmin,
   adminController.editRestaurant
 );
 // edit dish
-router.put("/dish/edit", ensureAuth, verifyIsAdmin, adminController.editDish);
+router.put("/dish/edit",
+//  ensureAuth, 
+//  verifyIsAdmin,
+  adminController.editDish);
 
 // Get past completed orders for report on admin
 router.get('/orders/past',
