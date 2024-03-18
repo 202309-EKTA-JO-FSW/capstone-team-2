@@ -16,7 +16,7 @@ router.get("/restaurants/:restaurantID", userController.getDishesByRestaurant);
 // for test
 router.get(
   "/allusers",
-  ensureAuth,
+  // ensureAuth,
   userController.getUsersData
 );
 
@@ -33,7 +33,9 @@ router.get("/google", ensureGuest, (_, res) => {
 
 // signin & signout without google
 // sign in ok
-router.post("/signin", ensureGuest, userController.signin);
+router.post("/signin",
+//  ensureGuest, 
+ userController.signin);
 
 // sign out ok
 router.get("/signout", userController.signout);
@@ -44,7 +46,7 @@ router.post("/newuser", ensureGuest, userController.addNewUser);
 // update user info ok
 router.put(
   "/updateinfo/:id",
-  ensureAuth,
+  // ensureAuth,
   userController.updateUserData
 );
 
