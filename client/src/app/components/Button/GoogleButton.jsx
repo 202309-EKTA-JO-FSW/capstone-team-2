@@ -1,29 +1,45 @@
 "use client";
 // import { signIn } from 'next-auth/react'
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 const GoogleButton = () => {
+  const router = useRouter(); 
+ 
+  const fetchAuthUser = async () => {
 
-    // const signIn =()=>{
-    // // const [signin, setSignin] = useState([]);
-
-    // useEffect(() => {
-    //   const fetchRestaurants = async () => {
-    //     try {
-    //       const response = await fetch('http://localhost:3001/auth/google');
-    //       const data = await response.json();
-    //       setSignin(data);
-    //     } catch (error) {
-    //       console.error('Error fetching restaurants:', error);
-    //     }
-    //   };
-  
-    //   fetchRestaurants();
-    // }, []);
-
-    // }
+    try {
+      const response = await axios.get("http://localhost:3001/auth/user", {withCredentials: true});
+      // Access response.data only if the request was successful
+      if(response && response.data){
+        router.push(`/userprofile/user/${response.data._id}`);
+      }
+  } catch (error) {
+      // Handle error if the request fails
+      console.log("you're not authenticated");
+  }
+    
+   }
 
     const handleSignIn = () => {
-        window.location.href = 'http://localhost:3001/auth/google'; // Redirect to the Google authentication page
+  
+        let timer = null;
+        const googleLoginURL = "http://localhost:3001/auth/google";
+
+        const newWindow = window.open(googleLoginURL, "_blank", "width=500, height=600");
+
+        if(newWindow) {
+          timer = setInterval(() => {
+            if(newWindow.closed) {
+              console.log("we're authenticated")
+              fetchAuthUser();
+              if(timer) {
+                clearInterval(timer);
+              }
+            }
+          }, 500) 
+        }
       };
     
 

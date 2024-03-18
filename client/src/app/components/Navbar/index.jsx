@@ -138,6 +138,9 @@ function Navbar() {
             <Link href="/admin" className="hover:text-blue-400 text-white">
                 <span>Admin</span>
             </Link>
+            <Link href="/userprofile" className="hover:text-blue-400 text-white">
+                <span>Profile</span>
+            </Link>
         </nav>
     );
 }
