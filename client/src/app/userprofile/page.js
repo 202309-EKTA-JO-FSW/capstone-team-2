@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import GoogleButton from '../components/Button/GoogleButton';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import axios from 'axios';
+import GoogleButton from '../components/Button/GoogleButton';
 
 function ProfileLogin() {
   const router = useRouter(); 
@@ -15,14 +16,13 @@ function ProfileLogin() {
     try {
       const response = await axios.post(
         'http://localhost:3001/user/signin',
-        { email, 
-         password }
-           );
+        { email, password }
+      );
 
       if (response && response.data) {
         // Redirect to user profile
-        router.push(`/userprofile/user/${response.data.userData._id}`); // Use navigate to redirect
-        console.log(response.data.userData)
+        router.push(`/userprofile/user/${response.data.userData._id}`);
+        console.log(response.data.userData);
       } else {
         // Handle signin failure
         console.error('Signin failed');
@@ -30,29 +30,8 @@ function ProfileLogin() {
     } catch (error) {
       console.error('Error:', error);
     }
-
-    // try {
-    //   const response = await fetch('http://localhost:3001/user/signin', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ email, password })      
-    //   });
-    
-    //   if (response.ok) {
-    //     const responseData = await response.json();
-    //     // Redirect to user profile
-    //     router.push(`/userprofile/user/${responseData._id}`);
-    //   } else {
-    //     // Handle signin failure
-    //     console.error('Signin failed');
-    //   }
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
   };
+
   return (
     <div className='flex flex-col items-center justify-center h-screen text-black'>
       <h1 className="mb-8">Please login to see your profile</h1>
@@ -90,12 +69,13 @@ function ProfileLogin() {
           >
             Sign In
           </button>
+          <p className="text-center mt-4 text-sm text-gray-900">Not registered already? <span className='cursor-pointer hover:text-blue-600 text-gray-500'><Link href="/signup" >Sign Up Now</Link></span></p>
         </form>
         <p className="text-center mb-4">--- or ---</p>
         <GoogleButton />
       </div>
     </div>
-  )
+  );
 }
 
 export default ProfileLogin;
