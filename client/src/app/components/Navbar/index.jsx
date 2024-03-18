@@ -129,6 +129,15 @@ function Navbar() {
                 <span>Dishes</span>
             </Link>
             {/* <SearchBox value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+            <Link href="/contactus" className="hover:text-blue-400 text-white">
+                <span>Contact Us</span>
+            </Link>
+            <Link href="/about" className="hover:text-blue-400 text-white">
+                <span>About</span>
+            </Link>
+            <Link href="/admin" className="hover:text-blue-400 text-white">
+                <span>Admin</span>
+            </Link>
         </nav>
     );
 }

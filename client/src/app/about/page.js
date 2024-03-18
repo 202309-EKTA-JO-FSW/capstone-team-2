@@ -1,5 +1,6 @@
 "use client";
 
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -89,57 +90,83 @@ const stats = [
     <div className="flex flex-wrap justify-center">
       {/* Muna Al Haj Eid */}
       <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-        <div className="h-full bg-white p-6 shadow-lg text-center">
-        <img src="/Muna.jpg" alt="Muna Al Haj Eid" width={100} height={100} className="h-16 w-16 rounded-full mx-auto" />
-          <div className="mt-2">
-            <a href="https://github.com/MonaAlHajEid" target="_blank" rel="noopener noreferrer" className="block">GitHub</a>
-            <a href="https://www.linkedin.com/in/monabadei/" target="_blank" rel="noopener noreferrer" className="block">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-
-      {/* Hammam */}
-      <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-        <div className="h-full bg-white p-6 shadow-lg text-center">
-        <img src="/Hammam.jpeg" alt="Hammam Abu Shehadeh" width={100} height={100} className="h-16 w-16 rounded-full mx-auto" />
-          <div className="mt-2">
-            <a href="https://github.com/HammamAbuShehadeh" target="_blank" rel="noopener noreferrer" className="block">GitHub</a>
-            <a href="https://www.linkedin.com/in/hammam-abu-shehadeh-779525295/26a/" target="_blank" rel="noopener noreferrer" className="block">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-
-      {/* Ahmad */}
-      <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-        <div className="h-full bg-white p-6 shadow-lg text-center">
-        <img src="/Ahmed.jpg" alt="Ahmed Juma" width={100} height={100} className="h-16 w-16 rounded-full mx-auto" />
-          <div className="mt-2">
-            <a href="https://github.com/AHMADJUAM" target="_blank" rel="noopener noreferrer" className="block">GitHub</a>
-            <a href="https://www.linkedin.com/in/ahamd-juam-6a07142b9/" target="_blank" rel="noopener noreferrer" className="block">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-       {/* Ramah */}
-       <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-        <div className="h-full bg-white p-6 shadow-lg text-center">
-        <img src="/Ramah.jpg" alt="Ramah Madi" width={100} height={100} className="h-16 w-16 rounded-full mx-auto" />
-          <div className="mt-2">
-            <a href="https://github.com/ramah-madi" target="_blank" rel="noopener noreferrer" className="block">GitHub</a>
-            <a href="https://www.linkedin.com/in/ramah-madi/" target="_blank" rel="noopener noreferrer" className="block">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-       {/* Farah */}
-       <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-        <div className="h-full bg-white p-6 shadow-lg text-center">
-        <img src="/Farah.jpg" alt="Jana Salah" width={100} height={100} className="h-16 w-16 rounded-full mx-auto" />
-          <div className="mt-2">
-            <a href="https://github.com/FarahAlsoqi" target="_blank" rel="noopener noreferrer" className="block">GitHub</a>
-            <a href="https://www.linkedin.com/in/farah-alsoqi0/" target="_blank" rel="noopener noreferrer" className="block">LinkedIn</a>
-          </div>
-        </div>
-      </div>
+  <div className="h-full bg-white p-6 shadow-lg text-center">
+    <img src="/Muna.jpg" alt="Muna Al Haj Eid" className="h-16 w-16 rounded-full mx-auto" />
+    <div className="mt-2 flex justify-center gap-4">
+      <a href="https://github.com/MonaAlHajEid" target="_blank" rel="noopener noreferrer">
+        <img src="/github.png" alt="GitHub" className="h-8 w-8 rounded-full" />
+      </a>
+      <a href="https://www.linkedin.com/in/monabadei/" target="_blank" rel="noopener noreferrer">
+        <img src="/linkedin.webp" alt="LinkedIn" className="h-8 w-8 rounded-full" />
+      </a>
     </div>
+  </div>
+</div>
+
+
+{/* Hammam */}
+<div className="w-full md:w-1/2 lg:w-1/3 p-4">
+  <div className="h-full bg-white p-6 shadow-lg text-center">
+    <img src="/Hammam.jpeg" alt="Hammam Abu Shehadeh" className="h-16 w-16 rounded-full mx-auto" />
+    <div className="mt-2 flex justify-center gap-4">
+      <a href="https://github.com/HammamAbuShehadeh" target="_blank" rel="noopener noreferrer">
+        <img src="/github.png" alt="GitHub" className="h-8 w-8 rounded-full" />
+      </a>
+      <a href="https://www.linkedin.com/in/hammam-abu-shehadeh-779525295/26a/" target="_blank" rel="noopener noreferrer">
+        <img src="/linkedin.webp" alt="LinkedIn" className="h-8 w-8 rounded-full" />
+      </a>
+    </div>
+  </div>
+</div>
+
+  {/* Ahmad */}
+<div className="w-full md:w-1/2 lg:w-1/3 p-4">
+  <div className="h-full bg-white p-6 shadow-lg text-center">
+    <img src="/Ahmed.jpg" alt="Ahmed Juma" className="h-16 w-16 rounded-full mx-auto" />
+    <div className="mt-2 flex justify-center gap-4">
+      <a href="https://github.com/AHMADJUAM" target="_blank" rel="noopener noreferrer">
+        <img src="/github.png" alt="GitHub" className="h-8 w-8 rounded-full" />
+      </a>
+      <a href="https://www.linkedin.com/in/ahamd-juam-6a07142b9/" target="_blank" rel="noopener noreferrer">
+        <img src="/linkedin.webp" alt="LinkedIn" className="h-8 w-8 rounded-full" />
+      </a>
+    </div>
+  </div>
+</div>
+
+       
+{/* Ramah */}
+<div className="w-full md:w-1/2 lg:w-1/3 p-4">
+  <div className="h-full bg-white p-6 shadow-lg text-center">
+    <img src="/Ramah.jpg" alt="Ramah Madi" className="h-16 w-16 rounded-full mx-auto" />
+    <div className="mt-2 flex justify-center gap-4">
+      <a href="https://github.com/ramah-madi" target="_blank" rel="noopener noreferrer">
+        <img src="/github.png" alt="GitHub" className="h-8 w-8 rounded-full" />
+      </a>
+      <a href="https://www.linkedin.com/in/ramah-madi/" target="_blank" rel="noopener noreferrer">
+        <img src="/linkedin.webp" alt="LinkedIn" className="h-8 w-8 rounded-full" />
+      </a>
+    </div>
+  </div>
+</div>
+
+       {/* Farah */}
+<div className="w-full md:w-1/2 lg:w-1/3 p-4">
+  <div className="h-full bg-white p-6 shadow-lg text-center">
+    <img src="/Farah.jpg" alt="Farah Alsoqi" className="h-16 w-16 rounded-full mx-auto" />
+    <div className="mt-2 flex justify-center gap-4">
+      <a href="https://github.com/FarahAlsoqi" target="_blank" rel="noopener noreferrer">
+        <img src="/github.png" alt="GitHub" className="h-8 w-8 rounded-full" />
+      </a>
+      <a href="https://www.linkedin.com/in/farah-alsoqi0/" target="_blank" rel="noopener noreferrer">
+        <img src="/linkedin.webp" alt="LinkedIn" className="h-8 w-8 rounded-full" />
+      </a>
+    </div>
+  </div>
+</div>
+    </div>
+
+    
     <p className="text-xl font-semibold mt-6 text-center">Connect with us on social media for the latest updates and more!</p>
   </div>
 </div>
