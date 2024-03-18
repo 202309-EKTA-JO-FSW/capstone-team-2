@@ -15,10 +15,6 @@ export default function Home() {
 
         <HomePage/>
       </div>
-      <>
-      <Login/>
-      {/* <GoogleButton/> */}
-      </>
     </main>
   );
 }

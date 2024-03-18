@@ -1,0 +1,101 @@
+"use client";
+import React, { useState } from 'react';
+import GoogleButton from '../components/Button/GoogleButton';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+function ProfileLogin() {
+  const router = useRouter(); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/user/signin',
+        { email, 
+         password }
+           );
+
+      if (response && response.data) {
+        // Redirect to user profile
+        router.push(`/userprofile/user/${response.data.userData._id}`); // Use navigate to redirect
+        console.log(response.data.userData)
+      } else {
+        // Handle signin failure
+        console.error('Signin failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    // try {
+    //   const response = await fetch('http://localhost:3001/user/signin', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ email, password })      
+    //   });
+    
+    //   if (response.ok) {
+    //     const responseData = await response.json();
+    //     // Redirect to user profile
+    //     router.push(`/userprofile/user/${responseData._id}`);
+    //   } else {
+    //     // Handle signin failure
+    //     console.error('Signin failed');
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
+  };
+  return (
+    <div className='flex flex-col items-center justify-center h-screen text-black'>
+      <h1 className="mb-8">Please login to see your profile</h1>
+      <div className="w-full max-w-xs">
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit} method='post'>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-20"
+            type="submit"
+          >
+            Sign In
+          </button>
+        </form>
+        <p className="text-center mb-4">--- or ---</p>
+        <GoogleButton />
+      </div>
+    </div>
+  )
+}
+
+export default ProfileLogin;
