@@ -1,6 +1,7 @@
 const RestaurantModel = require("../models/restaurant");
 const DishModel = require("../models/dish");
 const OrderModel = require("../models/order")
+const ContactForm = require('../models/contactForm');
 
 //get all dishes
 const getDishItems = async (req, res) => {
@@ -265,6 +266,19 @@ const allPastOrders = async (req, res) => {
   }
 };
 
+const submitContactForm = async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    const newEntry = await ContactForm.create({ name, email, subject, message });
+    // Add your logic here, e.g., send an email notification
+
+    res.status(201).json({ message: 'Contact form submitted successfully', data: newEntry });
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+};
+
+
 module.exports = {
   getDishItems,
   addRestaurant,
@@ -277,4 +291,5 @@ module.exports = {
   editRestaurant,
   editDish,
   allPastOrders,
+  submitContactForm,
 };

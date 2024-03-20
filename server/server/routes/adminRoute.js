@@ -76,5 +76,11 @@ router.get('/orders/past',
 //  isAuthenticated,
    adminController.allPastOrders);
 
+  //  for contact us form
+  router.post('/submit',
+  //  ensureAuth, 
+//  verifyIsAdmin,
+adminController.submitContactForm);
+
 
 module.exports = router;
