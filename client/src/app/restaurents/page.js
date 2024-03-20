@@ -127,7 +127,8 @@ export default function PostsPage() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
-
+  const [selectedCuisine, setSelectedCuisine] = useState('');
+  
   useEffect(() => {
     const fetchDishes = async () => {
       try {
@@ -146,23 +147,53 @@ export default function PostsPage() {
     fetchDishes();
   }, []);
 
+  // useEffect(() => {
+  //   const applyLocationFilter = () => {
+  //     if (selectedLocation) {
+  //       const filtered = dishes.filter(
+  //         (dish) => dish.restaurantLocation.toLowerCase() === selectedLocation.toLowerCase()
+  //       );
+  //       setFilteredDishes(filtered);
+  //     } else {
+  //       setFilteredDishes(dishes); // Reset filter if no location selected
+  //     }
+  //   };
+
+  //   applyLocationFilter(); // Apply filter on initial render and changes
+  // }, [dishes, selectedLocation]);
+
   useEffect(() => {
-    const applyLocationFilter = () => {
+    const applyFilters = () => {
+      let filtered = [...dishes]; // Copy dishes array to avoid mutating the original
+
+      // Filter by location
       if (selectedLocation) {
-        const filtered = dishes.filter(
+        filtered = filtered.filter(
           (dish) => dish.restaurantLocation.toLowerCase() === selectedLocation.toLowerCase()
         );
-        setFilteredDishes(filtered);
-      } else {
-        setFilteredDishes(dishes); // Reset filter if no location selected
       }
+
+      // Filter by cuisine type
+      // Check if selectedCuisine is provided and filter dishes accordingly
+if (selectedCuisine) {
+  filtered = filtered.filter(
+    (dish) => dish.cuisineType && dish.cuisineType.toLowerCase() === selectedCuisine.toLowerCase()
+  );
+}
+
+
+      setFilteredDishes(filtered);
     };
 
-    applyLocationFilter(); // Apply filter on initial render and changes
-  }, [dishes, selectedLocation]);
+    applyFilters(); // Apply filters on initial render and changes
+  }, [dishes, selectedLocation, selectedCuisine]);
 
   const handleLocationChange = (event) => {
     setSelectedLocation(event.target.value);
+  };
+
+  const handleCuisineChange = (event) => {
+    setSelectedCuisine(event.target.value);
   };
 
   const dishesJSX = (dishesToRender) =>
@@ -190,8 +221,23 @@ export default function PostsPage() {
         ))}
       </select>
 
+      {/* Cuisine type dropdown */}
+      <select value={selectedCuisine} onChange={handleCuisineChange}>
+        <option value="">All Cuisine Types</option>
+        {Array.from(new Set(dishes.map((dish) => dish.cuisineType))).map((cuisine) => (
+          <option key={cuisine} value={cuisine}>
+            {cuisine}
+          </option>
+        ))}
+      </select>
+
+      {/* Dishes */}
+      <div className="flex flex-none flex-wrap flex-initial justify-center py-6">
+        {dishesJSX(filteredDishes)}
+      </div>
+
       {/* POSTS */}
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -200,7 +246,7 @@ export default function PostsPage() {
         }}
       >
         <div className="flex flex-none flex-wrap flex-initial justify-center py-6">{dishesJSX(filteredDishes)}</div>
-      </div>
+      </div> */}
     </div>
   );
 }

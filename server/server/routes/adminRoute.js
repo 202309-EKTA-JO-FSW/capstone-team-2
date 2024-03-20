@@ -7,6 +7,9 @@ const adminController = require("../controllers/adminController");
 
 // Define admin routes
 
+// restaurents loaction
+router.get("/locations", adminController.getRestaurantsByLocation);
+
 // for get all dishes
 router.get("/dishes", ensureAuth, verifyIsAdmin, adminController.getDishItems);
 // for add new Restaurant

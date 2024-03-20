@@ -288,6 +288,26 @@ const getContactForm =async (req, res) => {
   }
 };
 
+const getRestaurantsByLocation = async (req, res) => {
+  try {
+    const { location } = req.query;
+
+    // If location is not provided, return all restaurants
+    if (!location) {
+      const restaurants = await RestaurantModel.find();
+      return res.status(200).json(restaurants);
+    }
+
+    // If location is provided, filter restaurants by location
+    const restaurants = await RestaurantModel.find({
+      restaurantLocation: { $regex: new RegExp(location, "i") },
+    });
+    res.status(200).json(restaurants);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getDishItems,
   addRestaurant,
@@ -302,4 +322,5 @@ module.exports = {
   allPastOrders,
   submitContactForm,
   getContactForm,
+  getRestaurantsByLocation,
 };

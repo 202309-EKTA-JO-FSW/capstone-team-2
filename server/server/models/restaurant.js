@@ -50,6 +50,11 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  
+  cuisineType: {
+    type: String,
+    required: true,
+  },
 
   dishes: [
     {
