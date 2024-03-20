@@ -77,7 +77,7 @@ router.get(
 // Cancel an order ok
 router.patch(
   "/orders/:orderId/cancel",
-  ensureAuth,
+  // ensureAuth,
   userController.cancelOrder
 );
 
@@ -86,5 +86,7 @@ router.get("/dishes/search", userController.searchDishes);
 
 // Add Dish to Cart ok
 router.post("/cart", userController.addToCart);
+
+router.patch("/orders/:orderId/confirm", userController.updateConfirmedOrder);
 
 module.exports = router;

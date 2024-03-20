@@ -173,7 +173,7 @@
 // };
 
 // export default DishesList;
-
+/*
 //DishesList.js
 "use client";
 import React, { useEffect, useState } from 'react';
@@ -250,6 +250,109 @@ const DishesList = () => {
       <div className="flex flex-wrap justify-center">
         {dishes.length > 0 ? dishCards : <div className="text-gray-600">No dishes found</div>}
       </div>
+    </div>
+  );
+};
+
+export default DishesList;
+*/
+
+//DishesList.js
+"use client";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import AddToCartForm from '../../components/AddToCartForm';
+
+const DishesList = () => {
+  const [dishes, setDishes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedDish, setSelectedDish] = useState(null); // Track the selected dish
+  const [showAddToCartForm, setShowAddToCartForm] = useState(false); // Track whether to show the "Add to Cart" form
+
+  useEffect(() => {
+    const fetchDishes = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/user/dishes");
+        if (!response.ok) {
+          throw new Error('Failed to fetch dishes');
+        }
+        const data = await response.json();
+        setDishes(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchDishes();
+  }, []);
+
+  const addToCart = async ({ quantity, specificRequests }) => {
+    try {
+      if (!selectedDish) {
+        throw new Error('No dish selected');
+      }
+      // Make the request to add the selected dish to the cart with the provided quantity and specific requests
+      const response = await fetch('http://localhost:3001/user/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID: '65e7896edc1e5b0138a6c1c1',
+          dishID: selectedDish._id,
+          quantity,
+          specificRequests,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add dish to cart');
+      }
+      console.log('Dish added to cart successfully');
+      setSelectedDish(null); // Reset selected dish after adding to cart
+      setShowAddToCartForm(false); // Hide the form after adding to cart
+    } catch (error) {
+      console.error('Error adding dish to cart:', error);
+    }
+  };
+
+  return (
+    <div className="text-center bg-gray-100 py-8">
+      <h1 className="text-3xl font-semibold mb-6">Dishes List</h1>
+      <div className="flex flex-wrap justify-center">
+        {dishes.length > 0 ? (
+          dishes.map((dish) => (
+            <div key={dish._id} className="max-w-xs rounded overflow-hidden shadow-lg bg-white hover:shadow-xl transition duration-300 mb-8 mx-4" style={{ flex: '0 0 calc(16.666% - 1rem)' }}>
+              <Link href={`/dishes/${dish._id}`}>
+                <img className="w-full h-56 object-cover" src={dish.dishImage} alt={dish.dishName} />
+              </Link>
+              <div className="px-4 py-2">
+                <div className="font-bold text-lg mb-1 line-clamp-2 hover:line-clamp-none">{dish.dishName}</div>
+                <p className="text-gray-700 text-sm line-clamp-2 hover:line-clamp-none">{dish.description}</p>
+                <p className="text-gray-700 text-sm mt-1">{dish.price} JOD</p>
+                {/* Button to select dish and show Add to Cart form */}
+                <button onClick={() => { setSelectedDish(dish); setShowAddToCartForm(true); }} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 w-full">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-gray-600">No dishes found</div>
+        )}
+      </div>
+      {/* Add to Cart form */}
+      {selectedDish && showAddToCartForm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-md shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Add to Cart</h2>
+            <AddToCartForm onAddToCart={addToCart} />
+            <button onClick={() => setShowAddToCartForm(false)} className="bg-red-500 text-white py-2 px-4 rounded-md mt-4">Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

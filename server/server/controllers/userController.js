@@ -9,6 +9,72 @@ const OrderModel = require("../models/order");
 const RestaurantModel = require("../models/restaurant");
 
 // Get past completed orders ok
+// const getPastOrders = async (req, res) => {
+//   try {
+//     const { userID } = req.query;
+//     console.log("UserID:", userID);
+
+//     const orders = await OrderModel.find({
+//       userID,
+//     });
+//     console.log("Orders:", orders);
+
+//     res.json(orders);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Get current active order ok
+// const getCurrentOrders = async (req, res) => {
+//   try {
+//     const { userID } = req.query;
+//     const orders = await OrderModel.find({
+//       userID,
+//       status: { $in: ["placed", "preparing", "waiting"] },
+//     });
+//     res.json(orders);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Cancel an order ok
+// const cancelOrder = async (req, res) => {
+//   try {
+//     const { userID } = req.query;
+//     const deleteOperation = await OrderModel.deleteMany({
+//       userID,
+//       status: "cancelled",
+//     });
+//     const updateOperation = await OrderModel.updateMany({ userID });
+//     await Promise.all([deleteOperation, updateOperation]);
+//     const order = await OrderModel.findOne({
+//       userID,
+//     });
+
+//     if (!order) {
+//       return res.status(404).json({ message: "Order not found." });
+//     }
+
+//     // Check if the order is in a state that can be cancelled
+//     if (order.status === "delivered" || order.status === "cancelled") {
+//       return res
+//         .status(400)
+//         .json({ message: "Order cannot be cancelled at this stage." });
+//     }
+
+//     // Update the order status to 'cancelled'
+//     order.status = "cancelled";
+//     await order.save();
+
+//     res.json({ message: "Order has been cancelled.", order });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// Get past completed orders ok
 const getPastOrders = async (req, res) => {
   try {
     const { userID } = req.query;
@@ -16,6 +82,7 @@ const getPastOrders = async (req, res) => {
 
     const orders = await OrderModel.find({
       userID,
+      status: { $in: ["received"] },
     });
     console.log("Orders:", orders);
 
@@ -24,6 +91,7 @@ const getPastOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Get current active order ok
 const getCurrentOrders = async (req, res) => {
@@ -39,40 +107,29 @@ const getCurrentOrders = async (req, res) => {
   }
 };
 
-// Cancel an order ok
+
+
+// // Cancel an order ok
 const cancelOrder = async (req, res) => {
   try {
     const { userID } = req.query;
+    
+    // Delete the orders with the given userID and status "waiting"
     const deleteOperation = await OrderModel.deleteMany({
       userID,
-      status: "cancelled",
-    });
-    const updateOperation = await OrderModel.updateMany({ userID });
-    await Promise.all([deleteOperation, updateOperation]);
-    const order = await OrderModel.findOne({
-      userID,
+      status: "waiting"
     });
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found." });
+    if (deleteOperation.deletedCount === 0) {
+      return res.status(404).json({ message: "No 'waiting' orders found to cancel." });
     }
 
-    // Check if the order is in a state that can be cancelled
-    if (order.status === "delivered" || order.status === "cancelled") {
-      return res
-        .status(400)
-        .json({ message: "Order cannot be cancelled at this stage." });
-    }
-
-    // Update the order status to 'cancelled'
-    order.status = "cancelled";
-    await order.save();
-
-    res.json({ message: "Order has been cancelled.", order });
+    res.json({ message: "Orders with status 'waiting' have been cancelled and deleted from the database." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // get all Dish and filter it by category ok
 const getDishItems = async (req, res) => {
@@ -158,6 +215,77 @@ const getDishesByRestaurant = async (req, res) => {
 };
 
 // Add Dish to Cart ok
+// const addToCart = async (req, res) => {
+//   try {
+//     const { userID, dishID, quantity, specificRequests } = req.body;
+
+//     // Validate the user
+//     const user = await UserModel.findById(userID);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // Find the dish by ID
+//     const dish = await DishModel.findById(dishID);
+//     if (!dish) {
+//       return res.status(404).json({ message: "Dish not found" });
+//     }
+
+//     // Find or create the user's cart
+//     let cart = await OrderModel.findOne({ userID, status: "waiting" });
+//     if (!cart) {
+//       cart = new OrderModel({
+//         userID,
+//         restaurant: dish.restaurantID,
+//         totalBill: 0,
+//         status: "waiting",
+//         orderItems: [],
+//       });
+//     }
+
+//     // Check if the dish is already in the cart
+//     let existingItem = cart.orderItems.find((item) =>
+//       item.dishID.equals(dish._id)
+//     );
+//     if (existingItem) {
+//       // Update existing item in the cart
+//       existingItem.quantity += quantity;
+//       if (specificRequests) {
+//         existingItem.specificRequests = specificRequests;
+//       }
+//     } else {
+//       // Add a new item to the cart
+//       cart.orderItems.push({
+//         dishID: dish._id,
+//         quantity,
+//         specificRequests,
+//       });
+//     }
+
+//     cart.totalBill = 0; // Reset totalBill to 0 before recalculating
+//     for (const item of cart.orderItems) {
+//       const dishItem = await DishModel.findById(item.dishID);
+//       if (dishItem && dishItem.price) {
+//         cart.totalBill += dishItem.price * item.quantity;
+//       } else {
+//         // Handle the case where dishItem or price is not available
+//         throw new Error("Invalid dish or price");
+//       }
+//     }
+
+//     // Save the cart
+//     await cart.save();
+
+//     res.status(201).json({
+//       message: "Dish added to cart successfully",
+//       cart: cart, // Send the full cart back to the user
+//     });
+//   } catch (error) {
+//     console.error("Error adding dish to cart:", error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 const addToCart = async (req, res) => {
   try {
     const { userID, dishID, quantity, specificRequests } = req.body;
@@ -174,9 +302,13 @@ const addToCart = async (req, res) => {
       return res.status(404).json({ message: "Dish not found" });
     }
 
-    // Find or create the user's cart
-    let cart = await OrderModel.findOne({ userID, status: "waiting" });
-    if (!cart) {
+    // Check if there are any unconfirmed orders for the user
+    const unconfirmedOrdersCount = await OrderModel.countDocuments({ userID, hasConfirmedOrder: false });
+
+    let cart;
+
+    if (unconfirmedOrdersCount === 0) {
+      // Create a new cart/order if there are no unconfirmed orders
       cart = new OrderModel({
         userID,
         restaurant: dish.restaurantID,
@@ -184,6 +316,19 @@ const addToCart = async (req, res) => {
         status: "waiting",
         orderItems: [],
       });
+    } else {
+      // Find the user's cart with status "waiting"
+      cart = await OrderModel.findOne({ userID, status: "waiting" });
+      if (!cart) {
+        // If no cart exists, create a new one
+        cart = new OrderModel({
+          userID,
+          restaurant: dish.restaurantID,
+          totalBill: 0,
+          status: "waiting",
+          orderItems: [],
+        });
+      }
     }
 
     // Check if the dish is already in the cart
@@ -205,7 +350,8 @@ const addToCart = async (req, res) => {
       });
     }
 
-    cart.totalBill = 0; // Reset totalBill to 0 before recalculating
+    // Recalculate totalBill
+    cart.totalBill = 0;
     for (const item of cart.orderItems) {
       const dishItem = await DishModel.findById(item.dishID);
       if (dishItem && dishItem.price) {
@@ -446,6 +592,32 @@ const removeUser = async (req, res) => {
   }
 };
 
+const updateConfirmedOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const order = await OrderModel.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    order.hasConfirmedOrder = true;
+
+    console.log("Before saving:", order.hasConfirmedOrder);
+
+    await order.save();
+
+    console.log("After saving:", order.hasConfirmedOrder);
+    if (order.hasConfirmedOrder) {
+      order.status = "received";
+    }
+    await order.save();
+    res.json({ message: "Order confirmed successfully.", order });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getPastOrders,
   getCurrentOrders,
@@ -464,4 +636,5 @@ module.exports = {
   getUsersData,
   removeTokens,
   removeUser,
+  updateConfirmedOrder,
 };
