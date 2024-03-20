@@ -87,6 +87,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Dropdown from '../Dropdown';
+import LogOut from '../Button/LogOut';
 // import SearchBox from '../SearchBox';
 
 function Navbar() {
@@ -141,6 +142,9 @@ function Navbar() {
             <Link href="/userprofile" className="hover:text-blue-400 text-white">
                 <span>Profile</span>
             </Link>
+            <div className="hover:text-blue-400 text-white">
+            <LogOut />
+            </div>
         </nav>
     );
 }
