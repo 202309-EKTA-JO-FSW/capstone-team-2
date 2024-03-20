@@ -8,6 +8,7 @@ const RestaurantForm = () => {
     imageURL: '',
     description: '',
     dishes: [],
+    cuisineType: '', // Added cuisineType field
   });
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -43,6 +44,7 @@ const RestaurantForm = () => {
           imageURL: '',
           description: '',
           dishes: [],
+          cuisineType: '', // Reset cuisineType field
         });
 
               // Reload the page after 3 seconds
@@ -108,6 +110,17 @@ const RestaurantForm = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Add Restaurant Description"
+            className="form-input mt-1 block w-full rounded-md border border-blue-300 focus:border-blue-500 text-black"
+          />
+        </label>
+        <label className="block mb-4"> {/* Added Cuisine Type field */}
+          <span className="text-black">Cuisine Type:</span>
+          <input
+            type="text"
+            name="cuisineType"
+            value={formData.cuisineType}
+            onChange={handleChange}
+            placeholder="Add Cuisine Type"
             className="form-input mt-1 block w-full rounded-md border border-blue-300 focus:border-blue-500 text-black"
           />
         </label>

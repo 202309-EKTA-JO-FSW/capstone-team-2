@@ -16,7 +16,7 @@ const getDishItems = async (req, res) => {
 // Add new Restaurant
 const addRestaurant = async (req, res) => {
   try {
-    const { name, restaurantLocation, imageURL, description, dishes } =
+    const { name, restaurantLocation, imageURL, description, dishes, cuisineType} =
       req.body;
 
     const newRestaurant = new RestaurantModel({
@@ -25,6 +25,7 @@ const addRestaurant = async (req, res) => {
       imageURL,
       description,
       dishes: [...dishes],
+      cuisineType, // Add cuisineType to the new restaurant object
     });
 
     await newRestaurant.save();
@@ -180,7 +181,7 @@ const searchDishes = async (req, res) => {
 const editRestaurant = async (req, res) => {
   try {
     const { restaurantID } = req.query;
-    const { name, restaurantLocation, imageURL, description, dishes } =
+    const { name, restaurantLocation, imageURL, description, dishes, cuisineType } =
       req.body;
 
     // Check if ID is provided
@@ -202,6 +203,7 @@ const editRestaurant = async (req, res) => {
       restaurantLocation || restaurant.restaurantLocation;
     restaurant.imageURL = imageURL || restaurant.imageURL;
     restaurant.description = description || restaurant.description;
+    restaurant.cuisineType = cuisineType || restaurant.cuisineType;
 
     // Save the updated restaurant object
     const updatedRestaurant = await restaurant.save();

@@ -100,6 +100,7 @@ const EditRestaurantButton = ({ restaurantId }) => {
   const [updatedDescription, setUpdatedDescription] = useState('');
   const [editSuccess, setEditSuccess] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [updatedCuisineType, setUpdatedCuisineType] = useState(''); // TODO: added
 
   const handleEdit = async () => {
     try {
@@ -113,6 +114,7 @@ const EditRestaurantButton = ({ restaurantId }) => {
           restaurantLocation: updatedLocation,
           imageURL: updatedImageURL,
           description: updatedDescription,
+          cuisineType: updatedCuisineType, // TODO: added
         }),
       });
 
@@ -137,6 +139,7 @@ const EditRestaurantButton = ({ restaurantId }) => {
     setUpdatedLocation('');
     setUpdatedImageURL('');
     setUpdatedDescription('');
+    setUpdatedCuisineType('');
   };
 
   return (
@@ -174,6 +177,13 @@ const EditRestaurantButton = ({ restaurantId }) => {
                 placeholder="Edit Image URL"
               />
             </div>
+            <input //TODO: added
+              className="border rounded py-2 px-3 w-full mb-4 focus:outline-none"
+              type="text"
+              value={updatedCuisineType}
+              onChange={(e) => setUpdatedCuisineType(e.target.value)}
+              placeholder="Edit Cuisine Type"
+            />
             <textarea
               className="border rounded py-2 px-3 w-full focus:outline-none"
               value={updatedDescription}

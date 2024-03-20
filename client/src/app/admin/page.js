@@ -146,6 +146,7 @@ const RestaurantList = ({ router }) => {
                 <p className="text-lg font-bold"> {restaurant.name}</p>
                 <p className="text-gray-500">{restaurant.restaurantLocation}</p>
                 <p className="text-gray-600"> {restaurant.description}</p>
+                <p className="text-gray-600"> {restaurant.cuisineType}</p> {/* Added Cuisine Type */}
                 <div className="mt-4 flex">
                   <EditRestaurantButton restaurantId={restaurant._id} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded" />
                   <DeleteRestaurantButton restaurantId={restaurant._id} onDelete={handleDelete} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded" />
