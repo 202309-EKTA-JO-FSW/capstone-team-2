@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 
 function ContactPage() {
   // State for form inputs
@@ -12,18 +13,30 @@ function ContactPage() {
     message: "",
   });
 
+  const [submissionStatus, setSubmissionStatus] = useState(null); // Define submissionStatus here
   // Handle form input changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Logic to handle form submission, e.g., send data to backend
     console.log(form);
     // Optionally reset form fields after submission
     // setForm({ name: "", email: "", subject: "", message: "" });
+    try {
+      // Send form data to backend server
+      await axios.post('http://localhost:3001/admin/submit', form);
+      console.log('Form submitted successfully');
+      setSubmissionStatus({ success: true, message: 'Form submitted successfully' });
+      // Optionally reset form fields after submission
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Form submission failed:', error);
+      setSubmissionStatus({ success: false, message: 'Form submission failed. Please try again later.' });
+    }
   };
 
   return (
@@ -88,6 +101,11 @@ function ContactPage() {
             </button>
           </div>
         </form>
+        {submissionStatus && (
+        <div style={{ color: submissionStatus.success ? 'green' : 'red' }}>
+          {submissionStatus.message}
+        </div>
+      )}
 
         {/* Additional Contact Info */}
         <div className="flex flex-wrap justify-around mt-8">

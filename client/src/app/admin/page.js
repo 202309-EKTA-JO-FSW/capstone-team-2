@@ -85,6 +85,7 @@ import EditRestaurantButton from '../components/EditRestaurantButton';
 import RestaurantForm from '../components/RestaurantForm';
 import AddDishButton from '../components/AddDishButton'; 
 import Link from 'next/link';
+import AdminContactSubmissions from '../components/admincontactsubmissions';
 
 const RestaurantList = ({ router }) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -162,6 +163,9 @@ const RestaurantList = ({ router }) => {
         ))}
       </ul>
       <br></br>
+      <div>
+      <AdminContactSubmissions/>
+      </div>
     </div>
   );
 };

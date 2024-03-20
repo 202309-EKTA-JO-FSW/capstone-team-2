@@ -278,6 +278,15 @@ const submitContactForm = async (req, res) => {
   }
 };
 
+const getContactForm =async (req, res) => {
+  try {
+    const submissions = await ContactForm.find(); // Retrieve all submissions from the database
+    res.json(submissions); // Return submissions as JSON response
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' }); // Return error response
+  }
+};
 
 module.exports = {
   getDishItems,
@@ -292,4 +301,5 @@ module.exports = {
   editDish,
   allPastOrders,
   submitContactForm,
+  getContactForm,
 };
