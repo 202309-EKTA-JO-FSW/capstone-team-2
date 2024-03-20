@@ -3,10 +3,11 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/context/userContext';
 
 const GoogleButton = () => {
   const router = useRouter(); 
- 
+  const { setUser } = useAuth()
   const fetchAuthUser = async () => {
 
     try {
@@ -14,6 +15,7 @@ const GoogleButton = () => {
       // Access response.data only if the request was successful
       if(response && response.data){
         router.push(`/userprofile/user/${response.data._id}`);
+        setUser(response.data);
       }
   } catch (error) {
       // Handle error if the request fails
@@ -22,25 +24,23 @@ const GoogleButton = () => {
     
    }
 
-    const handleSignIn = () => {
-  
-        let timer = null;
-        const googleLoginURL = "http://localhost:3001/auth/google";
+   const handleSignIn = () => {
 
-        const newWindow = window.open(googleLoginURL, "_blank", "width=500, height=600");
+    const googleLoginURL = "http://localhost:3001/auth/google";
 
-        if(newWindow) {
-          timer = setInterval(() => {
-            if(newWindow.closed) {
-              console.log("we're authenticated")
-              fetchAuthUser();
-              if(timer) {
-                clearInterval(timer);
-              }
-            }
-          }, 500) 
+    const newWindow = window.open(googleLoginURL, "_blank", "width=500, height=600");
+
+    if (newWindow) {
+      let timer = setInterval(() => {
+        if (newWindow.closed) {
+          clearInterval(timer);
+          console.log("Google sign-in completed");
+          fetchAuthUser(); // Call fetchAuthUser after Google sign-in process is completed
         }
-      };
+      }, 500);
+
+    }
+  };
     
 
   return (

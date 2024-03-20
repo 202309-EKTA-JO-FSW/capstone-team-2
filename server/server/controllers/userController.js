@@ -264,7 +264,7 @@ const signin = async (req, res) => {
     const token = user.generateAccessJWT();
     res.cookie("SessionID", token, options);
 
-    res.status(200).json({ message: "You have successfully logged in.", userData: user})
+    res.status(200).json({ message: "You have successfully logged in.", userData: user, token: token})
     res.end();
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -88,28 +88,31 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Dropdown from '../Dropdown';
 import LogOut from '../Button/LogOut';
+import SignIn from '../Button/SignIn';
+import { useAuth } from '@/app/context/userContext';
 // import SearchBox from '../SearchBox';
 
 function Navbar() {
     const [search, setSearch] = useState('');
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
+    const { user } = useAuth();
 
-    useEffect(() => {
-      //  for categories is '/api/categories'
-        fetch('http://localhost:3001/api/categories')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setCategories(data);
-            })
-            .catch((error) => {
-                console.error('Failed to fetch categories:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //   //  for categories is '/api/categories'
+    //     fetch('http://localhost:3001/api/categories')
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             setCategories(data);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Failed to fetch categories:', error);
+    //         });
+    // }, []);
 
     return (
         <nav className="flex gap-10 items-center bg-zinc-800 py-4 px-2 fixed w-full">
@@ -119,10 +122,10 @@ function Navbar() {
                 </span>
             </Link>
 
-            <div className="flex gap-8 items-center text-white">
+            {/* <div className="flex gap-8 items-center text-white">
                 <Dropdown items={categories} placeholder="Categories" />
-                {/* You can add more dropdowns here with different items or placeholders as needed */}
-            </div>
+                You can add more dropdowns here with different items or placeholders as needed
+            </div> */}
             <Link href="/restaurents" className="hover:text-blue-400 text-white">
                 <span>Restaurents</span>
             </Link>
@@ -139,12 +142,18 @@ function Navbar() {
             <Link href="/admin" className="hover:text-blue-400 text-white">
                 <span>Admin</span>
             </Link>
-            <Link href="/userprofile" className="hover:text-blue-400 text-white">
+            <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white">
                 <span>Profile</span>
             </Link>
-            <div className="hover:text-blue-400 text-white">
-            <LogOut />
-            </div>
+            {user ? (
+                <div className="hover:text-blue-400 text-white" >
+                    <LogOut />
+                </div>
+            ) : (
+                <div className="hover:text-blue-400 text-white">
+                    <SignIn />
+                </div>
+            )}
         </nav>
     );
 }

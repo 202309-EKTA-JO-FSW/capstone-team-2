@@ -32,9 +32,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Sessions
-app.use(cookieParser('foodie'));
+app.use(cookieParser(process.env.SECRET_ACCESS_TOKEN));
 app.use(session({
-secret : 'foodie',
+secret : `${process.env.SECRET_ACCESS_TOKEN}`,
 cookie : {
 expires: false,
 },
