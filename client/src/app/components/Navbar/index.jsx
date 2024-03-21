@@ -86,9 +86,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Dropdown from '../Dropdown';
-import LogOut from '../Button/LogOut';
-import SignIn from '../Button/SignIn';
+// import Dropdown from '../Dropdown';
+// import LogOut from '../Button/LogOut';
+// import SignIn from '../Button/SignIn';
+import Log from '../Button/Log';
 import { useAuth } from '@/app/context/userContext';
 // import SearchBox from '../SearchBox';
 
@@ -148,7 +149,8 @@ function Navbar() {
             <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white">
                 <span>Profile</span>
             </Link>
-            {user ? (
+            <Log/>
+            {/* {user ? (
                 <div className="hover:text-blue-400 text-white" >
                     <LogOut />
                 </div>
@@ -156,7 +158,7 @@ function Navbar() {
                 <div className="hover:text-blue-400 text-white">
                     <SignIn />
                 </div>
-            )}
+            )} */}
         </nav>
     );
 }

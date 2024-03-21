@@ -1,47 +1,43 @@
-"use client";
 // import { signIn } from 'next-auth/react'
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context/userContext';
+
 
 const GoogleButton = () => {
-  const router = useRouter(); 
-  const { setUser } = useAuth()
+  const router = useRouter();
   const fetchAuthUser = async () => {
-
     try {
-      const response = await axios.get("http://localhost:3001/auth/user", {withCredentials: true});
-      // Access response.data only if the request was successful
-      if(response && response.data){
+      const response = await axios.get("http://localhost:3001/auth/user", { withCredentials: true });
+      if (response && response.data) {
+        localStorage.setItem('userInfo', JSON.stringify(response.data));
         router.push(`/userprofile/user/${response.data._id}`);
-        setUser(response.data);
       }
-  } catch (error) {
-      // Handle error if the request fails
-      console.log("you're not authenticated");
-  }
-    
-   }
-
-   const handleSignIn = () => {
-
-    const googleLoginURL = "http://localhost:3001/auth/google";
-
-    const newWindow = window.open(googleLoginURL, "_blank", "width=500, height=600");
-
-    if (newWindow) {
-      let timer = setInterval(() => {
-        if (newWindow.closed) {
-          clearInterval(timer);
-          console.log("Google sign-in completed");
-          fetchAuthUser(); // Call fetchAuthUser after Google sign-in process is completed
-        }
-      }, 500);
-
+    } catch (error) {
+      console.log("Error occurred during Google sign-in:", error);
     }
   };
+
+  const handleSignIn = () => {
+    const googleLoginURL = "http://localhost:3001/auth/google";
+
+    // Open Google sign-in URL in a new tab
+    const newTab = window.open(googleLoginURL, "_blank");
     
+    // Check if the new tab is opened successfully
+    if (newTab) {
+      // Add event listener to check when the tab is closed
+      const checkClosed = setInterval(() => {
+        if (newTab.closed) {
+          clearInterval(checkClosed);
+          console.log("Google sign-in tab closed");
+          fetchAuthUser(); // Call fetchAuthUser after Google sign-in tab is closed
+        }
+      }, 500);
+    } else {
+      console.log("Failed to open Google sign-in tab");
+    }
+  };
 
   return (
     <button

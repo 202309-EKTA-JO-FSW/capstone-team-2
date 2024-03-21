@@ -256,12 +256,16 @@ if (selectedCuisine) {
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '../context/userContext';
 
 export default function PostsPage() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
+
+  const {user}= useAuth()
+  console.log(user)
 
   useEffect(() => {
     const fetchDishes = async () => {

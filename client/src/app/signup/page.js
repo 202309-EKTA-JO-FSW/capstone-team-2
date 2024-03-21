@@ -30,17 +30,8 @@ function ProfileSignUp() {
         'http://localhost:3001/user/newuser', userData);
 
       if (response) {  
-        const loginUser = await axios.post('http://localhost:3001/user/signin', {email: userData.email, 
-                                                                                 password: userData.password});
-
-          if (loginUser && loginUser.data) {
-            // Redirect to user profile
-            router.push(`/userprofile/user/${loginUser.data.userData._id}`);
-
-          } else {
-            // Handle signin failure
-            console.error('Signin failed');
-          }
+      
+            router.push('/userprofile');
 
       } else {
         // Handle signin failure

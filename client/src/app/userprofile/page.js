@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
@@ -7,11 +7,11 @@ import GoogleButton from '../components/Button/GoogleButton';
 import { useAuth } from '../context/userContext';
 
 function ProfileLogin() {
-  const router = useRouter(); 
+  const route = useRouter(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useAuth();
- 
+  const {setUser} = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,10 +23,11 @@ function ProfileLogin() {
 
       if (response && response.data) {
         // Redirect to user profile
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.userData)
-        router.push(`/userprofile/user/${response.data.userData._id}`);
-        // console.log(response.data.userData);
+        console.log(response.data.userData)
+        localStorage.setItem('userInfo',JSON.stringify(response.data.userData));
+        localStorage.setItem('token', JSON.stringify(response.data.token));
+        route.push(`/userprofile/user/${response.data.userData._id}`);
+        setUser(response.data)
       } else {
         // Handle signin failure
         console.error('Signin failed');

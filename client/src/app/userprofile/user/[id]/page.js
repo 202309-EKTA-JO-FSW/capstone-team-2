@@ -29,14 +29,11 @@ function UserInfo({ params }) {
         setUser(userData);
       } catch (error) {
         console.error('Error fetching user data:', error);
-        setUser(null); 
+
       }
     };
-
+   
     fetchUser();
-
-    // Cleanup function
-    return () => setUser(null);
   }, [params.id]);
 
   if (!user) {
