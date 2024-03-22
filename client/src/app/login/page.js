@@ -23,9 +23,8 @@ function ProfileLogin() {
 
       if (response && response.data) {
         // Redirect to user profile
-        console.log(response.data.userData)
         localStorage.setItem('userInfo',JSON.stringify(response.data.userData));
-        localStorage.setItem('token', JSON.stringify(response.data.token));
+        localStorage.setItem('token', JSON.stringify(response.data.userData.token));
         route.push(`/userprofile/user/${response.data.userData._id}`);
         setUser(response.data)
       } else {

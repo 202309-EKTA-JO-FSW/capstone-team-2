@@ -20,7 +20,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 // @desc Google auth callback
 // @route /auth/google/callback
 router.get('/google/callback', passport.authenticate('google', { successRedirect: 'http://localhost:3000/login/success',failureRedirect: '/login/failed' }), (req, res) => {
-    res.redirect("/userprofile")
+  res.redirect("/userprofile/user/")
 }); 
 
 module.exports = router;

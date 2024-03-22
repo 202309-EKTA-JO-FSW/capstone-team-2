@@ -9,16 +9,13 @@ const ensureAuth = async (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
     }; 
-
-    const authHeader = req.headers["cookie"];
-
+    const authHeader = req.headers["authorization"];
     if(!authHeader){
       return res.sendStatus(401);
     };
     
-    const cookies = cookie.parse(authHeader);
-    const accessToken = cookies["SessionID"];  
-
+    const accessToken = authHeader.split(' ')[1]  
+    console.log("access: ",accessToken)
     if (!accessToken) {
      return res.sendStatus(401);
    };

@@ -21,12 +21,12 @@ const port =
     ? process.env.NODE_LOCAL_TEST_PORT
     : process.env.NODE_LOCAL_PORT;
 
-app.use(cors());
-// app.use(cors({ origin: "http://localhost:3000/", credentials: true }));
-app.use((req, res, next) => {
-      res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-      next();
-    });
+// app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+// app.use((req, res, next) => {
+//       res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//       next();
+//     });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

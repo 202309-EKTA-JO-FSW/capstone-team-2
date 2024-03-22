@@ -16,7 +16,7 @@ router.get("/restaurants/:restaurantID", userController.getDishesByRestaurant);
 // for test
 router.get(
   "/allusers",
-  // ensureAuth,
+  ensureAuth,
   userController.getUsersData
 );
 
@@ -56,7 +56,7 @@ router.get("/dishes", userController.getDishItems);
 // get one user profile ok
 router.get(
   "/:id",
-  // ensureAuth,
+  ensureAuth,
   userController.getUserProfile
 );
 
