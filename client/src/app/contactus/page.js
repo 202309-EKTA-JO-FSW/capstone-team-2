@@ -39,12 +39,13 @@ function ContactPage() {
     }
   };
 
+  const items=["Restaurant","User"];
   return (
     <div className="bg-gray-100 pt-24"> {/* Added padding to the top of the container */}
       {/* Contact Section */}
       <div className="container mx-auto px-6 py-12 text-center">
         <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-        <p className="mb-8">We consider all the drivers of change gives you the components you need to change to create a truly happiness.</p>
+        <p className="mb-8 text-zinc-950">We consider all the drivers of change gives you the components you need to change to create a truly happiness.</p>
         
         {/* Contact Form */}
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 inline-block">
@@ -92,10 +93,20 @@ function ContactPage() {
               onChange={handleChange}
             ></textarea>
           </div>
+          <div>
+      <ul>
+        {items.map(item => (
+          <li key={item.id} className='flex'>
+            <input type="checkbox" checked={item.completed} className='mx-2'/>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
           <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Send
             </button>
