@@ -31,7 +31,7 @@ function ProfileSignUp() {
 
       if (response) {  
       
-            router.push('/userprofile');
+            router.push('/login');
 
       } else {
         // Handle signin failure
