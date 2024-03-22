@@ -2,7 +2,9 @@
 import React from "react";
 
 const Hero = () => {
-  
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("activePage", "home");
+  }
 
   return (
     <div className="flex flex-col bg-white">

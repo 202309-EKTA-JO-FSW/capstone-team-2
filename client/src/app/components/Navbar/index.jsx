@@ -81,86 +81,183 @@
 
 // export default Navbar
 
+/**************** */
+// "use client";
+
+// import React, { useState, useEffect } from 'react';
+// import Link from 'next/link';
+// // import Dropdown from '../Dropdown';
+// // import LogOut from '../Button/LogOut';
+// // import SignIn from '../Button/SignIn';
+// import Log from '../Button/Log';
+// import { useAuth } from '@/app/context/userContext';
+// // import SearchBox from '../SearchBox';
+
+// function Navbar() {
+//     const [search, setSearch] = useState('');
+//     // const [categories, setCategories] = useState([]);
+//     const { user } = useAuth();
+
+//     // useEffect(() => {
+//     //   //  for categories is '/api/categories'
+//     //     fetch('http://localhost:3001/api/categories')
+//     //         .then((response) => {
+//     //             if (!response.ok) {
+//     //                 throw new Error('Network response was not ok');
+//     //             }
+//     //             return response.json();
+//     //         })
+//     //         .then((data) => {
+//     //             setCategories(data);
+//     //         })
+//     //         .catch((error) => {
+//     //             console.error('Failed to fetch categories:', error);
+//     //         });
+//     // }, []);
+
+//     return (
+//         <nav className="flex gap-10 items-center bg-zinc-800 py-4 px-2 fixed w-full">
+//             <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+//                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+//                     OrderJo
+//                 </span>
+//             </Link>
+
+//             {/* <div className="flex gap-8 items-center text-white">
+//                 <Dropdown items={categories} placeholder="Categories" />
+//                 You can add more dropdowns here with different items or placeholders as needed
+//             </div> */}
+//             <Link href="/restaurents" className="hover:text-blue-400 text-white">
+//                 <span>Restaurents</span>
+//             </Link>
+//             <Link href="/dishes" className="hover:text-blue-400 text-white">
+//                 <span>Dishes</span>
+//             </Link>
+//             {/* <SearchBox value={search} onChange={(e) => setSearch(e.target.value)} /> */}
+//             <Link href="/order" className="hover:text-blue-400 text-white">
+//                 <span>Order</span>
+//             </Link>
+//             <Link href="/contactus" className="hover:text-blue-400 text-white">
+//                 <span>Contact Us</span>
+//             </Link>
+//             <Link href="/about" className="hover:text-blue-400 text-white">
+//                 <span>About</span>
+//             </Link>
+//             <Link href="/admin" className="hover:text-blue-400 text-white">
+//                 <span>Admin</span>
+//             </Link>
+//             <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white">
+//                 <span>Profile</span>
+//             </Link>
+//             <Log/>
+//             {/* {user ? (
+//                 <div className="hover:text-blue-400 text-white" >
+//                     <LogOut />
+//                 </div>
+//             ) : (
+//                 <div className="hover:text-blue-400 text-white">
+//                     <SignIn />
+//                 </div>
+//             )} */}
+//         </nav>
+//     );
+// }
+
+// export default Navbar;
 
 "use client";
-
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-// import Dropdown from '../Dropdown';
-// import LogOut from '../Button/LogOut';
-// import SignIn from '../Button/SignIn';
-import Log from '../Button/Log';
-import { useAuth } from '@/app/context/userContext';
-// import SearchBox from '../SearchBox';
+import React, { useEffect, useState } from "react";
+import Log from "../Button/Log";
+// import Logout from "./logout";
+// import LoginModal from "../../pages/loginPage/index";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+// import helpers from "../../services/helpers";
 
 function Navbar() {
-    const [search, setSearch] = useState('');
-    // const [categories, setCategories] = useState([]);
-    const { user } = useAuth();
+  const router = useRouter();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+//   const [userId, setUserId] = useState(null);
+//   const [userRoleState, setUserRoleState] = useState("");
+  const [token, setToken] = useState(false);
+  const [isActive, setActive] = useState("");
 
-    // useEffect(() => {
-    //   //  for categories is '/api/categories'
-    //     fetch('http://localhost:3001/api/categories')
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             setCategories(data);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Failed to fetch categories:', error);
-    //         });
-    // }, []);
+  useEffect(() => {
+    // let userID = localStorage.getItem("userID");
+    // let userRole = localStorage.getItem("userRole");
+    // let isValidToken = helpers.tokenValidator();
+    let activePage = localStorage.getItem("activePage");
+    changeActivePage(activePage);
+    // setIsValidTokenState(isValidToken);
+    // setUserRoleState(userRole);
+    // setUserId(userID);
+  }, []);
 
-    return (
-        <nav className="flex gap-10 items-center bg-zinc-800 py-4 px-2 fixed w-full">
-            <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-                    OrderJo
-                </span>
-            </Link>
+//   function logout() {
+//     helpers.deleteCookie("token");
+//     localStorage.setItem("token", "");
+//     localStorage.setItem("user", "");
+//     localStorage.setItem("userID", "");
+//     localStorage.setItem("userRole", "");
+//     setIsValidTokenState("");
+//     setUserRoleState("");
+//     localStorage.clear();
+//     router.push(`/`);
+//   }
+  function changeActivePage(pageName) {
+    localStorage.setItem("activePage", pageName);
+    setActive(pageName);
+  }
 
-            {/* <div className="flex gap-8 items-center text-white">
-                <Dropdown items={categories} placeholder="Categories" />
-                You can add more dropdowns here with different items or placeholders as needed
-            </div> */}
-            <Link href="/restaurents" className="hover:text-blue-400 text-white">
-                <span>Restaurents</span>
-            </Link>
-            <Link href="/dishes" className="hover:text-blue-400 text-white">
-                <span>Dishes</span>
-            </Link>
-            {/* <SearchBox value={search} onChange={(e) => setSearch(e.target.value)} /> */}
-            <Link href="/order" className="hover:text-blue-400 text-white">
-                <span>Order</span>
-            </Link>
-            <Link href="/contactus" className="hover:text-blue-400 text-white">
-                <span>Contact Us</span>
-            </Link>
-            <Link href="/about" className="hover:text-blue-400 text-white">
-                <span>About</span>
-            </Link>
-            <Link href="/admin" className="hover:text-blue-400 text-white">
-                <span>Admin</span>
-            </Link>
-            <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white">
-                <span>Profile</span>
-            </Link>
-            <Log/>
-            {/* {user ? (
-                <div className="hover:text-blue-400 text-white" >
-                    <LogOut />
-                </div>
-            ) : (
-                <div className="hover:text-blue-400 text-white">
-                    <SignIn />
-                </div>
-            )} */}
-        </nav>
-    );
+  return (
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#222222]">
+      <div className="flex firstPiece items-center space-x-2 py-4 sticky">
+        <Link
+          href="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse 2xs:pl-4 sm:pl-6 w-[200px] md:pl-10 xl:pl-10"
+          onClick={() => changeActivePage("home")}
+        >
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+            OrderJo
+          </span>
+        </Link>
+
+        <div
+          className="flex justify-end text-[#FFC245] w-full 
+          xl:space-x-8 xl:pr-10  xl:text-[16px] 
+          md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
+        >
+          <div className="inActive">
+            {!token && (
+              <Log 
+            //   onClick={() => 
+            //     changeActivePage("login")
+            //     // setShowLoginModal(true)
+            // } 
+            changeActivePage={changeActivePage}
+            />
+            )}
+          </div>
+          {!token && (
+            <button
+              className={`bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                isActive === "home" ? "active" : "inActive"
+              }`}
+              onClick={() => {
+                changeActivePage("signup");
+                router.push("/signup");
+              }}
+            >
+              SignUp
+            </button>
+          )}
+          
+        </div>
+      </div>
+
+      
+    </div>
+  );
 }
 
 export default Navbar;
