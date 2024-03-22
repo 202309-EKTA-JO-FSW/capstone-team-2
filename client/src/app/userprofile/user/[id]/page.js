@@ -75,6 +75,7 @@
 
 "use client"
 import { useAuth } from '@/app/context/userContext';
+import Link from 'next/link';
 import React, {useState ,useEffect } from 'react'
 
 // async function getUser(id) {
@@ -148,6 +149,7 @@ function UserInfo({ params }) {
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.location}</dd>
           </div>
         </dl>
+        <Link href={"/userprofile/updateInfo"}>Edit</Link>
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 "use client"
+import { useAuth } from '@/app/context/userContext';
 import React, { useState, useEffect } from 'react';
 
 function UpdateProfileInfo({ params }) {
-  const [user, setUser] = useState(null);
+  const {user} = useAuth()
+  // const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -13,22 +15,27 @@ function UpdateProfileInfo({ params }) {
   });
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/user/65e78a0fdc1e5b0138a6c1cc`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch user profile');
+        const res = await fetch(`http://localhost:3001/user/${user._id}`,{
+          method: "GET",
+          headers: { 
+          "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          "Content-Type": "application/json"}}
+        );
+        if (!res.ok) {
+          throw new Error('Failed to fetch user data');
         }
-        const userData = await response.json();
+       const userData = await res.json();
         setUser(userData);
-        setFormData(userData); // Set form data with fetched user data
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user data:', error);
+
       }
     };
-
-    fetchUserProfile();
-  }, []); // Fetch user profile whenever params.userId changes
+   
+    fetchUser();
+  }, [params.id]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,8 +53,9 @@ function UpdateProfileInfo({ params }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(e)
     try {
-      const response = await fetch(`http://localhost:3001/user/updateinfo/65e78a0fdc1e5b0138a6c1cc`, {
+      const response = await fetch(`http://localhost:3001/user/updateinfo/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
