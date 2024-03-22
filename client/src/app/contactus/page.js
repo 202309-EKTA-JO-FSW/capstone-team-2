@@ -39,7 +39,7 @@ function ContactPage() {
     }
   };
 
-  const items=["Restaurant","User"];
+  const items=["Restaurant","Raider","User"];
   return (
     <div className="bg-gray-100 pt-24"> {/* Added padding to the top of the container */}
       {/* Contact Section */}
