@@ -1,13 +1,13 @@
 "use client"
 import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/navigation';
-
+import Link from 'next/link';
 function Log({ changeActivePage }) {
 
   const [loged, setLoged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter(); 
-
+  // let userInfo = JSON.parse(localStorage.getItem('userInfo'));
   useEffect(() => {
      if(localStorage.getItem('userInfo')) {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -98,18 +98,35 @@ function Log({ changeActivePage }) {
 <div>
       {loged ? (
         <div className="flex items-center">
-          {isAdmin && (
+        
+           {isAdmin ? (
+            <div className="mr-4">
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={() => {
+                 router.push('/admin'); 
+                 } }
+            
+            >
+              Admin
+            </button>
+          </div>
+           ):(
+           
             <div className="mr-4">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={() => {
-                   router.push('/admin'); 
+                   router.push('/order/${userInfo._id}'); 
                    } }
               
               >
-                Admin
+                Cart
               </button>
+              {/* <Link href={`/order/${userInfo._id}`} className="hover:text-blue-400 text-white">
+                <span>cart</span>
+            </Link> */}
             </div>
-          )}
+           ) }
+
           <div className="hover:text-blue-400 text-white">
             <button
               className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -136,3 +153,17 @@ function Log({ changeActivePage }) {
 // }
 
 export default Log
+
+
+  /* {isAdmin && (
+            <div className="mr-4">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => {
+                   router.push('/admin'); 
+                   } }
+              
+              >
+                Admin
+              </button>
+            </div>
+          )} */
