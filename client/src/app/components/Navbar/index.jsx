@@ -54,7 +54,7 @@ function Navbar() {
           <div className="inActive">
             {!token && <Log changeActivePage={changeActivePage} />}
           </div>
-          {!token && (
+          {/* {!token && (
             <button
               className={`bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
                 isActive === "home" ? "active" : "inActive"
@@ -66,7 +66,7 @@ function Navbar() {
             >
               SignUp
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

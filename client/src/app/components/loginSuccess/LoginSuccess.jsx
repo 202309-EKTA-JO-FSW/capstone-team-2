@@ -9,8 +9,9 @@ function LoginSuccess() {
     }, 1000);
   }, []);
   
-  return (
-    <h1 className="text-black">Thank you for loggin in!</h1>
+  return (<div className="justify-items-center justify-center content-center mt-6 ml-auto"> 
+    <h1 className="text-black relative">Thank you for loggin in!</h1>
+    </div>
   )
 }
 
