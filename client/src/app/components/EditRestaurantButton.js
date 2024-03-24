@@ -145,13 +145,13 @@ const EditRestaurantButton = ({ restaurantId }) => {
   return (
     <div>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded " style={{borderRadius:"12px" }}
         onClick={() => setShowForm(true)} 
       >
         Edit Restaurant Information
       </button>
       {showForm && (
-        <div className="fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
+        <div className="fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" >
           <div className="bg-white rounded-lg p-8">
             <h2 className="text-2xl font-bold mb-4">Edit Restaurant Information</h2>
             <div className="flex items-center my-4">

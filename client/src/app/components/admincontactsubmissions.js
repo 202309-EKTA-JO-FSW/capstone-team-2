@@ -59,19 +59,19 @@ useEffect(() => {
   }
 
   return (
-    <div className="admin-container">
-      <h1>Admin Page - Contact Form Submissions</h1>
-      <div className="submissions-list">
-        {submissions.map((submission, index) => (
-          <div key={index} className="submission">
-            <p><strong>Name:</strong> {submission.name}</p>
-            <p><strong>Email:</strong> {submission.email}</p>
-            <p><strong>Subject:</strong> {submission.subject}</p>
-            <p><strong>Message:</strong> {submission.message}</p>
-          </div>
-        ))}
-      </div>
+    <div className="admin-container bg-white text-black p-8">
+    <h1 className="text-3xl font-bold mb-8">Admin Page - Contact Form Submissions</h1>
+    <div className="submissions-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {submissions.map((submission, index) => (
+        <div key={index} className="submission bg-white p-4 rounded border border-black-300 text-black">
+          <p style={{color:"black"}}><strong>Name:</strong> {submission.name}</p>
+          <p style={{color:"black"}}><strong>Email:</strong> {submission.email}</p>
+          <p style={{color:"black"}}><strong>Subject:</strong> {submission.subject}</p>
+          <p style={{color:"black"}}><strong>Message:</strong> {submission.message}</p>
+        </div>
+      ))}
     </div>
+  </div>
   );
 }
 

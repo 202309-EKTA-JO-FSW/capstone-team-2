@@ -35,8 +35,8 @@ const DeleteRestaurantButton = ({ restaurantId, onDelete }) => {
 
   return (
     <div>
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleClick}>
-        Delete
+      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style={{borderRadius:"12px" , marginLeft:"60px"}} onClick={handleClick}>
+        Delete Restaurant
       </button>
       {showConfirmation && (
         <div className="fixed z-10 inset-0 overflow-y-auto">

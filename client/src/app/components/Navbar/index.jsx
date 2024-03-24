@@ -20,7 +20,7 @@ function Navbar() {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#222222]">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#222222]" style={{paddingBottom:"8px"}}>
       <div className="flex firstPiece items-center space-x-2 py-4 sticky">
         <Link
           href="/"
@@ -33,21 +33,21 @@ function Navbar() {
         </Link>
 
         <div
-          className="flex justify-end text-[#FFC245] w-full 
+          className="flex justify-start text-[#FFC245] w-full 
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
           md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
         >
-          <Link href="/restaurents" className="hover:text-blue-400 text-white">
-            <span>Restaurents</span>
+          <Link href="/restaurents" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
+            <span>Restaurants</span>
           </Link>
-          <Link href="/dishes" className="hover:text-blue-400 text-white">
+          <Link href="/dishes" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
             <span>Dishes</span>
           </Link>
-
-          <Link href="/contactus" className="hover:text-blue-400 text-white">
+  
+          <Link href="/contactus" className="hover:text-blue-400 text-white" style={{marginTop:"9px" }}>
             <span>Contact Us</span>
           </Link>
-          <Link href="/about" className="hover:text-blue-400 text-white">
+          <Link href="/about" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
             <span>About</span>
           </Link>
 

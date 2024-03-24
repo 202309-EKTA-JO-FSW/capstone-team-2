@@ -122,14 +122,14 @@ const RestaurantList = ({ router }) => {
   return (
     <div className="container mx-auto bg-white ">
       <div className="bg-zinc-800 text-white ">
-        <div className="container mx-auto p-4 mt-0">
-          <h1 className="text-4xl font-bold mb-8"> Add New Restaurant</h1>
+      <div className="container mx-auto p-4 mt-0" style={{marginTop:"70px" , color:"white"}}>
+          <h1 className="text-4xl font-bold mb-8" style={{marginLeft:"450px" ,marginTop:"20px"}}> Add New Restaurant</h1>
           <RestaurantForm />
           <br></br>
         </div>
       </div>
       <br></br>
-      <h1 className="text-4xl font-bold mb-8 mt-8 ml-8 ">Current Restaurants List</h1>
+      <h1 className="text-4xl font-bold mb-8 mt-8 ml-8 text-black ">Current Restaurants List</h1>
       <ul>
         {restaurants.map((restaurant, index) => (
           <li
@@ -143,20 +143,20 @@ const RestaurantList = ({ router }) => {
                 alt={restaurant.name}
               />
               <div>
-                <p className="text-lg font-bold"> {restaurant.name}</p>
+              <p className="text-lg font-bold text-black"> {restaurant.name}</p>
                 <p className="text-gray-500">{restaurant.restaurantLocation}</p>
                 <p className="text-gray-600"> {restaurant.description}</p>
                 <p className="text-gray-600"> {restaurant.cuisineType}</p> {/* Added Cuisine Type */}
-                <div className="mt-4 flex">
+                <div className="mt-4 flex" style={{justifycontent: "center"}}>
                   <EditRestaurantButton restaurantId={restaurant._id} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded" />
                   <DeleteRestaurantButton restaurantId={restaurant._id} onDelete={handleDelete} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded" />
                   <Link
                   key={restaurant._id} href={`/admin/${restaurant._id}`}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 ml-2 rounded"
+                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 ml-2 rounded" style={{borderRadius:"12px", marginLeft:"50px" }}
                   >
                     View Dishes
                   </Link>
-                  <AddDishButton restaurantId={restaurant._id} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded" />
+                  <AddDishButton restaurantId={restaurant._id} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"   />
                 </div>
               </div>
             </div>

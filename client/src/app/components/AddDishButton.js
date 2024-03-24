@@ -55,16 +55,16 @@ const AddDishButton = ({ restaurantId }) => {
     <div>
       {!showForm && !showSuccessMessage && (
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setShowForm(true)}
-        >
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" style={{borderRadius:"12px" , marginLeft:"70px"}}
+        onClick={() => setShowForm(true)}
+      >
           Add New Dish
         </button>
       )}
       {showForm && !showSuccessMessage && (
         <div className="fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white rounded-lg p-8 w-full max-w-md">
-            <h2 className="text-2xl font-bold mb-4">Add New Dish</h2>
+          <h2 className="text-2xl font-bold mb-4" >Add New Dish</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="dishName" className="block text-sm font-bold mb-2">Dish Name</label>
@@ -144,7 +144,7 @@ const AddDishButton = ({ restaurantId }) => {
         </div>
       )}
       {showSuccessMessage && (
-        <div className="fixed bottom-0 left-0 right-0 bg-green-500 text-white p-4 text-center">
+        <div className="fixed bottom-0 left-0 right-0 bg-green-500 text-white p-4 text-center ">
           Dish added successfully!
         </div>
       )}

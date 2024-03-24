@@ -410,8 +410,7 @@ const DishesList = () => {
                 <img className="w-full h-96 object-cover" src={dish.dishImage} alt={dish.dishName} />
               </Link>
               <div className="px-4 py-2">
-                <div className="font-bold text-lg mb-1 line-clamp-2 hover:line-clamp-none">{dish.dishName}</div>
-                <p className="text-gray-700 text-sm line-clamp-2 hover:line-clamp-none">{dish.description}</p>
+                <div className="font-bold text-lg mb-1 line-clamp-2 hover:line-clamp-none" style={{color:"black" , minHeight: "60px"}}>{dish.dishName}</div>
                 <p className="text-gray-700 text-sm mt-1">{dish.price} JOD</p>
                 <p className="text-gray-700 text-sm mt-1">{dish.category}</p>
                 <div className="mt-2">

@@ -97,25 +97,25 @@ function Log({ changeActivePage }) {
 //   );
 // }
 /************** */
-<div>
+<div style={{marginLeft:"400px"}}>
       {loged ? (
         <div className="flex items-center">
         
            {isAdmin ? (
-            <div className="mr-4">
-              <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white">
+            <div className="mr-4 flex">
+              <Link href={user?` /userprofile/user/${user._id}`: '/userprofile'} className="hover:text-blue-400 text-white mr-4 ">
                 <span>Profile</span>
             </Link>
 
 
 
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            <button className="mr-4"
             onClick={() => {
                  router.push('/admin'); 
                  } }
             
             >
-              Admin
+              Dashboard
             </button>
             
           </div>
@@ -128,7 +128,7 @@ function Log({ changeActivePage }) {
 
 
 
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              <button className="mr-4"
               onClick={() => {
                    router.push('/order'); 
                    } }
@@ -142,7 +142,7 @@ function Log({ changeActivePage }) {
             </div>
            ) }
 
-          <div className="hover:text-blue-400 text-white">
+          <div className="hover:text-blue-400 text-white mr-4">
             <button
               className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={handleLogout}
@@ -154,7 +154,7 @@ function Log({ changeActivePage }) {
       ) : (
         <div className="hover:text-blue-400 text-white">
           <button
-            className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+           className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={handleLogin}
           >
             LogIn

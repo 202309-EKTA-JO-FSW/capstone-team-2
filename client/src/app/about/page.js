@@ -41,42 +41,42 @@ const stats = [
             
             <div className="w-full sm:w-1/3 lg:w-1/4 p-4">
               <img src="/fresh.jpeg" alt="Quality Ingredient" className="mx-auto mb-3" />
-              <h2 className="text-xl font-semibold mb-2">Fresh Ingredients</h2>
-              <p>Only the freshest ingredients for your meals.</p>
+              <h2 className="text-xl font-semibold mb-2 text-black">Fresh Ingredients</h2>
+              <p style={{color:"black"}}>Only the freshest ingredients for your meals.</p>
             </div>
            
           </div>
         </div>
   
         {/* Authenticity Section */}
-        <div className="bg-gray-200 p-10 text-center">
-          <h2 className="text-2xl font-semibold mb-2">Feel the authentic & original taste from us</h2>
-          <img src="/authintic.jpeg" alt="Restaurant Interior" className="mx-auto" />
+        <div className="p-10 text-center">
+          <h2 className="text-2xl font-semibold mb-2 text-black">Feel the authentic & original taste from us</h2>
+          <img src="/authintic.jpeg" alt="Restaurant Interior" className="mx-auto " />
         </div>
   
         {/* About Stats Section */}
         <div className="container mx-auto px-6 py-10">
           <div className="flex flex-wrap justify-center items-center text-center">
             {stats.map((stat, index) => (
-              <div key={index} className="w-full sm:w-1/3 lg:w-1/4 p-4">
-                <h3 className="text-3xl font-semibold">{stat.value}</h3>
-                <p>{stat.label}</p>
+              <div key={index} className="w-full sm:w-1/3 lg:w-1/4 p-4  text-black">
+                <h3 className="text-3xl font-semibold  text-black">{stat.value}</h3>
+                <p className=' text-black'>{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
   
         {/* Testimonials Section */}
-        <div className="bg-gray-100 p-10">
+        <div className=" p-10 text-black">
           <div className="container mx-auto">
-            <h3 className="text-2xl font-semibold mb-6 text-center">What Our Customers Say</h3>
-            <div className="flex flex-wrap justify-center">
+            <h3 className="text-2xl font-semibold mb-6 text-center text-lack">What Our Customers Say</h3>
+            <div className="flex flex-wrap justify-center  text-black">
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="w-full md:w-1/2 lg:w-1/3 p-4">
+                <div key={index} className="w-full md:w-1/2 lg:w-1/3 p-4  text-black">
                   <div className="h-full bg-white p-6 shadow-lg">
-                    <blockquote className="mb-4">"{testimonial.quote}"</blockquote>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p>{testimonial.rating}</p>
+                    <blockquote className="mb-4  text-black" >"{testimonial.quote}"</blockquote>
+                    <p className="font-semibold  text-black">{testimonial.name}</p>
+                    <p className=' text-black'>{testimonial.rating}</p>
                   </div>
                 </div>
               ))}
@@ -84,9 +84,9 @@ const stats = [
           </div>
         </div>
         
-        <div className="bg-gray-100 p-10">
+        <div className=" text-black p-10">
   <div className="container mx-auto">
-    <h3 className="text-2xl font-semibold mb-6 text-center">Connect with Our Developers</h3>
+    <h3 className="text-2xl font-semibold mb-6 text-center text-black">Connect with Our Developers</h3>
     <div className="flex flex-wrap justify-center">
       {/* Muna Al Haj Eid */}
       <div className="w-full md:w-1/2 lg:w-1/3 p-4">
@@ -167,7 +167,7 @@ const stats = [
     </div>
 
     
-    <p className="text-xl font-semibold mt-6 text-center">Connect with us on social media for the latest updates and more!</p>
+    <p className="text-xl font-semibold mt-6 text-center  text-black">Connect with us on social media for the latest updates and more!</p>
   </div>
 </div>
 
