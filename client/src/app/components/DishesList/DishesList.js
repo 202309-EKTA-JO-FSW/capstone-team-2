@@ -262,6 +262,7 @@ export default DishesList;
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AddToCartForm from '../../components/AddToCartForm';
+import { useAuth } from '@/app/context/userContext'; // Import the useAuth hook
 
 const DishesList = () => {
   const [dishes, setDishes] = useState([]);
@@ -274,6 +275,8 @@ const DishesList = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [category, setCategory] = useState('');
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const { user } = useAuth(); // Access the user object from the context
+  const userId = user?._id; // Access the user ID from the user object
 
   useEffect(() => {
     const fetchDishes = async () => {
@@ -309,7 +312,7 @@ const DishesList = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userID: '65e7896edc1e5b0138a6c1c1',
+          userID: userId,
           dishID: selectedDish._id,
           quantity,
           specificRequests,
@@ -428,7 +431,7 @@ const DishesList = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Add to Cart</h2>
-            <AddToCartForm onAddToCart={addToCart} />
+            <AddToCartForm onAddToCart={addToCart} dishName={selectedDish.dishName} />
             <button onClick={() => setShowAddToCartForm(false)} className="bg-red-500 text-white py-2 px-4 rounded-md mt-4">Cancel</button>
           </div>
         </div>
