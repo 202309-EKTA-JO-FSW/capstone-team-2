@@ -8,8 +8,9 @@ const PastOrders = () => {
   useEffect(() => {
     const fetchPastOrders = async () => {
       try {
-        const userID = '65e7896edc1e5b0138a6c1c1'; // Example userID, replace with actual userID
-        const response = await fetch(`http://localhost:3001/user/orders/past?userID=${userID}`);
+        const storedUserInfo = localStorage.getItem('userInfo');    
+        const  user = storedUserInfo ?JSON.parse(storedUserInfo): null;
+        const response = await fetch(`http://localhost:3001/user/orders/past?userID=${user._id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch past orders');
         }
@@ -77,53 +78,54 @@ const PastOrders = () => {
   }
 
   return (
-    <div>
-      <h1>Past Completed Orders</h1>
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {orders.map((order) => (
-            <div key={order._id} className="bg-gray-100 rounded-lg shadow-md p-4">
-              <h2 className="text-xl font-semibold mb-2">Past Order</h2>
-              <p className="mb-2">
-                <span className="font-bold text-green-500">Status: </span>
-                {order.status}
-              </p>
-              <p className="mb-2">
-                <span className="font-bold text-red-500">Total Bill: </span>
-                {order.totalBill} JOD
-              </p>
-              <p className="mb-2">
-                <span className="font-bold mb-2">Order Date: </span>
-                {new Date(order.createdAt).toLocaleString()}
-              </p>
-              <h3 className="text-lg font-semibold mb-2">Ordered Items</h3>
-              <ul className="list-none p-0">
-                {order.orderItems.map((item, index) => (
-                  <li key={index} className="mb-2 flex items-center">
-                    {item.dishDetails ? (
-                      <>
-                        <img
-                          src={item.dishDetails.dishImage}
-                          alt="Dish"
-                          className="w-12 h-12 rounded-lg overflow-hidden object-cover mr-2"
-                        />
-                        <div>
-                          <p className="font-bold text-md">{item.dishDetails.dishName}</p>
-                          <p className="text-base leading-6">Quantity: {item.quantity}</p>
-                          <p className="text-base leading-6">Price: {item.totalPrice} JOD</p>
-                        </div>
-                      </>
-                    ) : (
-                      <div>Loading...</div> 
-                    )}
-                  </li>
-                ))}
-              </ul>
+  <div className="py-8 bg-[#F9F9F7]">
+  <div className="container mx-auto px-4 h-full">
+    <h1 className="text-2xl font-semibold mb-4 text-black ml-5">Past Completed Orders</h1>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {orders.map((order) => (
+        <div key={order._id} className="md:w-full">
+          <div className="bg-white rounded-lg shadow-md p-6 mb-4">
+            <div className="flex items-center mb-4">
+              <span className="font-bold text-green-500 ">Status:</span>
+              <span className="ml-1 text-black">{order.status}</span>
+              <div className="flex-grow"></div>
+              <span className="font-bold text-red-500">Total Bill:</span>
+              <span className="ml-1 text-black">{order.totalBill} JOD</span>
             </div>
-          ))}
+            <div className="flex items-center mb-4">
+              <span className="font-bold text-black">Order Date:</span>
+              <span className="ml-1 text-black">{new Date(order.createdAt).toLocaleString()}</span>
+            </div>
+            <hr className="my-4" />
+            <h3 className="text-lg font-semibold mb-6 mt-4 text-black">Ordered Items</h3>
+            <ul className="list-none p-0">
+              {order.orderItems.map((item, index) => (
+                <li key={index} className="mb-4 flex items-center">
+                  {item.dishDetails ? (
+                    <>
+                      <img
+                        src={item.dishDetails.dishImage}
+                        alt="Dish"
+                        className="h-16 w-16 rounded-lg overflow-hidden object-cover mr-16 ml-5"
+                      />
+                      <div>
+                        <p className="font-bold text-md text-black">{item.dishDetails.dishName}</p>
+                        <p className="text-base leading-6 text-black">Quantity: {item.quantity}</p>
+                        <p className="text-base leading-6 text-black">Price: {item.totalPrice} JOD</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div>Loading...</div> 
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
+  </div>
+</div>
   );
 };
 

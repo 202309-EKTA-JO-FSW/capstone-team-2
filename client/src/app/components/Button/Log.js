@@ -130,7 +130,7 @@ function Log({ changeActivePage }) {
 
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={() => {
-                   router.push('/order/${userInfo._id}'); 
+                   router.push('/order'); 
                    } }
               
               >

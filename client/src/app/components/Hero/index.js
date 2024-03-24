@@ -71,8 +71,7 @@ const Hero = () => {
       </div>
 
       <div
-        className="flex gap-7 text-black font-serif text-left mt-20 pt-32 pl-16 pb-10 text-2xl font-bold"
-        style={{ backgroundColor: "white" }}
+        className="flex gap-7 text-black font-serif text-left mt-20 pt-32 pl-16 pb-10 text-2xl font-bold bg-[#F9F9F7]"
       >
         <img src="/food_delivery.png" className="h-[650px]" />
 
