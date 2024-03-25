@@ -48,7 +48,7 @@ function Log({ changeActivePage }) {
               </Link>
 
               <button
-                className="mr-4"
+                className="mr-4 text-[#FFC245]"
                 onClick={() => {
                   router.push("/admin");
                 }}
@@ -57,16 +57,16 @@ function Log({ changeActivePage }) {
               </button>
             </div>
           ) : (
-            <div className="mr-4">
+            <div className="mr-4 flex">
               <Link
                 href={user ? ` /userprofile/user/${user._id}` : "/userprofile"}
-                className="hover:text-blue-400 text-white"
+                className="hover:text-blue-400 text-white mr-4"
               >
                 <span>Profile</span>
               </Link>
 
               <button
-                className="mr-4"
+                className="mr-4 text-[#FFC245]"
                 onClick={() => {
                   router.push("/order");
                 }}
@@ -86,7 +86,7 @@ function Log({ changeActivePage }) {
           </div>
         </div>
       ) : (
-        <div className="hover:text-blue-400 text-white">
+        <div className="hover:text-blue-400 text-white mr-4 flex">
           <button
             className="bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={handleLogin}

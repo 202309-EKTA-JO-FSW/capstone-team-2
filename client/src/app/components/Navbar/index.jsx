@@ -30,7 +30,7 @@ function Navbar() {
           className="flex items-center space-x-3 rtl:space-x-reverse 2xs:pl-4 sm:pl-6 w-[200px] md:pl-10 xl:pl-10"
           onClick={() => changeActivePage("home")}
         >
-          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white mr-4  hover:text-[#FFC245] ">
             OrderJo
           </span>
         </Link>
@@ -70,10 +70,11 @@ function Navbar() {
             <span>About</span>
           </Link>
 
-          <div className="inActive">
+          
+        </div>
+        <div className="inActive">
             {!token && <Log changeActivePage={changeActivePage} />}
           </div>
-        </div>
       </div>
     </div>
   );
