@@ -1,17 +1,17 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const RestaurantForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    restaurantLocation: '',
-    imageURL: '',
-    description: '',
+    name: "",
+    restaurantLocation: "",
+    imageURL: "",
+    description: "",
     dishes: [],
-    cuisineType: '', // Added cuisineType field
+    cuisineType: "", // Added cuisineType field
   });
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,44 +24,46 @@ const RestaurantForm = () => {
   const handleAddRestaurant = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://www.localhost:3001/admin/restaurant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://www.localhost:3001/admin/restaurant",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Restaurant added successfully:', data);
-        setSuccessMessage('Restaurant added successfully');
-        setErrorMessage(''); // Reset error message
+        console.log("Restaurant added successfully:", data);
+        setSuccessMessage("Restaurant added successfully");
+        setErrorMessage(""); // Reset error message
         // Clear input fields
         setFormData({
-          name: '',
-          restaurantLocation: '',
-          imageURL: '',
-          description: '',
+          name: "",
+          restaurantLocation: "",
+          imageURL: "",
+          description: "",
           dishes: [],
-          cuisineType: '', // Reset cuisineType field
+          cuisineType: "", // Reset cuisineType field
         });
 
-              // Reload the page after 3 seconds
-              setTimeout(() => {
-                window.location.reload();
-              }, 3000);
-      
+        // Reload the page after 3 seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       } else {
         const error = await response.json();
-        console.error('Failed to add restaurant:', error.message);
-        setErrorMessage('Failed to add restaurant: ' + error.message);
-        setSuccessMessage(''); // Reset success message
+        console.error("Failed to add restaurant:", error.message);
+        setErrorMessage("Failed to add restaurant: " + error.message);
+        setSuccessMessage(""); // Reset success message
       }
     } catch (error) {
-      console.error('Error adding restaurant:', error.message);
-      setErrorMessage('Error adding restaurant: ' + error.message);
-      setSuccessMessage(''); // Reset success message
+      console.error("Error adding restaurant:", error.message);
+      setErrorMessage("Error adding restaurant: " + error.message);
+      setSuccessMessage(""); // Reset success message
     }
   };
 
@@ -69,7 +71,10 @@ const RestaurantForm = () => {
     <div>
       {successMessage && <p className="text-green-500">{successMessage}</p>}
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      <form onSubmit={handleAddRestaurant} className="max-w-md mx-auto bg-white p-8 mt-10 rounded-md shadow-md">
+      <form
+        onSubmit={handleAddRestaurant}
+        className="max-w-md mx-auto bg-white p-8 mt-10 rounded-md shadow-md"
+      >
         <label className="block mb-4">
           <span className="text-black">Restaurant Name:</span>
           <input
@@ -113,7 +118,9 @@ const RestaurantForm = () => {
             className="form-input mt-1 block w-full rounded-md border border-blue-300 focus:border-blue-500 text-black"
           />
         </label>
-        <label className="block mb-4"> {/* Added Cuisine Type field */}
+        <label className="block mb-4">
+          {" "}
+          {/* Added Cuisine Type field */}
           <span className="text-black">Cuisine Type:</span>
           <input
             type="text"
@@ -124,7 +131,10 @@ const RestaurantForm = () => {
             className="form-input mt-1 block w-full rounded-md border border-blue-300 focus:border-blue-500 text-black"
           />
         </label>
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        >
           Add Restaurant
         </button>
       </form>

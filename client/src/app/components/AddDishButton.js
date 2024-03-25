@@ -1,15 +1,13 @@
-
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AddDishButton = ({ restaurantId }) => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    dishName: '',
-    dishImage: '',
-    description: '',
+    dishName: "",
+    dishImage: "",
+    description: "",
     price: 0,
-    category: '',
+    category: "",
   });
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
@@ -22,32 +20,35 @@ const AddDishButton = ({ restaurantId }) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     try {
-      const response = await fetch(`http://localhost:3001/admin/dishtorestaurant?restaurantID=${restaurantId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData), // Send the form data to the server
-      });
+      const response = await fetch(
+        `http://localhost:3001/admin/dishtorestaurant?restaurantID=${restaurantId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData), // Send the form data to the server
+        }
+      );
 
       if (response.ok) {
         setShowSuccessMessage(true); // success message
         setFormData({
-          dishName: '',
-          dishImage: '',
-          description: '',
+          dishName: "",
+          dishImage: "",
+          description: "",
           price: 0,
-          category: '',
+          category: "",
         }); // Clear form data
         setShowForm(false); // Hide the form
         setTimeout(() => {
           setShowSuccessMessage(false); // Hide success message after some time
         }, 3000);
       } else {
-        console.error('Failed to add dish:', response.statusText);
+        console.error("Failed to add dish:", response.statusText);
       }
     } catch (error) {
-      console.error('Error adding dish:', error.message);
+      console.error("Error adding dish:", error.message);
     }
   };
 
@@ -55,19 +56,25 @@ const AddDishButton = ({ restaurantId }) => {
     <div>
       {!showForm && !showSuccessMessage && (
         <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" style={{borderRadius:"12px" , marginLeft:"70px"}}
-        onClick={() => setShowForm(true)}
-      >
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          style={{ borderRadius: "12px", marginLeft: "70px" }}
+          onClick={() => setShowForm(true)}
+        >
           Add New Dish
         </button>
       )}
       {showForm && !showSuccessMessage && (
         <div className="fixed z-10 inset-0 overflow-y-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white rounded-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-4" >Add New Dish</h2>
+            <h2 className="text-2xl font-bold mb-4">Add New Dish</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="dishName" className="block text-sm font-bold mb-2">Dish Name</label>
+                <label
+                  htmlFor="dishName"
+                  className="block text-sm font-bold mb-2"
+                >
+                  Dish Name
+                </label>
                 <input
                   type="text"
                   id="dishName"
@@ -79,7 +86,12 @@ const AddDishButton = ({ restaurantId }) => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="dishImage" className="block text-sm font-bold mb-2">Dish Image URL</label>
+                <label
+                  htmlFor="dishImage"
+                  className="block text-sm font-bold mb-2"
+                >
+                  Dish Image URL
+                </label>
                 <input
                   type="text"
                   id="dishImage"
@@ -91,7 +103,12 @@ const AddDishButton = ({ restaurantId }) => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-bold mb-2">Description</label>
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-bold mb-2"
+                >
+                  Description
+                </label>
                 <textarea
                   id="description"
                   name="description"
@@ -102,7 +119,9 @@ const AddDishButton = ({ restaurantId }) => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="price" className="block text-sm font-bold mb-2">Price</label>
+                <label htmlFor="price" className="block text-sm font-bold mb-2">
+                  Price
+                </label>
                 <input
                   type="number"
                   id="price"
@@ -114,7 +133,12 @@ const AddDishButton = ({ restaurantId }) => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="category" className="block text-sm font-bold mb-2">Category</label>
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-bold mb-2"
+                >
+                  Category
+                </label>
                 <input
                   type="text"
                   id="category"

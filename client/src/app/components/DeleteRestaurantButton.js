@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const DeleteRestaurantButton = ({ restaurantId, onDelete }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -9,22 +9,25 @@ const DeleteRestaurantButton = ({ restaurantId, onDelete }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      const response = await fetch('http://localhost:3001/admin/restaurantdelete', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ids: [restaurantId] }), // Send the ID of the restaurant to delete
-      });
+      const response = await fetch(
+        "http://localhost:3001/admin/restaurantdelete",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: [restaurantId] }), // Send the ID of the restaurant to delete
+        }
+      );
 
       if (response.ok) {
         onDelete(restaurantId); // Update the UI after successful deletion
-        console.log('Restaurant deleted successfully');
+        console.log("Restaurant deleted successfully");
       } else {
-        console.error('Failed to delete restaurant:', response.statusText);
+        console.error("Failed to delete restaurant:", response.statusText);
       }
     } catch (error) {
-      console.error('Error deleting restaurant:', error.message);
+      console.error("Error deleting restaurant:", error.message);
     }
     setShowConfirmation(false);
   };
@@ -35,7 +38,11 @@ const DeleteRestaurantButton = ({ restaurantId, onDelete }) => {
 
   return (
     <div>
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" style={{borderRadius:"12px" , marginLeft:"60px"}} onClick={handleClick}>
+      <button
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        style={{ borderRadius: "12px", marginLeft: "60px" }}
+        onClick={handleClick}
+      >
         Delete Restaurant
       </button>
       {showConfirmation && (
@@ -44,13 +51,18 @@ const DeleteRestaurantButton = ({ restaurantId, onDelete }) => {
             <div className="fixed inset-0 transition-opacity">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+            &#8203;
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Delete Confirmation</h3>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    Delete Confirmation
+                  </h3>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">Are you sure you want to delete this restaurant?</p>
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want to delete this restaurant?
+                    </p>
                   </div>
                 </div>
               </div>

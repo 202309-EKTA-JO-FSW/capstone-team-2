@@ -1,61 +1,63 @@
-//components/EditDishButton.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const EditDishButton = ({ dishId }) => {
-  const [updatedDishName, setUpdatedDishName] = useState('');
-  const [updatedDishImage, setUpdatedDishImage] = useState('');
-  const [updatedDescription, setUpdatedDescription] = useState('');
+  const [updatedDishName, setUpdatedDishName] = useState("");
+  const [updatedDishImage, setUpdatedDishImage] = useState("");
+  const [updatedDescription, setUpdatedDescription] = useState("");
   const [updatedPrice, setUpdatedPrice] = useState(0);
-  const [updatedCategory, setUpdatedCategory] = useState('');
+  const [updatedCategory, setUpdatedCategory] = useState("");
   const [editSuccess, setEditSuccess] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const handleEdit = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/admin/dish/edit?dishID=${dishId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          dishID: dishId,
-          dishName: updatedDishName,
-          dishImage: updatedDishImage,
-          description: updatedDescription,
-          price: updatedPrice,
-          category: updatedCategory,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3001/admin/dish/edit?dishID=${dishId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            dishID: dishId,
+            dishName: updatedDishName,
+            dishImage: updatedDishImage,
+            description: updatedDescription,
+            price: updatedPrice,
+            category: updatedCategory,
+          }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Dish updated successfully:', data);
+        console.log("Dish updated successfully:", data);
         setEditSuccess(true);
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       } else {
-        console.error('Failed to update dish:', response.statusText);
+        console.error("Failed to update dish:", response.statusText);
       }
     } catch (error) {
-      console.error('Error updating dish:', error.message);
+      console.error("Error updating dish:", error.message);
     }
   };
 
   const cancelEdit = () => {
     setShowForm(false);
-    setUpdatedDishName('');
-    setUpdatedDishImage('');
-    setUpdatedDescription('');
+    setUpdatedDishName("");
+    setUpdatedDishImage("");
+    setUpdatedDescription("");
     setUpdatedPrice(0);
-    setUpdatedCategory('');
+    setUpdatedCategory("");
   };
 
   return (
     <div>
       <button
         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => setShowForm(true)} 
+        onClick={() => setShowForm(true)}
       >
         Edit Dish
       </button>
@@ -117,7 +119,9 @@ const EditDishButton = ({ dishId }) => {
               >
                 Cancel
               </button>
-              {editSuccess && <p className="text-green-500 ml-2">Dish updated successfully</p>}
+              {editSuccess && (
+                <p className="text-green-500 ml-2">Dish updated successfully</p>
+              )}
             </div>
           </div>
         </div>
