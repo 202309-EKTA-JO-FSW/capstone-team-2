@@ -1,13 +1,13 @@
-import React from 'react';
+// import React from 'react';
 
-function EmojiButton({ emoji = "🐕", label }) {
+// function EmojiButton({ emoji = "🐕", label }) {
   
-  return (
-    <button>
-      <span role="img">{emoji}</span>
-      {label}
-    </button>
-  )
-}
+//   return (
+//     <button>
+//       <span role="img">{emoji}</span>
+//       {label}
+//     </button>
+//   )
+// }
 
-export default EmojiButton
+// export default EmojiButton
