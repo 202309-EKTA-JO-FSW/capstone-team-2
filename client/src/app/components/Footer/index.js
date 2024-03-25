@@ -35,14 +35,14 @@ const Footer = () => {
   return (
     <footer className="relative bg-[#222222] top-0 left-0 w-full z-10 px-4 py-5 sm:px-6 lg:px-10">
       <div>
-        <div className="absolute logo flex 2xs:justify-center text-white">
-          <a className="font-bold cursor-pointer ml-14" href="#">
+        <div className="absolute logo flex text-left 2xs:justify-center text-white ">
+          <a className="font-bold cursor-pointer ml-16 text-xl text-left text-[#FFC245] " href="#">
             OrderJo
           </a>
         </div>
 
         <div className="xl:flex xl:justify-center xl:gap-8">
-          <div className="mt-10 grid grid-cols-2 gap-16 lg:mt-0 lg:grid-cols-5 lg:gap-y-10 text-center">
+          <div className="mt-10 grid grid-cols-2 gap-16 lg:mt-0 lg:grid-cols-4 lg:gap-y-10 text-left">
             <div className="col-span-2">
               <p
                 className="text-white
@@ -50,17 +50,11 @@ const Footer = () => {
               md:mt-4 md:text-[12px]
               2xs:mt-2 2xs:text-[8px]
               leading-10
-              font-semibold
+              
               "
               >
-                Is your ultimate destination for exploring global flavors!
-                <br />
-                Dive into a world of culinary delights, where each dish <br />{" "}
-                carries its own unique story to tell.
-                <br />
-                because every dish is an adventure waiting to be savored.
-                <br />
-                Join us in creating unforgettable dining moment
+               Discover culinary convenience at OrderJo,
+               <br/> where every click leads to savory satisfaction.
               </p>
             </div>
             <div className="col-span-2 sm:col-span-1">
