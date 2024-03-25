@@ -43,7 +43,7 @@ function ProfileLogin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-black">
+    <div className="flex flex-col items-center justify-center h-screen text-black mt-6">
       <h1 className="mb-8">Please login to see your profile</h1>
       <div className="w-full max-w-xs">
         <form
@@ -96,7 +96,7 @@ function ProfileLogin() {
             </span>
           </p>
         </form>
-        <p className="text-center mb-4">--- or ---</p>
+        <p className="text-center mb-4 text-black">--- OR ---</p>
         <GoogleButton />
       </div>
     </div>
