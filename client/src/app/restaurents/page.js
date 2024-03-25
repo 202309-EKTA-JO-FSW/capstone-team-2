@@ -104,8 +104,8 @@ export default function PostsPage() {
             border: "6px solid transparent",
             outline: "2px solid black",
             marginRight: "20px",
-            borderRadius: "12px",
-            backgroundColor: "#AD343E",
+            borderRadius: "6px",
+            backgroundColor: "#e5e7eb",
           }}
         >
           <option value="">All Locations</option>
@@ -126,8 +126,8 @@ export default function PostsPage() {
             textAlign: "center",
             border: "6px solid transparent",
             outline: "2px solid black",
-            borderRadius: "12px",
-            backgroundColor: "#AD343E",
+            borderRadius: "6px",
+            backgroundColor: "#e5e7eb",
           }}
         >
           <option value="">All Cuisine Types</option>
