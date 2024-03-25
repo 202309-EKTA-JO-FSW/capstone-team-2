@@ -185,7 +185,7 @@ const CurrentOrder = () => {
           </div>
           {orders.map((order) => (
             <div className="md:w-1/4" key={order._id}>
-              <div className="bg-[#fafafa] rounded-lg shadow-md p-6 mb-6">
+              <div className="bg-[#fafafa] rounded-lg shadow-md p-6 mb-6 px-2">
                 <h2 className="text-lg font-semibold mb-4 text-black">
                   Payment Summary
                 </h2>
@@ -205,7 +205,7 @@ const CurrentOrder = () => {
                 <div className="flex justify-between mt-5">
                   <button
                     onClick={() => handleCancelOrder(order._id)}
-                    className="px-4 py-2 rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-700"
+                    className="px-4 py-2 rounded-md text-base font-medium bg-red-500 text-white hover:bg-red-700 mr-2"
                   >
                     Cancel Order
                   </button>
