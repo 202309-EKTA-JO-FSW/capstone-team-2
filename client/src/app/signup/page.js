@@ -1,54 +1,61 @@
 "use client";
-import React, { useState } from 'react';
-import GoogleButton from '../components/Button/GoogleButton';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import GoogleButton from "../components/Button/GoogleButton";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function ProfileSignUp() {
-  const router = useRouter(); 
+  const router = useRouter();
   const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prevUserData => ({
+    setUserData((prevUserData) => ({
       ...prevUserData,
-      [name]: value
+      [name]: value,
     }));
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/user/newuser', userData);
+        "http://localhost:3001/user/newuser",
+        userData
+      );
 
-      if (response) {  
-      
-            router.push('/login');
-
+      if (response) {
+        router.push("/login");
       } else {
         // Handle signin failure
-        console.error('Signin failed');
+        console.error("Signin failed");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen text-black'>
+    <div className="flex flex-col items-center justify-center h-screen text-black">
       <h1 className="mb-8">Please sign up to create your profile</h1>
       <div className="w-full max-w-xs">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit} method='post'>
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit}
+          method="post"
+        >
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -62,7 +69,10 @@ function ProfileSignUp() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
@@ -76,7 +86,10 @@ function ProfileSignUp() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="firstName"
+            >
               First Name
             </label>
             <input
@@ -90,7 +103,10 @@ function ProfileSignUp() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="lastName"
+            >
               Last Name
             </label>
             <input
@@ -104,7 +120,10 @@ function ProfileSignUp() {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
               Phone
             </label>
             <input
@@ -128,7 +147,7 @@ function ProfileSignUp() {
         <GoogleButton />
       </div>
     </div>
-  )
+  );
 }
 
 export default ProfileSignUp;
