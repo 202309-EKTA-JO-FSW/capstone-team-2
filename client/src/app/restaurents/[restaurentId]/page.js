@@ -190,6 +190,8 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '@/app/context/userContext'; 
+import AddToCartForm from '../../components/AddToCartForm';
 
 export default function Rest(props) {
     const restaurantId = props.params.restaurentId;
@@ -201,6 +203,10 @@ export default function Rest(props) {
     const [maxPrice, setMaxPrice] = useState('');
     const [category, setCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState([]);
+    const [selectedDish, setSelectedDish] = useState(null); // Track the selected dish
+    const [showAddToCartForm, setShowAddToCartForm] = useState(false); // Track whether to show the "Add to Cart" form
+    const { user } = useAuth(); // Access the user object from the context
+    const userId = user?._id; // Access the user ID from the user object
 
     useEffect(() => {
         const fetchDishes = async () => {
@@ -222,29 +228,32 @@ export default function Rest(props) {
         fetchDishes();
     }, [restaurantId]);
 
-    const addToCart = async (dishID) => {
-        console.log("Adding dish to cart:", dishID);
+    const addToCart = async ({ quantity, specificRequests }) => {
         try {
-            const response = await fetch("http://localhost:3001/user/cart", {
-                method: "POST",
+            if (!selectedDish) {
+                throw new Error('No dish selected');
+            }
+            // Make the request to add the selected dish to the cart with the provided quantity and specific requests
+            const response = await fetch('http://localhost:3001/user/cart', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userID: '65e789e6dc1e5b0138a6c1c9',
-                    dishID: dishID,
-                    quantity: 1,
+                    userID: userId,
+                    dishID: selectedDish._id,
+                    quantity,
+                    specificRequests,
                 }),
             });
-
             if (!response.ok) {
                 throw new Error('Failed to add dish to cart');
             }
-
-            console.log("Dish added to cart successfully");
-
+            console.log('Dish added to cart successfully');
+            setSelectedDish(null); // Reset selected dish after adding to cart
+            setShowAddToCartForm(false); // Hide the form after adding to cart
         } catch (error) {
-            console.error("Error adding dish to cart:", error);
+            console.error('Error adding dish to cart:', error);
         }
     };
 
@@ -269,17 +278,16 @@ export default function Rest(props) {
             <Link href={`/dishes/${dish._id}`}>
                 <img className="w-full h-96 object-cover" src={dish.dishImage} alt={dish.dishName} />
             </Link>
-            <div className="px-4 py-2" style={{color:"black"}}>
-            
-            <div style={{ minHeight: "60px" }}>
-                <div className="font-bold text-lg mb-1 line-clamp-2 hover:line-clamp-none">{dish.dishName}</div>
-            </div>                
+            <div className="px-4 py-2" style={{ color: "black" }}>
+                <div style={{ minHeight: "60px" }}>
+                    <div className="font-bold text-lg mb-1 line-clamp-2 hover:line-clamp-none">{dish.dishName}</div>
+                </div>          
             
                 <p className="text-gray-700 text-sm mt-1" style={{ minHeight: "inherit" }}>{dish.price} JOD</p>
                 <p className="text-gray-700 text-sm mt-1">{dish.category}</p>
            
                 <div className="mt-2">
-                    <button onClick={() => addToCart(dish._id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                <button onClick={() => { setSelectedDish(dish); setShowAddToCartForm(true); }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
                         Add to Cart
                     </button>
                 </div>
@@ -360,6 +368,16 @@ export default function Rest(props) {
             <div className="flex flex-wrap justify-center">
                 {filteredDishes.length > 0 ? dishCards : <div className="text-gray-600">No dishes found</div>}
             </div>
+            {/* Add to Cart form */}
+            {selectedDish && showAddToCartForm && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-8 rounded-md shadow-md">
+                        <h2 className="text-xl font-semibold mb-4">Add to Cart</h2>
+                        <AddToCartForm onAddToCart={addToCart} dishName={selectedDish.dishName} />
+                        <button onClick={() => setShowAddToCartForm(false)} className="bg-red-500 text-white py-2 px-4 rounded-md mt-4">Cancel</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
