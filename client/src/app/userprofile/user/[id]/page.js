@@ -51,35 +51,39 @@ function UserInfo({ params }) {
   }
 
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg border mt-14">
-      <div className="px-4 py-5 sm:px-6">
-        <img src={user.profilePictureURL || 'https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg'} className='w-12 rounded-[100%]' alt="User avatar" />
-        <h3 className="text-lg leading-6 font-medium text-gray-900">User</h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">This is some information about the user.</p>
+    <div className="flex justify-center items-center h-screen bg-[#F9F9F7]">
+    <div className="bg-white overflow-hidden shadow rounded-lg border w-[36rem] mt-24">
+      <div className="px-4 py-5 sm:px-6 flex flex-col items-center">
+        <img src={user.profilePictureURL || 'https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg'} className='w-20 rounded-[100%]' alt="User avatar" />
+        <p className="mt-1 max-w-2xl text-sm text-gray-500">This is your profile information</p>
       </div>
       <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
         <dl className="sm:divide-y sm:divide-gray-200">
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Full name</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.firstName} {user.lastName}</dd>
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 ml-44">{user.firstName} {user.lastName}</dd>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Email address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.email}</dd>
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 ml-44">{user.email}</dd>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Phone number</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.phone}</dd>
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 ml-44">{user.phone}</dd>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.location}</dd>
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 ml-44">{user.location}</dd>
           </div>
         </dl>
-        <button className='text-white mt-10 ml-8 mb-5 border bg-[#AD343E] py-2 px-4 rounded-md font-bold'><Link href={`http://localhost:3000/userprofile/updateInfo`}>Update Your Info</Link></button>
-
+        <div className="flex justify-center mt-10">
+          <button className='text-white border bg-[#AD343E] py-2 px-4 rounded-md font-bold mb-8'>
+            <Link href={`http://localhost:3000/userprofile/updateInfo`}>Update Your Info</Link>
+          </button>
+        </div>
       </div>
     </div>
+  </div>
   );
 }
 

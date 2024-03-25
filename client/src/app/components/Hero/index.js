@@ -202,7 +202,7 @@ const Hero = () => {
               </p>
 
               <button
-                className="bg-[#AD343E] text-white font-semibold text-lg h-[62px] w-48 mt-6 rounded-md cursor-pointer"
+                className="bg-[#AD343E] text-white font-semibold text-lg h-[62px] w-48 mt-6 rounded-md cursor-pointer mb-10"
                 style={{ borderRadius: "25px" }}
                 onClick={() => {
                   router.push("/contactus");

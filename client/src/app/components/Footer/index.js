@@ -65,24 +65,26 @@ const Footer = () => {
     <footer className="relative bg-[#222222] top-0 left-0 w-full z-10 px-4 py-5 sm:px-6 lg:px-10">
       <div>
         <div className="absolute logo flex 2xs:justify-center text-white">
-          <a style={{ cursor: "pointer" }} href="#">
+          <a className="font-bold cursor-pointer ml-14" href="#">
             OrderJo
           </a>
         </div>
 
         <div className="xl:flex xl:justify-center xl:gap-8">
-          <div className="mt-10 grid grid-cols-2 gap-8 lg:mt-0 lg:grid-cols-5 lg:gap-y-16 text-center">
+          <div className="mt-10 grid grid-cols-2 gap-16 lg:mt-0 lg:grid-cols-5 lg:gap-y-10 text-center">
             <div className="col-span-2">
               <p
                 className="text-white
-              xl:mt-6 xl:text-[16px]
+              xl:mt-16 xl:text-[16px]
               md:mt-4 md:text-[12px]
               2xs:mt-2 2xs:text-[8px]
+              leading-10
+              font-semibold
               "
               >
-                is your ultimate destination for exploring global flavors!
+                Is your ultimate destination for exploring global flavors!
                 <br />
-                Dive into a world of culinary delights, where each dish carries
+                Dive into a world of culinary delights, where each dish <br/> carries
                 its own unique story to tell.
                 <br />
                 because every dish is an adventure waiting to be savored.
@@ -91,11 +93,11 @@ const Footer = () => {
               </p>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <ul className="mt-6 space-y-4 xl:text-sm md:text-xs 2xs:text-[6px]">
+              <ul className="mt-20 space-y-4 xl:text-sm md:text-xs 2xs:text-[6px]">
                 <li>
                   <Link
                     href="/"
-                    className="text-white transition hover:opacity-75"
+                    className="text-white transition hover:opacity-75 font-semibold"
                   >
                     Home
                   </Link>
@@ -103,7 +105,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/about"
-                    className="text-white transition hover:opacity-75"
+                    className="text-white transition hover:opacity-75 font-semibold"
                   >
                     About
                   </Link>
@@ -111,7 +113,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/contactus"
-                    className="text-white transition hover:opacity-75"
+                    className="text-white transition hover:opacity-75 font-semibold"
                   >
                     Contact Us
                   </Link>
@@ -120,7 +122,7 @@ const Footer = () => {
             </div>
 
             <div className="col-span-3 sm:col-span-1 justify-center">
-              <p className="xl:font-medium md:text-sm 2xs:text-[8px] text-white ">
+              <p className="xl:text-lg xl:font-bold  md:text-sm 2xs:text-[8px] text-white ">
                 Our Developers Team
               </p>
 
@@ -137,7 +139,7 @@ const Footer = () => {
                         key={index}
                         className="col-span-2 flex justify-start gap-3 "
                       >
-                        <p className="container xl:w-40 md:w-20 2xs:w-10 text-white transition">
+                        <p className="container xl:w-40 md:w-20 2xs:w-10 text-white transition ">
                           {member.name}
                         </p>
 
