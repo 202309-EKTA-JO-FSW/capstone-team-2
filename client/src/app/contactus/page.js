@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import axios from "axios";
 
 function ContactPage() {
   // State for form inputs
@@ -28,27 +28,41 @@ function ContactPage() {
     // setForm({ name: "", email: "", subject: "", message: "" });
     try {
       // Send form data to backend server
-      await axios.post('http://localhost:3001/admin/submit', form);
-      console.log('Form submitted successfully');
-      setSubmissionStatus({ success: true, message: 'Form submitted successfully' });
+      await axios.post("http://localhost:3001/admin/submit", form);
+      console.log("Form submitted successfully");
+      setSubmissionStatus({
+        success: true,
+        message: "Form submitted successfully",
+      });
       // Optionally reset form fields after submission
-      setForm({ name: '', email: '', subject: '', message: '' });
+      setForm({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      console.error('Form submission failed:', error);
-      setSubmissionStatus({ success: false, message: 'Form submission failed. Please try again later.' });
+      console.error("Form submission failed:", error);
+      setSubmissionStatus({
+        success: false,
+        message: "Form submission failed. Please try again later.",
+      });
     }
   };
 
-  const items=["Restaurant","Raider","User"];
+  const items = ["Restaurant", "Raider", "User"];
   return (
-    <div className="bg-gray-100 pt-24"> {/* Added padding to the top of the container */}
+    <div className="bg-gray-100 pt-24">
+      {" "}
+      {/* Added padding to the top of the container */}
       {/* Contact Section */}
       <div className="container mx-auto px-6 py-12 text-center">
         <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-        <p className="mb-8 text-zinc-950">We consider all the drivers of change gives you the components you need to change to create a truly happiness.</p>
-        
+        <p className="mb-8 text-zinc-950">
+          We consider all the drivers of change gives you the components you
+          need to change to create a truly happiness.
+        </p>
+
         {/* Contact Form */}
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 inline-block">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 inline-block"
+        >
           <div className="mb-4">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -94,15 +108,19 @@ function ContactPage() {
             ></textarea>
           </div>
           <div>
-      <ul>
-        {items.map(item => (
-          <li key={item.id} className='flex'>
-            <input type="checkbox" checked={item.completed} className='mx-2'/>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
+            <ul>
+              {items.map((item) => (
+                <li key={item.id} className="flex">
+                  <input
+                    type="checkbox"
+                    checked={item.completed}
+                    className="mx-2"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="flex items-center justify-center">
             <button
               type="submit"
@@ -113,10 +131,10 @@ function ContactPage() {
           </div>
         </form>
         {submissionStatus && (
-        <div style={{ color: submissionStatus.success ? 'green' : 'red' }}>
-          {submissionStatus.message}
-        </div>
-      )}
+          <div style={{ color: submissionStatus.success ? "green" : "red" }}>
+            {submissionStatus.message}
+          </div>
+        )}
 
         {/* Additional Contact Info */}
         <div className="flex flex-wrap justify-around mt-8">
