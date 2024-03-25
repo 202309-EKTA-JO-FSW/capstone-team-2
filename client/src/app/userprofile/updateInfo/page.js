@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 function UpdateProfileInfo() {
   const [user, setUser] = useState(null);
@@ -94,6 +95,9 @@ function UpdateProfileInfo() {
           onSubmit={(e) => handleSubmit(e)}
           className="max-w-md mx-auto mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
+          <p className="mt-2 max-w-2xl  text-gray-700 place-content-center font-bold mb-2 text-xl">
+             Update your Profile Information 
+          </p>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Email:
@@ -172,6 +176,12 @@ function UpdateProfileInfo() {
           >
             Update
           </button>
+          <Link
+                href={user ? ` /userprofile/user/${user._id}` : "/userprofile"}
+                className="hover:text-blue-400 text-black float-end py-3"
+              >
+                <span>Cancel</span>
+              </Link>
         </form>
         {successMessage && (
           <p className="text-green-500 mt-4 ml-[34rem] font-bold">
