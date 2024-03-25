@@ -40,7 +40,7 @@ function UserInfo({ params }) {
 
   return (
     <div className="flex justify-center items-center h-screen bg-[#F9F9F7]">
-      <div className="bg-white overflow-hidden shadow rounded-lg border w-[36rem] mt-24">
+      <div className="bg-white overflow-hidden shadow rounded-lg border w-auto mt-24 mb-4">
         <div className="px-4 py-5 sm:px-6 flex flex-col items-center">
           <img
             src={
