@@ -70,9 +70,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div
-        className="flex gap-7 text-black font-serif text-left mt-20 pt-32 pl-16 pb-10 text-2xl font-bold bg-[#F9F9F7]"
-      >
+      <div className="flex gap-7 text-black font-serif text-left mt-20 pt-32 pl-16 pb-10 text-2xl font-bold bg-[#F9F9F7]">
         <img src="/food_delivery.png" className="h-[650px]" />
 
         <div className="ml-14 mt-24">
@@ -211,7 +209,7 @@ const Hero = () => {
                 Work with Us
               </button>
             </div>
-            <br/>
+            <br />
           </div>
         </div>
       </div>

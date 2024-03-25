@@ -20,7 +20,10 @@ function Navbar() {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#222222]" style={{paddingBottom:"8px"}}>
+    <div
+      className="fixed top-0 left-0 w-full z-50 bg-[#222222]"
+      style={{ paddingBottom: "8px" }}
+    >
       <div className="flex firstPiece items-center space-x-2 py-4 sticky">
         <Link
           href="/"
@@ -37,36 +40,39 @@ function Navbar() {
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
           md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
         >
-          <Link href="/restaurents" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
+          <Link
+            href="/restaurents"
+            className="hover:text-blue-400 text-white"
+            style={{ marginTop: "9px" }}
+          >
             <span>Restaurants</span>
           </Link>
-          <Link href="/dishes" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
+          <Link
+            href="/dishes"
+            className="hover:text-blue-400 text-white"
+            style={{ marginTop: "9px" }}
+          >
             <span>Dishes</span>
           </Link>
-  
-          <Link href="/contactus" className="hover:text-blue-400 text-white" style={{marginTop:"9px" }}>
+
+          <Link
+            href="/contactus"
+            className="hover:text-blue-400 text-white"
+            style={{ marginTop: "9px" }}
+          >
             <span>Contact Us</span>
           </Link>
-          <Link href="/about" className="hover:text-blue-400 text-white" style={{marginTop:"9px"}}>
+          <Link
+            href="/about"
+            className="hover:text-blue-400 text-white"
+            style={{ marginTop: "9px" }}
+          >
             <span>About</span>
           </Link>
 
           <div className="inActive">
             {!token && <Log changeActivePage={changeActivePage} />}
           </div>
-          {/* {!token && (
-            <button
-              className={`bg-[#AD343E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-                isActive === "home" ? "active" : "inActive"
-              }`}
-              onClick={() => {
-                changeActivePage("signup");
-                router.push("/signup");
-              }}
-            >
-              SignUp
-            </button>
-          )} */}
         </div>
       </div>
     </div>
